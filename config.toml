@@ -10,6 +10,9 @@ years = "/:year/"
 [markup.goldmark.renderer]
 unsafe = true
 
+[markup.highlight]
+style = "xcode"
+
 [outputFormats.RSS]
 mediatype = "application/rss+xml"
 baseName = "rss"
