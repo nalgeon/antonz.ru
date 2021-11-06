@@ -1,0 +1,11 @@
+<div class="post-stub">
+    <h3 class="post-stub__header">
+        <a class="post-stub__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{- if .Params.tags }}
+        <div class="post__tags">
+            {{- $tag := index (.Params.tags) 0 }}
+            <span class="post-stub__date nowrap">{{ $tag }}</span>
+        </div>
+        {{- end }}
+    </h3>
+</div>

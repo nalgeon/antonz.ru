@@ -1,0 +1,69 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="yandex-verification" content="166c4872c92b3261" />
+<meta name="google-site-verification" content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU" />
+
+{{- $author := (.Params.author | default .Site.Params.author) }}
+{{- $title := .Title }}
+{{- $ogtype := "article" }}
+{{- $twtype := "summary_large_image" }}
+{{- $description := .Description }}
+{{- if .IsHome }}
+{{- $title = .Site.Title }}
+{{- $ogtype = "website" }}
+{{- $twtype := "summary" }}
+{{- end }}
+
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}" />
+
+{{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+<meta name="robots" content="index, follow">
+{{- else }}
+<meta name="robots" content="noindex, nofollow">
+{{- end }}
+
+<!-- Assets -->
+{{- $stylesheet := (resources.Match "css/*.css") | resources.Concat "assets/css/style.css" }}
+{{- $stylesheet := $stylesheet | fingerprint }}
+<link rel="stylesheet" type="text/css" href="{{ $stylesheet.RelPermalink }}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+
+{{/*- $script := (resources.Match "js/*.js") | resources.Concat "assets/css/site.js" */}}
+{{/*- $script := $script | minify | fingerprint */}}
+{{/* <script defer src="{{ $script.RelPermalink }}"></script> */}}
+{{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+<script async src="//gc.zgo.at/count.js" data-goatcounter="https://antonzru.goatcounter.com/count"></script>
+{{- end }}
+
+<!-- Favicons -->
+<link rel="icon" href="/assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg">
+<meta name="theme-color" content="#fff">
+<meta name="msapplication-TileColor" content="#fff">
+
+<!-- RSS -->
+{{ range .AlternativeOutputFormats -}}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type | html }}" href="{{ .Permalink | safeURL }}">
+{{ end -}}
+
+<!-- Social -->
+<link rel="canonical" href="{{ .Permalink }}" />
+<meta name="author" content="{{ $author }}">
+
+<meta property="og:site_name" content="{{ .Site.Title }}" />
+<meta property="og:type" content="{{ $ogtype }}" />
+<meta property="og:title" content="{{ $title }}" />
+<meta property="og:description" content="{{ $description }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:image" content="{{ $.Param " image" }}" />
+
+<meta name="twitter:card" content="{{ $twtype }}" />
+<meta name="twitter:title" content="{{ $title }}" />
+<meta name="twitter:description" content="{{ $description }}" />
+<meta name="twitter:url" content="{{ .Permalink }}" />
+<meta name="twitter:site" content="@nalgeon" />
+<meta name="twitter:image" content="{{ $.Param " image" }}" />

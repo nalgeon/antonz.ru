@@ -1,0 +1,7 @@
+.search-module input[type="search"] {
+    padding: 0.5em 0.75em;
+    border: solid 1px #ddd;
+    border-radius: 2px;
+    outline-style: none;
+    font-size: 12px;
+}

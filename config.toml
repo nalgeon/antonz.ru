@@ -1,0 +1,22 @@
+baseURL = "https://antonz.ru/"
+languageCode = "ru-ru"
+title = "Антон Жиянов"
+theme = "antonz"
+
+[permalinks]
+posts = "/:slug"
+years = "/:year/"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[outputFormats.RSS]
+mediatype = "application/rss+xml"
+baseName = "rss"
+
+[mediaTypes."application/rss+xml"]
+suffixes = [ ]
+
+[params]
+author = "Антон Жиянов"
+description = "Разработка софта, продуктоводство и здравый смысл"

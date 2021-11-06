@@ -1,0 +1,33 @@
+.post-stub {
+    margin-bottom: 1.5em;
+}
+
+.post-stub__header {
+    margin: 0;
+}
+
+.post-stub__star {
+    color: #fdd000;
+    display: none;
+    width: 1.2em;
+}
+
+.post-stub__date {
+    color: rgba(0, 0, 0, 0.54);
+    padding-left: 0.5rem;
+    font-size: 0.8em;
+}
+
+.post-stub__description {
+    margin: 0.2em 0 0 0;
+}
+
+@media only screen and (min-width: 48em) {
+    .post-stub__star {
+        display: inline-block;
+    }
+
+    .post-stub--featured .post-stub__header {
+        margin-left: -1.2em;
+    }
+}

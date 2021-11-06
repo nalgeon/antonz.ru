@@ -1,0 +1,29 @@
+.post__date {
+    color: rgba(0, 0, 0, 0.54);
+    display: inline-block;
+    margin-right: 1em;
+}
+
+.post__title {
+    font-weight: 600;
+    margin-top: 0.2em;
+}
+
+.post__footer {
+    margin-top: 1rem;
+}
+
+.post__related {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.post__tags {
+    color: rgba(0, 0, 0, 0.54);
+    display: inline-block;
+}
+
+.post__tags a {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: currentColor;
+}

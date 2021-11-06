@@ -1,0 +1,207 @@
+@media only screen and (min-width: 62em) {
+    .article {
+        font-size: 1.2em;
+    }
+}
+
+.article--with-posts {
+    margin-bottom: 1.5em;
+}
+
+.article h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1.35em;
+    margin: 1.5em auto 0.7em;
+}
+.article h2:first-child {
+    margin-top: 0;
+}
+
+.article h3 {
+    font-weight: bold;
+    margin-bottom: 0.4em;
+}
+
+.article p {
+    margin: 0 0 0.8em 0;
+}
+.article p:last-child {
+    margin-bottom: 0;
+}
+
+.article ul,
+.article ol {
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+    margin: 0 0 1em;
+}
+.article p + ul,
+.article p + ol {
+    margin-top: -0.4em;
+}
+.article ul li {
+    list-style: none;
+}
+.article ol li {
+    list-style: decimal outside;
+}
+.article li {
+    margin: 0 0 0.4em 0;
+}
+
+.article img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: auto;
+}
+.article img.bordered {
+    border: 0.2em solid #eaeaea;
+}
+
+.article figure,
+.article table {
+    margin: 0 0 0.8em 0;
+}
+.article figcaption,
+.article .figcaption {
+    color: #555;
+    font-size: 0.9em;
+    padding-top: 0.2em;
+}
+.article figcaption a,
+.article .figcaption a {
+    color: #555;
+    border-color: #555;
+}
+.article figcaption.text-centered {
+    text-align: center;
+}
+
+.article blockquote {
+    border-left: 0.3em solid #eaeaea;
+    color: #555;
+    margin-left: 2em;
+    margin-bottom: 0.8em;
+    padding: 0 0 0 1em;
+}
+.article blockquote.bq-padded {
+    border: none;
+    margin-left: 0;
+    margin-bottom: 1em;
+    padding: 2em;
+}
+.article blockquote.big {
+    border: none;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "PT Serif", Georgia, serif;
+    font-style: italic;
+    margin-left: 0;
+    padding: 0 2em;
+}
+@media only screen and (min-width: 48em) {
+    .article blockquote.big {
+        padding: 0 4em;
+    }
+}
+
+.article .big {
+    font-size: 1.6em;
+    margin: 0 0 0.8em 0;
+}
+
+.article details {
+    margin: 0 0 0.8em 0;
+}
+.article details[open] {
+    border: 0.25em solid #eaeaea;
+    padding: 2em;
+}
+.article details[open] p,
+.article details[open] li {
+    color: #555;
+    font-size: 1em;
+}
+.article details[open] > p:last-child {
+    margin-bottom: 0;
+}
+.article summary {
+    display: inline-block;
+    border-bottom: 1px dashed;
+    cursor: pointer;
+    outline: none;
+}
+.article summary::-webkit-details-marker {
+    display: none;
+}
+
+.article .padded {
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+.article .boxed {
+    border: 0.25em solid #eaeaea;
+    margin-bottom: 0.8em;
+    padding: 2em;
+}
+.article .boxed p,
+.article .boxed li,
+.article .boxed h3 {
+    color: #555;
+    font-size: 1em;
+}
+.article .boxed > p:last-child {
+    margin-bottom: 0;
+}
+
+.article .lead {
+    font-size: 1em !important;
+}
+
+.article--big h3 {
+    font-size: 1em;
+}
+
+.article--big p,
+.article--big li,
+.article--big table {
+    font-size: 1.15em;
+}
+/* Ghost markdown inserts p inside li */
+.article--big li p,
+.article--big li li {
+    font-size: 1em;
+}
+
+.article table {
+    display: inline-block;
+    border: 1px solid #e5e5e5;
+    border-spacing: 0;
+    border-collapse: collapse;
+    overflow-x: auto;
+    max-width: 100%;
+    text-align: left;
+    vertical-align: top;
+}
+.article table caption {
+    font-size: 0.9em;
+}
+.article table td,
+.article table th {
+    padding: 0.35em 0.75em;
+    vertical-align: top;
+    font-size: 0.9em;
+    border-bottom: 1px solid #e5e5e5;
+}
+.article table th {
+    line-height: 1.2;
+}
+.article table tr:last-child td {
+    border-bottom: none;
+}
+
+.footnotes-sep {
+    display: none;
+}

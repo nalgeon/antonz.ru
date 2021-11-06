@@ -1,0 +1,7 @@
+.home {
+    background: linear-gradient(#fff, #f7f8fc);
+}
+
+.blog-map__row > div {
+    margin-bottom: 2rem;
+}
