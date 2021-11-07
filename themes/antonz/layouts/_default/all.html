@@ -20,7 +20,9 @@
                     {{- end }}
 
                     {{- range (where site.RegularPages "Section" "years") }}
+                    {{- if ne .Date.Year now.Year }}
                     <h2><a href="{{ .RelPermalink}}">{{ .Title }}</a></h2>
+                    {{- end}}
                     {{- end}}
                 </div>
             </div>

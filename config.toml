@@ -5,7 +5,7 @@ theme = "antonz"
 
 [permalinks]
 posts = "/:slug"
-years = "/:year/"
+years = "/:year"
 
 [markup.goldmark.renderer]
 unsafe = true
