@@ -19,6 +19,13 @@ img.portfolio-thumb {
     margin: 0 0 0.5em 0;
 }
 
+.project-section-header {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .project-row {
     margin-bottom: 1rem;
 }
@@ -27,6 +34,7 @@ img.portfolio-thumb {
 }
 
 .project-block {
+    width: 100%;
     margin-bottom: 1rem;
     border: 1px solid #eaeaea;
     border-radius: 0.25rem;
