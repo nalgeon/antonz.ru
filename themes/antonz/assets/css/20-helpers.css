@@ -99,7 +99,7 @@
     color: #fdd000;
 }
 
-@media only screen and (max-width: 30em) {
+@media only screen and (max-width: 48em) {
     .hidden-mobile {
         display: none !important;
     }
