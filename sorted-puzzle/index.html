@@ -1,0 +1,296 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Python. Cортировать в конце или держать отсортированным?</title>
+<meta name=description content="Почему бинарный поиск не всегда быстрый.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/sorted-puzzle/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python. Cортировать в конце или держать отсортированным?">
+<meta property="og:description" content="Почему бинарный поиск не всегда быстрый.">
+<meta property="og:url" content="https://antonz.ru/sorted-puzzle/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Python. Cортировать в конце или держать отсортированным?">
+<meta name=twitter:description content="Почему бинарный поиск не всегда быстрый.">
+<meta name=twitter:url content="https://antonz.ru/sorted-puzzle/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Python. Cортировать в конце или держать отсортированным?</h1>
+</header>
+<p>На днях я предложил подписчикам канала <a href=http://ohmypy.ru>Oh My Py</a> такую задачку:</p>
+<blockquote>
+<p>Допустим, вы пишете программу, которой на вход последовательно, одно за другим, приходят числа. Ваша задача — накапливать их как-то, а потом, когда числа перестанут приходить — вернуть отсортированный список.
+<p>Как думаете, что будет работать быстрее:</p>
+<ul>
+<li>Складывать приходящие числа в неупорядоченную кучу, отсортировать в конце.</li>
+<li>Постоянно поддерживать отсортированный список (с помощью <code>bisect</code>), в конце просто вернуть его.</li>
+<li></li>
+</ul>
+</blockquote>
+<p>Вот результаты голосования:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<figure>
+<img class=img-bordered alt="Результаты голосования" src=sorted-puzzle-poll.png>
+<figcaption>Большинство решило, что быстрее постоянно поддерживать список отсортированным.</figcaption>
+</figure>
+</div>
+</div>
+<p>Давайте разберёмся, так ли это.</p>
+<h2 id=решение>Решение</h2>
+<p>Сразу оговорюсь, что оценивать будем именно чистое время выполнения нашего обработчика. Понятно, что если источник будет присылать по одному числу в минуту, то общее время выполнения будет определяться именно скоростью источника, а не нашим обработчиком — вне зависимости от выбранного алгоритма. Поэтому исходим из того, что источник фигачит числами как из пулемёта.</p>
+<p>Мы знаем, что сортировка на <em>n</em> числах занимает <em>O(n logn)</em> операций. Это сложность варианта «сортировать в конце».</p>
+<p>Мы также знаем, что один бинарный поиск занимает <em>O(log n)</em> операций. В варианте «поддерживать отсортированным» мы выполняем поиск <em>n</em> раз, значит итоговая сложность <em>O(n logn)</em>.</p>
+<p>Там <em>O(n logn)</em> и тут <em>O(n logn)</em> — значит, варианты равнозначные, расходимся.</p>
+<p>На самом деле нет ツ Посмотрите на реализацию варианта «поддерживать отсортированным»:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>keep_sorted</span>(<span style=color:#000>generator</span>):
+    <span style=color:#000>collection</span> <span style=color:#000>=</span> []
+    <span style=color:#a90d91>for</span> <span style=color:#000>number</span> <span style=color:#000>in</span> <span style=color:#000>generator</span>:
+        <span style=color:#000>index</span> <span style=color:#000>=</span> <span style=color:#000>bisect</span><span style=color:#000>.</span><span style=color:#000>bisect</span>(<span style=color:#000>collection</span>, <span style=color:#000>number</span>)
+        <span style=color:#000>collection</span><span style=color:#000>.</span><span style=color:#000>insert</span>(<span style=color:#000>index</span>, <span style=color:#000>number</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>collection</span>
+</code></pre></div><p>Да, бинарный поиск выполняется за логарифмическое время. Но после него идёт вставка в массив — она занимает <em>линейное</em> время.</p>
+<p>Таким образом, на каждое число алгоритм тратит <em>O(n)</em> операций, а на <em>n</em> чисел — <em>O(n²)</em>. Это сильно медленнее, чем <em>O(n logn)</em>.</p>
+<h2 id=проверка>Проверка</h2>
+<p>Чтобы не быть голословным, я реализовал оба варианта и сравнил их в действии.</p>
+<h3 id=подготовка>Подготовка</h3>
+<p>Сначала подготовим генератор чисел:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>random</span>
+
+<span style=color:#177500># будем генерить числа от 1 до 1 млн</span>
+<span style=color:#000>RANGE_SIZE</span> <span style=color:#000>=</span> <span style=color:#1c01ce>1</span> <span style=color:#000>*</span> <span style=color:#1c01ce>10</span><span style=color:#000>**</span><span style=color:#1c01ce>6</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>number_generator</span>(<span style=color:#000>count</span>):
+    <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#000>count</span>):
+        <span style=color:#000>number</span> <span style=color:#000>=</span> <span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>randint</span>(<span style=color:#1c01ce>1</span>, <span style=color:#000>RANGE_SIZE</span>)
+        <span style=color:#a90d91>yield</span> <span style=color:#000>number</span>
+</code></pre></div><p>Затем реализуем алгоритм «сортировать в конце»:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>collections</span> <span style=color:#a90d91>import</span> <span style=color:#000>deque</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>sort_after</span>(<span style=color:#000>generator</span>):
+    <span style=color:#000>collection</span> <span style=color:#000>=</span> <span style=color:#000>deque</span>()
+    <span style=color:#a90d91>for</span> <span style=color:#000>number</span> <span style=color:#000>in</span> <span style=color:#000>generator</span>:
+        <span style=color:#000>collection</span><span style=color:#000>.</span><span style=color:#000>append</span>(<span style=color:#000>number</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#a90d91>sorted</span>(<span style=color:#000>collection</span>)
+</code></pre></div><p>И алгоритм «поддерживать отсортированным»:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>bisect</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>keep_sorted</span>(<span style=color:#000>generator</span>):
+    <span style=color:#000>collection</span> <span style=color:#000>=</span> []
+    <span style=color:#a90d91>for</span> <span style=color:#000>number</span> <span style=color:#000>in</span> <span style=color:#000>generator</span>:
+        <span style=color:#000>bisect</span><span style=color:#000>.</span><span style=color:#000>insort</span>(<span style=color:#000>collection</span>, <span style=color:#000>number</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>collection</span>
+</code></pre></div><h3 id=синхронная-работа>Синхронная работа</h3>
+<p>Сначала рассмотрим вариант, когда генератор и обработчик работают строго последовательно: генератор присылает число, обработчик складывает его к себе, генератор присылает второе число, обработчик снова складывает, и так далее. Пока обработчик не закончил с числом, генератор не может прислать следующее.</p>
+<p>Будем проверять на 1 млн чисел.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>count</span> <span style=color:#000>=</span> <span style=color:#1c01ce>1</span> <span style=color:#000>*</span> <span style=color:#1c01ce>10</span><span style=color:#000>**</span><span style=color:#1c01ce>6</span>
+</code></pre></div><p>Сортировать в конце:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>%%</span><span style=color:#000>time</span>
+<span style=color:#000>sort_after</span>(<span style=color:#000>number_generator</span>(<span style=color:#000>count</span>))
+;
+</code></pre></div><pre tabindex=0><code>CPU times: user 1.33 s, sys: 20.1 ms, total: 1.35 s
+Wall time: 1.35 s
+</code></pre><p>Держать отсортированным:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>%%</span><span style=color:#000>time</span>
+<span style=color:#000>keep_sorted</span>(<span style=color:#000>number_generator</span>(<span style=color:#000>count</span>))
+;
+</code></pre></div><pre tabindex=0><code>CPU times: user 1min 25s, sys: 74.9 ms, total: 1min 25s
+Wall time: 1min 25s
+</code></pre><p>Вариант «сортировать в конце» оказался быстрее в 63 раза (1.35 секунды против 85 секунд).</p>
+<h3 id=асинхронная-работа>Асинхронная работа</h3>
+<p>Теперь пусть генератор и обработчик работают независимо. Генератор присылает числа с некоторым интервалом, а обработчик независимо складывает их к себе. Генератор не дожидается, пока обработчик закончит с очередным числом — он может прислать новое в любой момент.</p>
+<p>Здесь придётся работать в два процесса (отдельно генератор, отдельно обработчик), так что будем использовать очередь для синхронизации. Генератор будет складывать в неё числа, а обработчик — забирать.</p>
+<p>Кроме того, добавим генератору задержку:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>random</span>
+<span style=color:#a90d91>import</span> <span style=color:#000>time</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>number_generator</span>(<span style=color:#000>queue</span>, <span style=color:#000>count</span>, <span style=color:#000>delay</span>):
+    <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#000>count</span>):
+        <span style=color:#000>number</span> <span style=color:#000>=</span> <span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>randint</span>(<span style=color:#1c01ce>1</span>, <span style=color:#000>RANGE_SIZE</span>)
+        <span style=color:#000>queue</span><span style=color:#000>.</span><span style=color:#000>put</span>(<span style=color:#000>number</span>)
+        <span style=color:#000>time</span><span style=color:#000>.</span><span style=color:#000>sleep</span>(<span style=color:#000>delay</span>)
+    <span style=color:#000>queue</span><span style=color:#000>.</span><span style=color:#000>put</span>(<span style=color:#a90d91>None</span>)
+</code></pre></div><p>Алгоритмы «сортировать в конце» и «поддерживать отсортированным» не слишком поменяются. Просто теперь они получают числа не из генератора, а из очереди:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>collections</span> <span style=color:#a90d91>import</span> <span style=color:#000>deque</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>sort_after</span>(<span style=color:#000>queue</span>):
+    <span style=color:#000>collection</span> <span style=color:#000>=</span> <span style=color:#000>deque</span>()
+    <span style=color:#a90d91>while</span> <span style=color:#a90d91>True</span>:
+        <span style=color:#000>number</span> <span style=color:#000>=</span> <span style=color:#000>queue</span><span style=color:#000>.</span><span style=color:#000>get</span>()
+        <span style=color:#a90d91>if</span> <span style=color:#000>number</span> <span style=color:#000>is</span> <span style=color:#a90d91>None</span>:
+            <span style=color:#a90d91>break</span>
+        <span style=color:#000>collection</span><span style=color:#000>.</span><span style=color:#000>append</span>(<span style=color:#000>number</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#a90d91>sorted</span>(<span style=color:#000>collection</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>bisect</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>keep_sorted</span>(<span style=color:#000>queue</span>):
+    <span style=color:#000>collection</span> <span style=color:#000>=</span> []
+    <span style=color:#a90d91>while</span> <span style=color:#a90d91>True</span>:
+        <span style=color:#000>number</span> <span style=color:#000>=</span> <span style=color:#000>queue</span><span style=color:#000>.</span><span style=color:#000>get</span>()
+        <span style=color:#a90d91>if</span> <span style=color:#000>number</span> <span style=color:#000>is</span> <span style=color:#a90d91>None</span>:
+            <span style=color:#a90d91>break</span>
+        <span style=color:#000>bisect</span><span style=color:#000>.</span><span style=color:#000>insort</span>(<span style=color:#000>collection</span>, <span style=color:#000>number</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>collection</span>
+</code></pre></div><p>Добавим вспомогательную функцию, которая создаёт процессы и запускает тест:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>multiprocessing</span> <span style=color:#a90d91>import</span> <span style=color:#000>Process</span>, <span style=color:#000>Queue</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>main</span>(<span style=color:#000>processor</span>, <span style=color:#000>count</span>, <span style=color:#000>delay</span>):
+    <span style=color:#a90d91>print</span>(<span style=color:#c41a16>f</span><span style=color:#c41a16>&#34;count = </span><span style=color:#c41a16>{</span><span style=color:#000>count</span><span style=color:#c41a16>}</span><span style=color:#c41a16>, delay = </span><span style=color:#c41a16>{</span><span style=color:#000>delay</span><span style=color:#c41a16>}</span><span style=color:#c41a16>&#34;</span>)
+    <span style=color:#000>queue</span> <span style=color:#000>=</span> <span style=color:#000>Queue</span>()
+    <span style=color:#000>generator</span> <span style=color:#000>=</span> <span style=color:#000>Process</span>(
+        <span style=color:#000>target</span><span style=color:#000>=</span><span style=color:#000>number_generator</span>,
+        <span style=color:#000>args</span><span style=color:#000>=</span>(<span style=color:#000>queue</span>, <span style=color:#000>count</span>, <span style=color:#000>delay</span>),
+        <span style=color:#000>daemon</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>,
+    )
+    <span style=color:#000>consumer</span> <span style=color:#000>=</span> <span style=color:#000>Process</span>(<span style=color:#000>target</span><span style=color:#000>=</span><span style=color:#000>processor</span>, <span style=color:#000>args</span><span style=color:#000>=</span>(<span style=color:#000>queue</span>,), <span style=color:#000>daemon</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>)
+    
+    <span style=color:#000>generator</span><span style=color:#000>.</span><span style=color:#000>start</span>()
+    <span style=color:#000>consumer</span><span style=color:#000>.</span><span style=color:#000>start</span>()
+    <span style=color:#000>generator</span><span style=color:#000>.</span><span style=color:#000>join</span>()
+    <span style=color:#000>consumer</span><span style=color:#000>.</span><span style=color:#000>join</span>()
+</code></pre></div><p>Будем проверять на 1 млн чисел и интервале между приходом чисел в 1 микросекунду:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>count</span> <span style=color:#000>=</span> <span style=color:#1c01ce>1</span> <span style=color:#000>*</span> <span style=color:#1c01ce>10</span><span style=color:#000>**</span><span style=color:#1c01ce>6</span>
+<span style=color:#000>delay</span> <span style=color:#000>=</span> <span style=color:#1c01ce>1</span> <span style=color:#000>*</span> <span style=color:#1c01ce>10</span><span style=color:#000>**</span>(<span style=color:#000>-</span><span style=color:#1c01ce>6</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>%%</span><span style=color:#000>time</span>
+<span style=color:#000>main</span>(<span style=color:#000>sort_after</span>, <span style=color:#000>count</span>, <span style=color:#000>delay</span>)
+;
+</code></pre></div><pre tabindex=0><code>count = 1000000, delay = 1e-06
+CPU times: user 3.12 ms, sys: 5.48 ms, total: 8.6 ms
+Wall time: 29.3 s
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>%%</span><span style=color:#000>time</span>
+<span style=color:#000>main</span>(<span style=color:#000>keep_sorted</span>, <span style=color:#000>count</span>, <span style=color:#000>delay</span>)
+;
+</code></pre></div><pre tabindex=0><code>count = 1000000, delay = 1e-06
+CPU times: user 3.81 ms, sys: 6.43 ms, total: 10.2 ms
+Wall time: 1min 43s
+</code></pre><p>Кажется, что разрыв сократился (29 секунд против 103). Но на самом деле эти 29 секунд уходят не на полезную работу, а на «обвязку» — возню вокруг <code>time.sleep()</code> и межпроцессное взаимодействие. Чтобы убедиться в этом, сделаем ещё один алгоритм, который вообще не сортирует приходящие числа, а просто возвращает их в финале как есть:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>do_not_sort</span>(<span style=color:#000>queue</span>):
+    <span style=color:#000>collection</span> <span style=color:#000>=</span> <span style=color:#000>deque</span>()
+    <span style=color:#a90d91>while</span> <span style=color:#a90d91>True</span>:
+        <span style=color:#000>number</span> <span style=color:#000>=</span> <span style=color:#000>queue</span><span style=color:#000>.</span><span style=color:#000>get</span>()
+        <span style=color:#a90d91>if</span> <span style=color:#000>number</span> <span style=color:#000>is</span> <span style=color:#a90d91>None</span>:
+            <span style=color:#a90d91>break</span>
+        <span style=color:#000>collection</span><span style=color:#000>.</span><span style=color:#000>append</span>(<span style=color:#000>number</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>collection</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>%%</span><span style=color:#000>time</span>
+<span style=color:#000>main</span>(<span style=color:#000>do_not_sort</span>, <span style=color:#000>count</span>, <span style=color:#000>delay</span>)
+;
+</code></pre></div><pre tabindex=0><code>count = 1000000, delay = 1e-06
+CPU times: user 2.93 ms, sys: 5.58 ms, total: 8.52 ms
+Wall time: 29.1 s
+</code></pre><p>Таким образом, «чистое» время работы «сортировать в конце» по-прежнему составляет около 1 секунды, а «держать отсортированным» — в десятки раз больше.</p>
+<p><a href=https://gist.github.com/nalgeon/199c30f8a0298c6da9c79559ca848ddc>Ноутбук</a></p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Итого: чистая победа «сортировать в конце» над «держать отсортированным» с большим отрывом.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для подписчиков <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=http://ohmypy.ru>Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2019-06-29 07:55:19 +0000 UTC">29.06.2019</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/bisect/>Python. Быстро найти элемент коллекции</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/fast-language/>Быстрый язык ≠ быстрый код</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/bisect/>Python. Быстро найти элемент коллекции</a></p>
+<p><a href=/calendar/>Python. Узнать день недели 40 лет назад</a></p>
+<p><a href=/deepcopy/>Python. Создать полный дубль коллекции</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

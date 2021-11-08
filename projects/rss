@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Проекты on Антон Жиянов</title>
+    <link>https://antonz.ru/projects/</link>
+    <description>Recent content in Проекты on Антон Жиянов</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language><atom:link href="https://antonz.ru/projects/rss" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

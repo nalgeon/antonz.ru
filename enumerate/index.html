@@ -1,0 +1,163 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Python. Пронумеровать элементы коллекции</title>
+<meta name=description content="С помощью enumerate()">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/enumerate/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python. Пронумеровать элементы коллекции">
+<meta property="og:description" content="С помощью enumerate()">
+<meta property="og:url" content="https://antonz.ru/enumerate/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Python. Пронумеровать элементы коллекции">
+<meta name=twitter:description content="С помощью enumerate()">
+<meta name=twitter:url content="https://antonz.ru/enumerate/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Python. Пронумеровать элементы коллекции</h1>
+</header>
+<p>Одна уважаемая компания заказала вам разработку теста для соискателей на позицию «дизайнер продукта». Есть список вопросов с вариантами ответа:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>survey</span> <span style=color:#000>=</span> {
+  <span style=color:#c41a16>&#34;Чем известен Джони Айв?&#34;</span>: [
+    <span style=color:#c41a16>&#34;Придумал анимированные эмодзи&#34;</span>,
+    <span style=color:#c41a16>&#34;Снялся в фильме про белую комнату&#34;</span>,
+    <span style=color:#c41a16>&#34;Изобрёл мышку с зарядкой в пузе&#34;</span>,
+  ],
+  <span style=color:#c41a16>&#34;Почему важно надувать щёки?&#34;</span>: [ <span style=color:#000>...</span> ],
+  <span style=color:#c41a16>&#34;Сколько у вас статей про дизайн-системы?&#34;</span>: [ <span style=color:#000>...</span> ],
+}
+</code></pre></div><p>Вы написали код, который показывает на экране каждый вопрос с вариантами ответа:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>for</span> <span style=color:#000>question</span>, <span style=color:#000>answers</span> <span style=color:#000>in</span> <span style=color:#000>survey</span><span style=color:#000>.</span><span style=color:#000>items</span>():
+    <span style=color:#a90d91>print</span>(<span style=color:#000>question</span>)
+    <span style=color:#000>print_answers</span>(<span style=color:#000>answers</span>)
+</code></pre></div><p>Но есть нюанс — варианты должны быть пронумерованы. Как бы это сделать?</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>print_answers</span>(<span style=color:#000>answers</span>):
+    <span style=color:#000>i</span> <span style=color:#000>=</span> <span style=color:#1c01ce>1</span>
+    <span style=color:#a90d91>for</span> <span style=color:#000>answer</span> <span style=color:#000>in</span> <span style=color:#000>answers</span>:
+        <span style=color:#a90d91>print</span>(<span style=color:#c41a16>f</span><span style=color:#c41a16>&#34;</span><span style=color:#c41a16>{</span><span style=color:#000>i</span><span style=color:#c41a16>}</span><span style=color:#c41a16>: </span><span style=color:#c41a16>{</span><span style=color:#000>answer</span><span style=color:#c41a16>}</span><span style=color:#c41a16>&#34;</span>)
+        <span style=color:#000>i</span> <span style=color:#000>+=</span> <span style=color:#1c01ce>1</span>
+
+<span style=color:#000>Чем</span> <span style=color:#000>известен</span> <span style=color:#000>Джони</span> <span style=color:#000>Айв</span><span style=color:#000>?</span>
+<span style=color:#1c01ce>1</span>: <span style=color:#000>Придумал</span> <span style=color:#000>анимированные</span> <span style=color:#000>эмодзи</span>
+<span style=color:#1c01ce>2</span>: <span style=color:#000>Снялся</span> <span style=color:#000>в</span> <span style=color:#000>фильме</span> <span style=color:#000>про</span> <span style=color:#000>белую</span> <span style=color:#000>комнату</span>
+<span style=color:#1c01ce>3</span>: <span style=color:#000>Изобрёл</span> <span style=color:#000>мышку</span> <span style=color:#000>с</span> <span style=color:#000>зарядкой</span> <span style=color:#000>в</span> <span style=color:#000>пузе</span>
+</code></pre></div><p>Да, но нет. Очень часто, когда видите в коде <code>i = ..</code> и затем <code>i += 1</code> — это красный флаг. Лучше так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>print_answers</span>(<span style=color:#000>answers</span>):
+    <span style=color:#a90d91>for</span> <span style=color:#000>idx</span>, <span style=color:#000>answer</span> <span style=color:#000>in</span> <span style=color:#a90d91>enumerate</span>(<span style=color:#000>answers</span>, <span style=color:#000>start</span><span style=color:#000>=</span><span style=color:#1c01ce>1</span>):
+        <span style=color:#a90d91>print</span>(<span style=color:#c41a16>f</span><span style=color:#c41a16>&#34;</span><span style=color:#c41a16>{</span><span style=color:#000>idx</span><span style=color:#c41a16>}</span><span style=color:#c41a16>: </span><span style=color:#c41a16>{</span><span style=color:#000>answer</span><span style=color:#c41a16>}</span><span style=color:#c41a16>&#34;</span>)
+</code></pre></div><p><code>enumerate()</code> возвращает итератор, который при каждом обращении выдаёт пару из счётчика и соответствующего ему элемента последовательности. А аргумент <code>start</code> указывает, с какого числа стартовать счётчик (по умолчанию — с нуля).</p>
+<p>P.S. Если это для вас слишком просто, представьте себя сумасшедшим любителем однострочников и попробуйте расшифровать такое:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>deque</span>(<span style=color:#a90d91>map</span>(<span style=color:#a90d91>print</span>, <span style=color:#a90d91>map</span>(<span style=color:#a90d91>lambda</span> <span style=color:#000>item</span>: <span style=color:#c41a16>f</span><span style=color:#c41a16>&#34;</span><span style=color:#c41a16>{</span><span style=color:#000>item</span>[<span style=color:#1c01ce>0</span>]<span style=color:#c41a16>}</span><span style=color:#c41a16>: </span><span style=color:#c41a16>{</span><span style=color:#000>item</span>[<span style=color:#1c01ce>1</span>]<span style=color:#c41a16>}</span><span style=color:#c41a16>&#34;</span>, <span style=color:#a90d91>enumerate</span>(<span style=color:#000>answers</span>, <span style=color:#000>start</span><span style=color:#000>=</span><span style=color:#1c01ce>1</span>))), <span style=color:#000>maxlen</span><span style=color:#000>=</span><span style=color:#1c01ce>0</span>)
+</code></pre></div><div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=http://ohmypy.ru>Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2019-07-02 14:10:00 +0000 UTC">02.07.2019</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/fast-language/>Быстрый язык ≠ быстрый код</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/dict-from-keys/>Python. Создать словарь по списку ключей</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/fast-language/>Быстрый язык ≠ быстрый код</a></p>
+<p><a href=/sorted-puzzle/>Python. Cортировать в конце или держать отсортированным?</a></p>
+<p><a href=/bisect/>Python. Быстро найти элемент коллекции</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

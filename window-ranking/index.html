@@ -1,0 +1,533 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Оконные функции: ранжирование</title>
+<meta name=description content="Составляем рейтинги и разбиваем на группы.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/window-ranking/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Оконные функции: ранжирование">
+<meta property="og:description" content="Составляем рейтинги и разбиваем на группы.">
+<meta property="og:url" content="https://antonz.ru/window-ranking/">
+<meta property="og:image" content="https://antonz.ru/window-ranking/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Оконные функции: ранжирование">
+<meta name=twitter:description content="Составляем рейтинги и разбиваем на группы.">
+<meta name=twitter:url content="https://antonz.ru/window-ranking/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/window-ranking/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Оконные функции: ранжирование</h1>
+</header>
+<p><em>Это вторая статья из серии <a href=/window-functions>Оконные функции в картинках</a>. Рекомендую не просто читать, а <a href=https://stepik.org/z/95367>проходить курс</a> — с ним знания превратятся в навыки.</em></p>
+<p>В этой части будем решать задачу ранжирования. Ранжирование — это всевозможные рейтинги, начиная от призеров чемпионата мира по плаванию и заканчивая Forbes 500. Мы же будем ранжировать сотрудников компании.</p>
+<p>Будем работать с игрушечной таблицей <code>employees</code>, вот такой:</p>
+<pre tabindex=0><code>┌────┬──────────┬────────┬────────────┬────────┐
+│ id │   name   │  city  │ department │ salary │
+├────┼──────────┼────────┼────────────┼────────┤
+│ 11 │ Дарья    │ Самара │ hr         │ 70     │
+│ 12 │ Борис    │ Самара │ hr         │ 78     │
+│ 21 │ Елена    │ Самара │ it         │ 84     │
+│ 22 │ Ксения   │ Москва │ it         │ 90     │
+│ 23 │ Леонид   │ Самара │ it         │ 104    │
+│ 24 │ Марина   │ Москва │ it         │ 104    │
+│ 25 │ Иван     │ Москва │ it         │ 120    │
+│ 31 │ Вероника │ Москва │ sales      │ 96     │
+│ 32 │ Григорий │ Самара │ sales      │ 96     │
+│ 33 │ Анна     │ Москва │ sales      │ 100    │
+└────┴──────────┴────────┴────────────┴────────┘
+</code></pre><ul>
+<li><a href=#rank>рейтинг зарплат</a>,</li>
+<li><a href=#partition>рейтинг зарплат по департаментам</a>,</li>
+<li><a href=#ntile>группы по зарплате</a>,</li>
+<li><a href=#functions>функции ранжирования</a>.</li>
+</ul>
+<p>Все запросы можно повторять <a href=https://antonz.org/sqliter/sandbox/#window.db>в песочнице</a>.</p>
+<h2 id=rank>Рейтинг зарплат</h2>
+<p>Составим рейтинг сотрудников по размеру заработной платы:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Было</strong>
+<figure><img alt="Таблица сотрудников" src=window-employees.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Стало</strong>
+<figure><img alt="Рейтинг зарплат" src=window-rank.png></figure>
+</div>
+</div>
+<p>Обратите внимание — сотрудники с одинаковой зарплатой получили один и тот же ранг (Леонид и Марина, Вероника и Григорий).</p>
+<p>Как перейти от «было» к «стало»?</p>
+<p>Сначала отсортируем таблицу по убыванию зарплаты:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>rank</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ rank │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│      │ Иван     │ it         │ 120    │
+│      │ Леонид   │ it         │ 104    │
+│      │ Марина   │ it         │ 104    │
+│      │ Анна     │ sales      │ 100    │
+│      │ Вероника │ sales      │ 96     │
+│      │ Григорий │ sales      │ 96     │
+│      │ Ксения   │ it         │ 90     │
+│      │ Елена    │ it         │ 84     │
+│      │ Борис    │ hr         │ 78     │
+│      │ Дарья    │ hr         │ 70     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p>Теперь пройдем от первой строчки до последней и проставим ранг каждой записи. Начнем с 1 и будем увеличивать ранг каждый раз, когда значение salary меньше, чем у предыдущей записи:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+1️⃣
+<figure><img alt="Шаг 1" src=03.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+2️⃣
+<figure><img alt="Шаг 2" src=04.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+3️⃣
+<figure><img alt="Шаг 3" src=05.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+4️⃣
+<figure><img alt="Шаг 4" src=06.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+5️⃣
+<figure><img alt="Шг 5" src=07.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6 flex" style=align-items:center>
+<p>и так далее...</p>
+</div>
+</div>
+<p>Чтобы проставить ранг, достаточно на каждом шаге смотреть только на значения из столбца <code>salary</code>, выделенные синей рамкой. Назовем эти значения окном.</p>
+<p>Попробуем описать содержимое окна словами:</p>
+<ul>
+<li>Это значения столбца <code>salary</code>.</li>
+<li>Они упорядочены от большего значения к меньшему.</li>
+</ul>
+<p>Сформулируем то же самое на SQL:</p>
+<pre tabindex=0><code>window w as (order by salary desc)
+</code></pre><ul>
+<li><code>window</code> — ключевое слово, которое показывает, что дальше будет определение окна;</li>
+<li><code>w</code> — название окна (может быть любым);</li>
+<li><code>(order by salary desc)</code> — описание окна («значения столбца <code>salary</code>, упорядоченные по убыванию»).</li>
+</ul>
+<p>Задача — посчитать ранг по окну <code>w</code>. На SQL это записывается как <code>dense_rank() over w</code>.</p>
+<p><code>dense_rank()</code> — это оконная функция, которая считает ранг по указанному окну. Логика <code>dense_rank()</code> такая же, как была у нас при ручном подсчете — начать с 1 и увеличивать ранг каждый раз, когда очередное значение из окна отличается от предыдущего.</p>
+<p>Добавим окно и оконную функцию в исходный запрос:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>dense_rank</span>() <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>rank</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>rank</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ rank │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│ 1    │ Иван     │ it         │ 120    │
+│ 2    │ Леонид   │ it         │ 104    │
+│ 2    │ Марина   │ it         │ 104    │
+│ 3    │ Анна     │ sales      │ 100    │
+│ 4    │ Вероника │ sales      │ 96     │
+│ 4    │ Григорий │ sales      │ 96     │
+│ 5    │ Ксения   │ it         │ 90     │
+│ 6    │ Елена    │ it         │ 84     │
+│ 7    │ Борис    │ hr         │ 78     │
+│ 8    │ Дарья    │ hr         │ 70     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p>Вот как движок выполняет такой запрос:</p>
+<ol>
+<li>Берет таблицу, указанную в <code>from</code>.</li>
+<li>Выбирает из нее все записи.</li>
+<li>Для каждой записи рассчитывает значение <code>dense_rank()</code> с помощью окна <code>w</code>.</li>
+<li>Сортирует результат как указано в <code>order by</code>.</li>
+</ol>
+<p>Вот как отрабатывает шаг 3, на котором назначается ранг:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Ранжирование: ранг" src=rank.gif>
+</figure>
+</div>
+</div>
+<h2 id=partition>Рейтинг зарплат по департаментам</h2>
+<p>Теперь составим рейтинг сотрудников по размеру заработной платы независимо по каждому департаменту:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Было</strong>
+<figure><img alt="Таблица сотрудников" src=window-employees.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Стало</strong>
+<figure><img alt="Рейтинг зарплат по департаментам" src=window-rank-department.png></figure>
+</div>
+</div>
+<p>Как перейти от «было» к «стало»?</p>
+<p>Сначала отсортируем таблицу по департаментам, а внутри департамента — по убыванию зарплаты:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>rank</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>, <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ rank │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│      │ Борис    │ hr         │ 78     │
+│      │ Дарья    │ hr         │ 70     │
+│      │ Иван     │ it         │ 120    │
+│      │ Леонид   │ it         │ 104    │
+│      │ Марина   │ it         │ 104    │
+│      │ Ксения   │ it         │ 90     │
+│      │ Елена    │ it         │ 84     │
+│      │ Анна     │ sales      │ 100    │
+│      │ Вероника │ sales      │ 96     │
+│      │ Григорий │ sales      │ 96     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p>Теперь пройдем от первой строчки до последней и проставим ранг каждой записи. Начнем с 1 и будем увеличивать ранг каждый раз, когда значение <code>salary</code> меньше, чем у предыдущей записи. При переходе от департамента к департаменту будем сбрасывать ранг обратно на 1:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+1️⃣
+<figure><img alt="Шаг 1" src=rank-department-03.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+2️⃣
+<figure><img alt="Шаг 2" src=rank-department-04.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+3️⃣
+<figure><img alt="Шаг 3" src=rank-department-05.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+4️⃣
+<figure><img alt="Шаг 4" src=rank-department-06.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+5️⃣
+<figure><img alt="Шг 5" src=rank-department-07.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6 flex" style=align-items:center>
+<p>и так далее...</p>
+</div>
+</div>
+<p>Чтобы проставить ранг, достаточно на каждом шаге смотреть только на значения из столбца <code>salary</code>, выделенные синей рамкой. Это и есть окно в данном случае.</p>
+<p>Видно, что окно меняется в зависимости от того, к какому департаменту относится текущая запись. Опишем словами:</p>
+<ul>
+<li>Окно разбито на несколько независимых секций — по одной на департамент.</li>
+<li>Внутри секции записи упорядочены по убыванию зарплаты.</li>
+</ul>
+<p>Сформулируем то же самое на SQL:</p>
+<pre tabindex=0><code>window w as (
+  partition by department
+  order by salary desc
+)
+</code></pre><ul>
+<li><code>partition by department</code> указывает, как следует разбить окно на секции;</li>
+<li><code>order by salary</code> desc задает сортировку внутри секции.</li>
+</ul>
+<p>Функция расчета ранга остается прежней — <code>dense_rank()</code>.</p>
+<p>Добавим окно и оконную функцию в исходный запрос:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>dense_rank</span>() <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>rank</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>
+)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>, <span style=color:#000>rank</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ rank │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│ 1    │ Борис    │ hr         │ 78     │
+│ 2    │ Дарья    │ hr         │ 70     │
+├──────┼──────────┼────────────┼────────┤
+│ 1    │ Иван     │ it         │ 120    │
+│ 2    │ Леонид   │ it         │ 104    │
+│ 2    │ Марина   │ it         │ 104    │
+│ 3    │ Ксения   │ it         │ 90     │
+│ 4    │ Елена    │ it         │ 84     │
+├──────┼──────────┼────────────┼────────┤
+│ 1    │ Анна     │ sales      │ 100    │
+│ 2    │ Вероника │ sales      │ 96     │
+│ 2    │ Григорий │ sales      │ 96     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p>Вот как движок рассчитывает ранг для каждой записи:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Ранжирование: ранг по секциям" src=rank-department.gif>
+</figure>
+</div>
+</div>
+<h2 id=ntile>Группы по зарплате</h2>
+<p>Разобьем сотрудников на три группы в зависимости от размера зарплаты:</p>
+<ul>
+<li>высокооплачиваемые,</li>
+<li>средние,</li>
+<li>низкооплачиваемые.</li>
+</ul>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Было</strong>
+<figure><img alt="Таблица сотрудников" src=window-employees.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Стало</strong>
+<figure><img alt="Группы по зарплате" src=window-rank-bucket.png></figure>
+</div>
+</div>
+<p>Как перейти от «было» к «стало»?</p>
+<p>Сначала отсортируем таблицу по убыванию зарплаты:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>tile</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ tile │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│      │ Иван     │ it         │ 120    │
+│      │ Леонид   │ it         │ 104    │
+│      │ Марина   │ it         │ 104    │
+│      │ Анна     │ sales      │ 100    │
+│      │ Вероника │ sales      │ 96     │
+│      │ Григорий │ sales      │ 96     │
+│      │ Ксения   │ it         │ 90     │
+│      │ Елена    │ it         │ 84     │
+│      │ Борис    │ hr         │ 78     │
+│      │ Дарья    │ hr         │ 70     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p>Всего 10 записей, 3 группы — значит, две группы по 3 записи и одна 4 записи. Например, так:</p>
+<pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ tile │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│      │ Иван     │ it         │ 120    │
+│      │ Леонид   │ it         │ 104    │
+│      │ Марина   │ it         │ 104    │
+│      │ Анна     │ sales      │ 100    │
+├──────┼──────────┼────────────┼────────┤
+│      │ Вероника │ sales      │ 96     │
+│      │ Григорий │ sales      │ 96     │
+│      │ Ксения   │ it         │ 90     │
+├──────┼──────────┼────────────┼────────┤
+│      │ Елена    │ it         │ 84     │
+│      │ Борис    │ hr         │ 78     │
+│      │ Дарья    │ hr         │ 70     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p>Чтобы провести границы между группами, придется анализировать все зарплаты, отсортированные по убыванию. Поэтому окно будет таким:</p>
+<pre tabindex=0><code>window w as (order by salary desc)
+</code></pre><p>А вот функция потребуется другая — <code>ntile(n)</code>, где <code>n</code> — количество групп. В нашем случае:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>ntile</span>(<span style=color:#1c01ce>3</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>tile</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────────┬────────────┬────────┐
+│ tile │   name   │ department │ salary │
+├──────┼──────────┼────────────┼────────┤
+│ 1    │ Иван     │ it         │ 120    │
+│ 1    │ Леонид   │ it         │ 104    │
+│ 1    │ Марина   │ it         │ 104    │
+│ 1    │ Анна     │ sales      │ 100    │
+├──────┼──────────┼────────────┼────────┤
+│ 2    │ Вероника │ sales      │ 96     │
+│ 2    │ Григорий │ sales      │ 96     │
+│ 2    │ Ксения   │ it         │ 90     │
+├──────┼──────────┼────────────┼────────┤
+│ 3    │ Елена    │ it         │ 84     │
+│ 3    │ Борис    │ hr         │ 78     │
+│ 3    │ Дарья    │ hr         │ 70     │
+└──────┴──────────┴────────────┴────────┘
+</code></pre><p><code>ntile(n)</code> разбивает все записи на n групп и возвращает номер группы для каждой записи. Если общее количество записей (10 в нашем случае) не делится на размер группы (3), то первые группы будут крупнее последних.</p>
+<h2 id=functions>Функции ранжирования</h2>
+<table>
+<tbody>
+<tr>
+<td><code>row_number()</code></td>
+<td>порядковый номер строки</td>
+</tr>
+<tr>
+<td><code>dense_rank()</code></td>
+<td>ранг строки</td>
+</tr>
+<tr>
+<td><code>rank()</code></td>
+<td>тоже ранг, но с пропусками</td>
+</tr>
+<tr>
+<td><code>ntile(n)</code></td>
+<td>разбивает все строки на <code>n</code> групп и возвращает номер группы, в которую попала строка</td>
+</tr>
+</tbody>
+</table>
+<p><code>dense_rank()</code> и <code>ntile()</code> мы уже разобрали.</p>
+<p><code>row_number()</code> нумерует строки в порядке, указанном в <code>order by</code>. Никаких неожиданностей.</p>
+<p><code>rank()</code> похож на <code>dense_rank()</code>, a разницу проще всего показать на примере.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>•••</span> <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>rank</span>,
+  <span style=color:#000>name</span>, <span style=color:#000>salary</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span> <span style=color:#a90d91>desc</span>)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>rank</span>, <span style=color:#000>id</span>;
+</code></pre></div><p>В одном случае вместо <code>•••</code> укажем <code>dense_rank()</code>, а в другом — <code>rank()</code>:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>dense_rank()</strong>
+<pre><code>┌──────┬──────────┬────────┐
+│ rank │   name   │ salary │
+├──────┼──────────┼────────┤
+│ 1    │ Иван     │ 120    │
+│ 2    │ Леонид   │ 104    │
+│ 2    │ Марина   │ 104    │
+│ 3    │ Анна     │ 100    │
+│ 4    │ Вероника │ 96     │
+│ 4    │ Григорий │ 96     │
+│ 5    │ Ксения   │ 90     │
+│ 6    │ Елена    │ 84     │
+│ 7    │ Борис    │ 78     │
+│ 8    │ Дарья    │ 70     │
+└──────┴──────────┴────────┘</code></pre>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>rank()</strong>
+<pre><code>┌──────┬──────────┬────────┐
+│ rank │   name   │ salary │
+├──────┼──────────┼────────┤
+│ 1    │ Иван     │ 120    │
+│ 2    │ Леонид   │ 104    │
+│ 2    │ Марина   │ 104    │
+│ 4    │ Анна     │ 100    │
+│ 5    │ Вероника │ 96     │
+│ 5    │ Григорий │ 96     │
+│ 7    │ Ксения   │ 90     │
+│ 8    │ Елена    │ 84     │
+│ 9    │ Борис    │ 78     │
+│ 10   │ Дарья    │ 70     │
+└──────┴──────────┴────────┘</code></pre>
+</div>
+</div>
+<p><code>dense_rank()</code> назначает Анне третье место, а <code>rank()</code> — четвертое, потому что второе-третье уже заняты Леонидом и Мариной. Аналогично с Ксенией после Вероники и Григория. Вот и вся разница.</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Мы разобрались, что такое «окно», «оконная функция», и как использовать их для ранжирования данных. В <a href=/window-offset/>следующей части</a> займемся оконными сравнениями!</p>
+<p>Чтобы закрепить знания на практике — <a href=https://stepik.org/z/95367><strong>записывайтесь на курс</strong></a> 🚀</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-04-05 08:48:00 +0000 UTC">05.04.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/episode-7/>Redis</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/lets-sql/>Всем SQL</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/window-functions/>Оконные функции в картинках</a></p>
+<p><a href=/sqlite-3-35/>Что нового в SQLite 3.35</a></p>
+<p><a href=/random-table/>Как создать таблицу на 1М записей одним запросом</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

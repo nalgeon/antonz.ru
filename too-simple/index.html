@@ -1,0 +1,144 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Слишком простое решение</title>
+<meta name=description content="Все любят простые решения. Но иногда можно сделать даже проще, чем думаешь.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/too-simple/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Слишком простое решение">
+<meta property="og:description" content="Все любят простые решения. Но иногда можно сделать даже проще, чем думаешь.">
+<meta property="og:url" content="https://antonz.ru/too-simple/">
+<meta property="og:image" content="https://antonz.ru/too-simple/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Слишком простое решение">
+<meta name=twitter:description content="Все любят простые решения. Но иногда можно сделать даже проще, чем думаешь.">
+<meta name=twitter:url content="https://antonz.ru/too-simple/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/too-simple/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Слишком простое решение</h1>
+</header>
+<p>Хорошие продакты, дизайнеры и инженеры любят простые решения — при условии, что они подходят пользователям. Но иногда можно сделать даже проще, чем думаешь.</p>
+<p>Пример из жизни. Мы в «<a href=https://dadata.ru/>Дадате</a>» в основном работаем с юрлицами, а эти ребята умеют платить только по счету.</p>
+<p>Мне в свое время категорически не хотелось тратить время на модуль выставления счетов, поэтому прошерстил весь рунет в поисках подходящего сервиса. Нашел миллион сайтов с конструкторами счетов, но только один с API — «Финолог». Он простой, подключились, пользовались, советовали другим.</p>
+<p>Шло время, и «Финолог» начал барахлить. В целом, нужные фичи было легко повторить в «Дадате». Кроме одной — преобразования счета в PDF. А на мой взгляд, это было обязательно — что бухгалтеру делать со счетом, если его не скачать в пдф?</p>
+<p>Однажды утром счета в «Финологе» тихо умерли. Техподдержка невозмутимо сообщила, что они решили навсегда отключить сервис счетов — вот так, одним днем и без объявления войны.</p>
+<p>Ну ОК. Тут уж было не до изысков, так что за пару часов я сделал «выставление счетов» в виде одной статической странички. Параметры счета передавались прямо через строку запроса:
+<a href="https://nalgeon.github.io/invoice/invoice.html?number=1234&company=%D0%9E%D0%9E%D0%9E+%C2%AB%D0%9C%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D1%87%D0%B8%D0%BA%C2%BB&item=%D0%9F%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B0+%D0%BD%D0%B0+%D0%B3%D0%BE%D0%B4&price=5000">invoice.html?number=1234&price=5000</a> (ссылка рабочая, можете перейти и полюбоваться результатом).</p>
+<p><img src=too-simple-invoice.png alt="Ну очень простой генератор счетов"></p>
+<p>И никакого PDF. Я подумал — отправить на принтер можно прямо из браузера, а если так уж нужен пдф, так современные браузеры умеют в него распечатывать.</p>
+<p>И знаете что? За полгода только один человек не разобрался в новом интерфейсе. PDF-фича, которую я так ценил в «Финологе», оказалась никому не нужна. Заодно «Дадата» избавилась от лишней зависимости, что для облачного сервиса всегда плюс.</p>
+<p>Такие дела. Иногда стоит взять и без того простую фичу, упростить еще и проверить — может, станет только лучше.</p>
+<p>Ну а если вам вдруг очень срочно понадобится приделать счета на сайт — форкните <a href=https://github.com/nalgeon/invoice>репозиторий</a>, укажите реквизиты своей компании, и пользуйтесь. Дубовый вариант, но быстрый и рабочий.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="far fa-star color-sin"></i> «<a href=https://t.me/dangry>Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-03-02 14:19:02 +0000 UTC">02.03.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/productology/>продуктоводство</a>&nbsp;
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/comments-via-github/>Комментарии в блоге через GitHub</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/episode-2/>Моментальный поиск</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/feature-copy/>Копировать у конкурентов</a></p>
+<p><a href=/security-code/>О кодах подтверждения</a></p>
+<p><a href=/offboarding/>Прощание с пользователем</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

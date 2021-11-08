@@ -1,0 +1,187 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Плохая и хорошая документация языка</title>
+<meta name=description content="На примере Go и топ-10 языков программирования.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/language-doc/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Плохая и хорошая документация языка">
+<meta property="og:description" content="На примере Go и топ-10 языков программирования.">
+<meta property="og:url" content="https://antonz.ru/language-doc/">
+<meta property="og:image" content="https://antonz.ru/language-doc/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Плохая и хорошая документация языка">
+<meta name=twitter:description content="На примере Go и топ-10 языков программирования.">
+<meta name=twitter:url content="https://antonz.ru/language-doc/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/language-doc/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Плохая и хорошая документация языка</h1>
+</header>
+<p>Язык Go не отличается красотой. Кто-то называет его «намеренно простым», кто-то уродливым. Но с чем у Go действительно всё классно — так это с документацией. Там много хорошего, но вот главное, на мой взгляд:</p>
+<ol>
+<li><a href=https://tour.golang.org/>A Tour of Go</a> — интерактивное введение в язык.</li>
+<li><a href=https://golang.org/doc/effective_go.html>Effective Go</a> — книга о том, как писать идиоматичный код на Go.</li>
+<li>Ссылки из документации на исходники каждой функции стандартной библиотеки (например, <a href="https://golang.org/src/math/dim.go?s=816:846#L25">Max</a>).</li>
+</ol>
+<p>Для сравнения я взял топ-10 языков из <a href=https://insights.stackoverflow.com/survey/2020#most-popular-technologies>StackOverflow Developer Survey</a> и посмотрел, как у них дела с этими тремя пунктами.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<figure>
+<img alt="Топ-10 языков" src=language-top.png>
+<figcaption>Рейтинг популярных языков по версии StackOverflow</figcaption>
+</figure>
+</div>
+</div>
+<h2 id=1-javascript>1. JavaScript</h2>
+<p>У языка даже своего сайта нет ツ Есть миллион обучалок, но единого авторитетного источника — нет. Документация по языку есть только благодаря <a href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects>Мозилле</a>. Ссылок на исходники нет, конечно. Зато по каждой функции есть <a href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty>интерактивный пример</a>, это отлично.</p>
+<h2 id=2-sql>2. SQL</h2>
+<p>Всё как у JS, только хуже — в мире SQL не нашлось своей Мозиллы, которая бы сделала документацию с примерами. Где свой SQL получали, там и ищите.</p>
+<div class=boxed style=margin-bottom:.8em>
+<p>Кстати, если вы уже знаете основы SQL и хотите прокачать понимание индексов, оптимизацию запросов и всякое такое — посмотрите онлайн-книгу <a href=https://use-the-index-luke.com/>Use The Index, Luke</a>, она хороша.</p>
+</div>
+<h2 id=3-python>3. Python</h2>
+<p>Первый язык в топе с собственным сайтом. Есть ссылка <em>Get Started</em>, но дальше разбегаются глаза — что выбрать? Вместо рекомендованной авторами базовой обучалки вываливают на новичка <a href=https://wiki.python.org/moin/BeginnersGuide/Programmers>простыню ссылок</a>. <a href=https://docs.python.org/3/tutorial/index.html>Официальный туториал</a> найти можно только каким-то нетривиальным способом. Интерактива нет. Незачёт.</p>
+<p>Исходников отдельных функций нет, исходники модулей — только если они написаны на Python (например, для <a href=https://docs.python.org/3/library/heapq.html>heapq</a> исходники есть, а для <a href=https://docs.python.org/3/library/itertools.html>itertools</a> — нет).</p>
+<h2 id=4-java>4. Java</h2>
+<p>Язык принадлежит компании Оракл, этим всё сказано. Заходите на официальный сайт <a href=https://www.java.com/ru/>посмеяться</a>.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<figure>
+<img alt="Сайт Java" src=language-java.png>
+<figcaption>Это весь сайт. Вот прям совсем весь. Учитесь!</figcaption>
+</figure>
+</div>
+</div>
+<p>Если пройтись по ссылкам дальше, попадаешь на страницу Learn Java Skills, где Оракл любезно предложит прикупить семинар. Если ну очень постараться, можно набрести на документацию по языку, даже <a href=https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/stream/package-summary.html>с примерами</a>. Странно, что за доступ не надо платить или хотя бы регистрироваться в Oracle Developer Network — надеюсь, эту недоработку скоро исправят.</p>
+<h2 id=5-bash>5. Bash</h2>
+<p>Не ожидал, но у него есть <a href=https://www.gnu.org/software/bash/>сайт</a> и <a href=https://www.gnu.org/software/bash/manual/bash.html>документация</a>. Спасибо и на том.</p>
+<h2 id=6-с>6. С#</h2>
+<p>Первый язык родом из нового тысячелетия в списке. Есть <a href=https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/intro-to-csharp/hello-world>интерактивный туториал</a>, <a href=https://docs.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/>тур по языку</a> и <a href=https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/>руководство разработчика</a>. Неплохо! В документации есть интерактивные примеры, а вот ссылок на исходники нет.</p>
+<h2 id=7-php>7. PHP</h2>
+<p>Первое, что встречает на официальном сайте — <em>Please DO NOT use this version in production, it is an early test version</em>. Спасибо, да. Я бы вообще сделал <em>DO NOT use this in production</em> официальным слоганом языка. Кхм, пардон, отвлёкся. Есть неинтерактивная <a href=https://www.php.net/manual/en/tutorial.php>обучалка</a>, неплохая документация со статическими примерами и комментариями сообщества, и, неожиданно — аж целая книга <a href=https://www.php.net/manual/en/internals2.php>PHP at the Core: A Hacker&rsquo;s Guide</a>.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<figure>
+<img alt="Сайт Java" src=language-php.png>
+<figcaption>Some leaks are unavoidable, объясняют нам знатоки PHP.</figcaption>
+</figure>
+</div>
+</div>
+<h2 id=8-typescript>8. TypeScript</h2>
+<p>Новейший язык, 2012 года выпуска. Несколько <a href=https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html>введений</a>, местами интерактивные. Подробный <a href=https://www.typescriptlang.org/docs/handbook/intro.html>учебник</a>, который начинается как интерактивный, но быстро превращается в статический (как так?). Ссылок на исходники нет, но они особо и не нужны — у тайп-скрипта нет собственной стандартной библиотеки.</p>
+<h2 id=9-c>9. C++</h2>
+<p>Есть интерактивный тур по языку! Шучу, конечно. Тур выложен <a href=https://isocpp.org/images/uploads/2-Tour-Basics.pdf>в PDF</a>, что тут скажешь. Зато есть <a href=http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines>Core Guidelines</a> о том, как писать правильный код.</p>
+<h2 id=10-c>10. C</h2>
+<p>Сайта нет, ничего нет, населена роботами.</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Счёт 10-0 в пользу Go.</p>
+<p><em>Заметка из телеграм-канала <span class=nowrap><i class="fab fa-telegram-plane"></i> «<a href=https://t.me/thank_go>Thank Go</a>»</span></em></p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2020-07-06 09:08:48 +0000 UTC">06.07.2020</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/checkcache/>Зачем читать исходники стандартной библиотеки</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/element-in-collection/>Python. Проверить, входит ли элемент в коллекцию</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/go-errors/>Красавица и чудовище. Обработка ошибок в Go</a></p>
+<p><a href=/packaging/>Как сделать классный Python-пакет</a></p>
+<p><a href=/makefile/>Автоматизация задач в Python-проекте</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

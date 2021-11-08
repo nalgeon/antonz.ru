@@ -1,0 +1,153 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Сила комментария</title>
+<meta name=description content="Комментарий — это хаос, но с ним система устойчивее.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/comments/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Сила комментария">
+<meta property="og:description" content="Комментарий — это хаос, но с ним система устойчивее.">
+<meta property="og:url" content="https://antonz.ru/comments/">
+<meta property="og:image" content="https://antonz.ru/comments/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Сила комментария">
+<meta name=twitter:description content="Комментарий — это хаос, но с ним система устойчивее.">
+<meta name=twitter:url content="https://antonz.ru/comments/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/comments/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Сила комментария</h1>
+</header>
+<p>Комментарий в интерфейсе — это необязательное текстовое поле. В комментарии человек указывает любую дополнительную информацию, которая кажется ему важной:</p>
+<ul>
+<li>На карточке клиента: за что предоставили скидку 20%</li>
+<li>На форме заказа: что в дверь звонить не надо</li>
+<li>В тикете техподдержки: ссылка на обсуждение в багтрекинге</li>
+</ul>
+<p>Комментарии в интерфейсах недооценены. Аналитики, дизайнеры, программисты — все мы любим и умеем систематизировать информацию. Поэтому любой объект в интерфейсе представляем как набор полей с конкретным назначением: наименование, почтовый индекс, стоимость.</p>
+<p>Но жизнь всегда богаче моделек. И когда люди используют софт, часто получается, что важная информация есть, а записать ее некуда. Тут и приходит на помощь комментарий.</p>
+<p>Например, на «Дадате» мы используем систему защиты от сетевых атак. У нее есть интерфейс, где можно заблокировать конкретный IP-адрес. Указываешь IP, жмешь «добавить в черный список», злодей получает бан. Что может быть проще?</p>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<p><img alt="Заблокировать IP" src=blacklist.png class=img-bordered></p>
+</div>
+</div>
+<p>Проблема в том, что непонятно, кто заблокировал IP и почему. В большинстве случаев это и неважно, но иногда пригодилось бы для разбора. Решить проблему элементарно — добавить поле «комментарий».</p>
+<p>Но постойте, можно же сделать нормальные поля «сотрудник» и «причина блокировки»? Да, можно, но непонятно:</p>
+<ul>
+<li>точно ли нужны именно эти поля?</li>
+<li>действительно ли они нужны?</li>
+</ul>
+<p>Добавлять поля просто «чтобы были» — так себе идея. А выяснить реальные сценарии как раз и поможет поле «комментарий». Потом, если что, можно заменить его на поля с конкретным назначением.</p>
+<p>Комментарий — элемент хаоса. Но с ним система устойчивее.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="far fa-star color-sin"></i> «<a href=https://t.me/dangry>Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-01-18 11:30:06 +0000 UTC">18.01.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/sqlite-course/>SQLite для аналитики</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/faster-horse/>Более быстрая лошадь</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/user-actions/>Как человек решает задачи в интерфейсе</a></p>
+<p><a href=/simple-ui/>Что делает интерфейс простым</a></p>
+<p><a href=/iuliia/>Юлия → Iuliia. Всё о транслитерации</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

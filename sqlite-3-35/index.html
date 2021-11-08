@@ -1,0 +1,234 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Что нового в SQLite 3.35</title>
+<meta name=description content="Математические функции, удаление столбцов и материализованные CTE.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/sqlite-3-35/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Что нового в SQLite 3.35">
+<meta property="og:description" content="Математические функции, удаление столбцов и материализованные CTE.">
+<meta property="og:url" content="https://antonz.ru/sqlite-3-35/">
+<meta property="og:image" content="https://antonz.ru/sqlite-3-35/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Что нового в SQLite 3.35">
+<meta name=twitter:description content="Математические функции, удаление столбцов и материализованные CTE.">
+<meta name=twitter:url content="https://antonz.ru/sqlite-3-35/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/sqlite-3-35/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Что нового в SQLite 3.35</h1>
+</header>
+<p>В новых релизах разработчики SQLite часто перебирают движок так и сяк, а для внешнего наблюдателя ничего особо не меняется. 2020 год стал приятным исключением — добавили кучу приятных фич для пользователей, вроде вычисляемых столбцов, <code>UPDATE FROM</code> и великолепного <code>.mode box</code> в консоли.</p>
+<p>Есть все шансы, что 2021 год продолжит традицию. Вот что сделали в релизе 3.35 (вышел 12 марта):</p>
+<ol>
+<li>Математические функции ‼️</li>
+<li>Удаление столбцов ❗</li>
+<li>Возврат обработанных строк для <code>DELETE</code>, <code>INSERT</code> и <code>UPDATE</code> (выражение RETURNING).</li>
+<li>Материализованные CTE.</li>
+</ol>
+<p>Чуть подробнее о каждой фиче:</p>
+<h2 id=математические-функции>Математические функции</h2>
+<p>Много лет авторов SQLite буквально умоляли добавить базовые функции вроде <code>sqrt()</code>, <code>log()</code> и <code>pow()</code>. Ответ всегда был примерно одинаковый:</p>
+<blockquote>
+<p>SQLite не просто так называется «lite». Нужны вам функции — добавьте сами.</p>
+</blockquote>
+<p>В целом понятная позиция. Но не добавлять квадратный корень? И при этом реализовать аналитические функции, рекурсивные запросы и прочую продвинутую SQL-магию? Серьезно?</p>
+<p>Я подозреваю, что дело в другом, и разработчики SQLite делают те фичи, за которые готовы платить крупные клиенты. Так или иначе, спустя 20 лет у нас появились математические функции!</p>
+<p>Вот полный список:</p>
+<pre tabindex=0><code>acos(X)
+acosh(X)
+asin(X)
+asinh(X)
+atan(X)
+atan2(X,Y)
+ceil(X)
+ceiling(X)
+cos(X)
+cosh(X)
+degrees(X)
+exp(X)
+floor(X)
+ln(X)
+log(B,X)
+log(X)
+log10(X)
+log2(X)
+mod(X,Y)
+pi()
+pow(X,Y)
+power(X,Y)
+radians(X)
+sin(X)
+sinh(X)
+sqrt(X)
+tan(X)
+tanh(X)
+trunc(X)
+</code></pre><h2 id=удаление-столбцов>Удаление столбцов</h2>
+<p>Наверно, второй по популярности источник страданий разработчиков. Невероятно бесит, что можно насоздавать сколько угодно столбцов в таблице, а удалить нельзя. Хочешь удалить столбец — делай копию таблицы без него, а старую удаляй.</p>
+<p>Теперь эта боль тоже уйдет! <code>ALTER TABLE DROP COLUMN</code>, как долго мы тебя ждали.</p>
+<p>Чтобы удалить столбец, SQLite придется полностью перезаписать таблицу — так что операция это небыстрая. Но все равно приятно.</p>
+<h2 id=returning>RETURNING</h2>
+<p>Из запросов <code>DELETE</code>, <code>INSERT</code> и <code>UPDATE</code> теперь можно возвращать строчки, которые они удалили, добавили или изменили.</p>
+<p>Например, можно вернуть идентификатор новой записи:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>create</span> <span style=color:#a90d91>table</span> <span style=color:#000>users</span> (
+  <span style=color:#000>id</span> <span style=color:#a90d91>integer</span> <span style=color:#a90d91>primary</span> <span style=color:#a90d91>key</span>,
+  <span style=color:#000>first_name</span> <span style=color:#a90d91>text</span>,
+  <span style=color:#000>last_name</span> <span style=color:#a90d91>text</span>
+);
+
+<span style=color:#a90d91>insert</span> <span style=color:#a90d91>into</span> <span style=color:#000>users</span> (<span style=color:#000>first_name</span>, <span style=color:#000>last_name</span>)
+<span style=color:#a90d91>values</span> (<span style=color:#c41a16>&#39;Нина&#39;</span>, <span style=color:#c41a16>&#39;Жукова&#39;</span>)
+<span style=color:#000>returning</span> <span style=color:#000>id</span>;
+</code></pre></div><p>Или вернуть товары, которым повысили цену:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>update</span> <span style=color:#000>products</span> <span style=color:#a90d91>set</span> <span style=color:#000>price</span> <span style=color:#000>=</span> <span style=color:#000>price</span> <span style=color:#000>*</span> <span style=color:#1c01ce>1</span>.<span style=color:#1c01ce>10</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>price</span> <span style=color:#000>&lt;=</span> <span style=color:#1c01ce>99</span>.<span style=color:#1c01ce>99</span>
+<span style=color:#000>returning</span> <span style=color:#000>name</span>, <span style=color:#000>price</span> <span style=color:#a90d91>as</span> <span style=color:#000>new_price</span>;
+</code></pre></div><h2 id=материализованные-cte>Материализованные CTE</h2>
+<p>CTE, или Common Table Expression — отличный способ сделать запрос короче и выразительнее. Например, посчитать количество городов, основанных в каждом столетии:</p>
+<pre tabindex=0><code>create table city(
+  city text,
+  timezone text,
+  geo_lat real,
+  geo_lon real,
+  population integer,
+  foundation_year integer
+);
+
+-- insert data ...
+
+with history as (
+  select
+    city,
+    (foundation_year/100)+1 as century
+  from city
+)
+select
+  century || '-й век' as dates,
+  count(*) as city_count
+from history
+group by century
+order by century desc;
+</code></pre><p>Если одно и то же CTE встречается в запросе несколько раз, SQLite каждый раз его вычисляет. Для больших таблиц это может быть небыстро.</p>
+<p>С материализованным CTE SQLite выполнит запрос один раз, запомнит результат, и не будет его пересчитывать (в пределах запроса):</p>
+<pre tabindex=0><code>with history as materialized (
+  select ...
+)
+select ... from history where ...
+except
+select ... from history where ...
+;
+</code></pre><p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>И все это в одном релизе! Невероятно ツ</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-03-03 13:09:26 +0000 UTC">03.03.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/episode-2/>Моментальный поиск</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/episode-3/>JSON:API</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/random-table/>Как создать таблицу на 1М записей одним запросом</a></p>
+<p><a href=/sqlite-course/>SQLite для аналитики</a></p>
+<p><a href=/median/>Медиана вместо среднего</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

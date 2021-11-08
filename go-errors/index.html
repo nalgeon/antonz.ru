@@ -1,0 +1,225 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Красавица и чудовище. Обработка ошибок в Go</title>
+<meta name=description content="Ошибки в го особенно уродливы, но это неспроста.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/go-errors/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Красавица и чудовище. Обработка ошибок в Go">
+<meta property="og:description" content="Ошибки в го особенно уродливы, но это неспроста.">
+<meta property="og:url" content="https://antonz.ru/go-errors/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/thankgo.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Красавица и чудовище. Обработка ошибок в Go">
+<meta name=twitter:description content="Ошибки в го особенно уродливы, но это неспроста.">
+<meta name=twitter:url content="https://antonz.ru/go-errors/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/thankgo.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Красавица и чудовище. Обработка ошибок в Go</h1>
+</header>
+<p>Роб Пайк сказал об ошибках в го:</p>
+<blockquote>
+<p>Explicit error checking forces the programmer to think about errors — and deal with them — when they arise.</p>
+</blockquote>
+<p>Это правда. Но не вся.</p>
+<p>Допустим, я хочу прочитать список целых чисел из текстового файла. Вот как можно сделать это на питоне:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>read_numbers</span>(<span style=color:#000>filename</span>):
+    <span style=color:#a90d91>return</span> [<span style=color:#a90d91>int</span>(<span style=color:#000>line</span><span style=color:#000>.</span><span style=color:#000>strip</span>()) <span style=color:#a90d91>for</span> <span style=color:#000>line</span> <span style=color:#000>in</span> <span style=color:#a90d91>open</span>(<span style=color:#000>filename</span>)]
+</code></pre></div><p>Или, в более процедурном стиле:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>read_numbers</span>(<span style=color:#000>filename</span>):
+    <span style=color:#000>numbers</span> <span style=color:#000>=</span> []
+    <span style=color:#a90d91>for</span> <span style=color:#000>line</span> <span style=color:#000>in</span> <span style=color:#a90d91>open</span>(<span style=color:#000>filename</span>):
+        <span style=color:#000>num</span> <span style=color:#000>=</span> <span style=color:#a90d91>int</span>(<span style=color:#000>line</span><span style=color:#000>.</span><span style=color:#000>strip</span>())
+        <span style=color:#000>numbers</span><span style=color:#000>.</span><span style=color:#000>append</span>(<span style=color:#000>num</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>numbers</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>read_numbers</span>(<span style=color:#c41a16>&#34;numbers.txt&#34;</span>)
+[<span style=color:#1c01ce>11</span>, <span style=color:#1c01ce>33</span>, <span style=color:#1c01ce>71</span>]
+</code></pre></div><p>Какой прекрасный, лаконичный, понятный код, не правда ли? Сделаем то же самое в го:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a90d91>func</span> <span style=color:#000>readNumbers</span>(<span style=color:#000>filename</span> <span style=color:#a90d91>string</span>) ([]<span style=color:#a90d91>int</span>, <span style=color:#a90d91>error</span>) {
+	<span style=color:#000>file</span>, <span style=color:#000>err</span> <span style=color:#000>:=</span> <span style=color:#000>os</span>.<span style=color:#000>Open</span>(<span style=color:#000>filename</span>)
+	<span style=color:#a90d91>if</span> <span style=color:#000>err</span> <span style=color:#000>!=</span> <span style=color:#a90d91>nil</span> {
+		<span style=color:#a90d91>return</span> <span style=color:#a90d91>nil</span>, <span style=color:#000>err</span>
+	}
+	<span style=color:#a90d91>defer</span> <span style=color:#000>file</span>.<span style=color:#000>Close</span>()
+
+	<span style=color:#a90d91>var</span> <span style=color:#000>numbers</span> []<span style=color:#a90d91>int</span>
+	<span style=color:#000>scanner</span> <span style=color:#000>:=</span> <span style=color:#000>bufio</span>.<span style=color:#000>NewScanner</span>(<span style=color:#000>file</span>)
+	<span style=color:#a90d91>for</span> <span style=color:#000>scanner</span>.<span style=color:#000>Scan</span>() {
+		<span style=color:#000>number</span>, <span style=color:#000>err</span> <span style=color:#000>:=</span> <span style=color:#000>strconv</span>.<span style=color:#000>Atoi</span>(<span style=color:#000>scanner</span>.<span style=color:#000>Text</span>())
+		<span style=color:#a90d91>if</span> <span style=color:#000>err</span> <span style=color:#000>!=</span> <span style=color:#a90d91>nil</span> {
+			<span style=color:#a90d91>return</span> <span style=color:#a90d91>nil</span>, <span style=color:#000>err</span>
+		}
+		<span style=color:#000>numbers</span> = <span style=color:#a90d91>append</span>(<span style=color:#000>numbers</span>, <span style=color:#000>number</span>)
+	}
+
+	<span style=color:#a90d91>if</span> <span style=color:#000>err</span> <span style=color:#000>:=</span> <span style=color:#000>scanner</span>.<span style=color:#000>Err</span>(); <span style=color:#000>err</span> <span style=color:#000>!=</span> <span style=color:#a90d91>nil</span> {
+		<span style=color:#a90d91>return</span> <span style=color:#a90d91>nil</span>, <span style=color:#000>err</span>
+	}
+
+	<span style=color:#a90d91>if</span> <span style=color:#000>err</span> <span style=color:#000>:=</span> <span style=color:#000>file</span>.<span style=color:#000>Close</span>(); <span style=color:#000>err</span> <span style=color:#000>!=</span> <span style=color:#a90d91>nil</span> {
+		<span style=color:#a90d91>return</span> <span style=color:#a90d91>nil</span>, <span style=color:#000>err</span>
+	}
+
+	<span style=color:#a90d91>return</span> <span style=color:#000>numbers</span>, <span style=color:#a90d91>nil</span>
+}
+</code></pre></div><h2 id=плохо--хорошо>Плохо / хорошо</h2>
+<p>Что плохо в этом коде? (помимо того, что он прямо умоляет разбить на несколько функций вместо одной жирной)</p>
+<ol>
+<li>Он уродливый.</li>
+<li>Тяжело понять происходящее, потому что обработка ошибок перемешана с основной логикой.</li>
+</ol>
+<p>А вот что хорошо:</p>
+<ol>
+<li>Видны все ситуации, в которых что-то может пойти не так.</li>
+<li>Пока пишешь код, го заставляет решить, что делать с каждой ошибкой.</li>
+</ol>
+<p>Серьёзный плюс, на самом деле. Необработанные ошибки создают огромное количество багов в программах на других языках. Го же тычет программисту в лицо ошибками и требует явно указать, что с ними делать.</p>
+<p>Но всегда ли это плюс? Обычно обработка ошибки происходит не там, где ошибка выброшена, а на более высоком уровне. Часто — на значительно более высоком. В го это приводит к постоянным «пробросам» ошибок наверх:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a90d91>if</span> <span style=color:#000>err</span> <span style=color:#000>!=</span> <span style=color:#a90d91>nil</span> {
+    <span style=color:#a90d91>return</span> <span style=color:#000>err</span>
+}
+</code></pre></div><p>Такой конструкцией переполнена любая программа на го. Ценность её нулевая, потому что это чисто техническая передача ошибки выше, выше и выше — до момента, когда она будет обработана.</p>
+<p>В языках с конструкцией <code>try-catch</code> такой костыль не нужен — достаточно поставить <code>catch</code> на том уровне, где ошибка будет обработана. При этом на более низких уровнях можно писать код так, как будто никаких ошибок нет — это делает программу проще для понимания и модификации.</p>
+<p>На питоне я могу сделать так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>try</span>:
+    <span style=color:#000>numbers</span> <span style=color:#000>=</span> <span style=color:#000>read_numbers</span>(<span style=color:#c41a16>&#34;numbers.txt&#34;</span>)
+<span style=color:#a90d91>except</span> <span style=color:#000>Exception</span> <span style=color:#a90d91>as</span> <span style=color:#000>exc</span>:
+    <span style=color:#a90d91>print</span>(<span style=color:#c41a16>f</span><span style=color:#c41a16>&#34;Failed to read numbers: </span><span style=color:#c41a16>{</span><span style=color:#000>exc</span><span style=color:#c41a16>}</span><span style=color:#c41a16>&#34;</span>)
+</code></pre></div><p>И не заботиться внутри <code>read_numbers()</code> об обработке ошибок. Если конкретная причина ошибки не важна, это нормальный подход.</p>
+<p>Го же вынуждает программиста возиться с каждой ошибкой — даже когда не надо. Роб Пайк сделал выбор за вас, живите с этим.</p>
+<h2 id=что-дальше>Что дальше</h2>
+<p>Думаю, авторы языка понимали лукавство утверждений о великолепии обработки ошибок в го. Именно этим можно объяснить их предложение добавить в Go 1.14 <a href=https://github.com/golang/go/issues/32437>функцию try</a>.</p>
+<p>Вместо:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000>f</span>, <span style=color:#000>err</span> <span style=color:#000>:=</span> <span style=color:#000>os</span>.<span style=color:#000>Open</span>(<span style=color:#000>filename</span>)
+<span style=color:#a90d91>if</span> <span style=color:#000>err</span> <span style=color:#000>!=</span> <span style=color:#a90d91>nil</span> {
+	<span style=color:#a90d91>return</span> <span style=color:#000>...</span>, <span style=color:#000>err</span>
+}
+</code></pre></div><p>Можно было бы писать так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#000>f</span> <span style=color:#000>:=</span> <span style=color:#000>try</span>(<span style=color:#000>os</span>.<span style=color:#000>Open</span>(<span style=color:#000>filename</span>))
+</code></pre></div><p>Сложно представить себе более ужасное решение. Оно несколько повышает читабельность кода, но полностью убивает то единственное, что есть хорошего в работе с ошибками в го — тот самый «explicit error checking», который «forces the programmer to think about errors».</p>
+<p>К счастью, волна недоумения от сообщества заставила авторов передумать:</p>
+<blockquote>
+<p>We still believe that error handling in Go is not perfect and can be meaningfully improved, but it is clear that we as a community need to talk more about what specific aspects of error handling are problems that we should address.</p>
+</blockquote>
+<p>Аминь.</p>
+<p>P.S. Результаты голосования:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<a href="tg://resolve?domain=thank_go&post=20"><img alt="Что думаете о работе с ошибками в Go?" src=go-errors-poll.png></a>
+<figcaption>Надо ли всё переписать на PHP 🤔</figcaption>
+</figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fab fa-telegram-plane"></i> «<a href="tg://resolve?domain=thank_go">Thank Go</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2020-06-04 14:11:07 +0000 UTC">04.06.2020</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/user-actions/>Как человек решает задачи в интерфейсе</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/removeprefix/>Python. Отрезать строке голову и хвост</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/packaging/>Как сделать классный Python-пакет</a></p>
+<p><a href=/makefile/>Автоматизация задач в Python-проекте</a></p>
+<p><a href=/iuliia/>Юлия → Iuliia. Всё о транслитерации</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

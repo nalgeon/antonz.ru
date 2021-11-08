@@ -1,0 +1,198 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Кросс-платформенная сборка с GitHub Actions</title>
+<meta name=description content="Если проект живет на GitHub, настройте за 10 минут авто-сборку под Windows, Linux и macOS.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/github-actions/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Кросс-платформенная сборка с GitHub Actions">
+<meta property="og:description" content="Если проект живет на GitHub, настройте за 10 минут авто-сборку под Windows, Linux и macOS.">
+<meta property="og:url" content="https://antonz.ru/github-actions/">
+<meta property="og:image" content="https://antonz.ru/github-actions/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Кросс-платформенная сборка с GitHub Actions">
+<meta name=twitter:description content="Если проект живет на GitHub, настройте за 10 минут авто-сборку под Windows, Linux и macOS.">
+<meta name=twitter:url content="https://antonz.ru/github-actions/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/github-actions/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Кросс-платформенная сборка с GitHub Actions</h1>
+</header>
+<p>Если проект живет на GitHub, можно за десять минут настроить авто-сборку под основные операционные системы — Windows, Linux и macOS.</p>
+<p>Раньше для сборки почти всегда использовали <a href=https://travis-ci.org/>Travis CI</a>, многие по инерции и сейчас так делают. Но есть способ лучше — <a href=https://github.com/features/actions>GitHub Actions</a>.</p>
+<p>GitHub Actions — невероятно мощный бесплатный сервис автоматизации любых задач. Грубо говоря, вы выполняете свой код на серверах Гитхаба и делаете там все, что заблагорассудится. Звучит диковато, но открывает бездну возможностей. В том числе — автоматическую сборку проекта под все ОС. Особенно приятно, что можно собирать под Windows.</p>
+<p>Вот как это работает:</p>
+<ol>
+<li>Создаете файл конфигурации.</li>
+</ol>
+<pre tabindex=0><code>mkdir -p .github/workflows
+touch .github/workflows/build.yml
+</code></pre><ol start=2>
+<li>Указываете условия запуска сборки.</li>
+</ol>
+<p>Например, собирать при каждом коммите:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>on</span>: <span style=color:#1c01ce>push</span>
+</code></pre></div><p>Или только из новых тегов:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>on</span>:
+  <span style=color:#000>push</span>:
+    <span style=color:#000>tags</span>:
+      - <span style=color:#c41a16>&#34;*&#34;</span>
+</code></pre></div><ol start=3>
+<li>Перечисляете операционные системы.</li>
+</ol>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>runs-on</span>: <span style=color:#1c01ce>${{ matrix.os }}</span>
+<span style=color:#000>strategy</span>:
+  <span style=color:#000>matrix</span>:
+    <span style=color:#000>include</span>:
+      - <span style=color:#000>os</span>: <span style=color:#1c01ce>ubuntu-latest</span>
+      - <span style=color:#000>os</span>: <span style=color:#1c01ce>windows-latest</span>
+      - <span style=color:#000>os</span>: <span style=color:#1c01ce>macos-latest</span>
+</code></pre></div><ol start=4>
+<li>Указываете шаги сборки.</li>
+</ol>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- <span style=color:#000>uses</span>: <span style=color:#1c01ce>actions/checkout@v2</span>
+
+- <span style=color:#000>name</span>: <span style=color:#1c01ce>Build for Linux</span>
+  <span style=color:#000>if</span>: <span style=color:#1c01ce>matrix.os == &#39;ubuntu-latest&#39;</span>
+  <span style=color:#000>run</span>: <span style=color:#1c01ce>gcc -fPIC -lm -shared src/stats.c -o dist/sqlite3-stats.so</span>
+
+- <span style=color:#000>name</span>: <span style=color:#1c01ce>Build for Windows</span>
+  <span style=color:#000>if</span>: <span style=color:#1c01ce>matrix.os == &#39;windows-latest&#39;</span>
+  <span style=color:#000>run</span>: <span style=color:#1c01ce>gcc -fPIC -lm -shared src/stats.c -o dist/sqlite3-stats.dll</span>
+
+- <span style=color:#000>name</span>: <span style=color:#1c01ce>Build for macOS</span>
+  <span style=color:#000>if</span>: <span style=color:#1c01ce>matrix.os == &#39;macos-latest&#39;</span>
+  <span style=color:#000>run</span>: <span style=color:#1c01ce>gcc -fno-common -dynamiclib src/stats.c -o dist/sqlite3-stats.dylib</span>
+</code></pre></div><p>Действие <code>actions/checkout</code> скачивает исходники, а на остальных шагах выполняются те команды, что указаны по тексту. В примере это сборка исходного кода на C с помощью <code>gcc</code>, но у вашего проекта может быть <code>npm run</code> для JS или <code>tox</code> для Python — то, что обычно используете для сборки.</p>
+<p>Если для вашего языка есть стандартный репозиторий пакетов вроде <code>npm</code> или <code>pypi</code> — здесь же можно опубликовать сборку. Если репозитория нет, можно опубликовать прямо на гитхабе с помощью действия <code>svenstaro/upload-release-action</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- <span style=color:#000>name</span>: <span style=color:#1c01ce>Upload binaries to release</span>
+  <span style=color:#000>uses</span>: <span style=color:#1c01ce>svenstaro/upload-release-action@v2</span>
+  <span style=color:#000>with</span>:
+    <span style=color:#000>repo_token</span>: <span style=color:#1c01ce>${{ secrets.GITHUB_TOKEN }}</span>
+    <span style=color:#000>file</span>: <span style=color:#1c01ce>dist/${{ matrix.artifact_name }}</span>
+    <span style=color:#000>asset_name</span>: <span style=color:#1c01ce>${{ matrix.asset_name }}</span>
+    <span style=color:#000>tag</span>: <span style=color:#1c01ce>${{ github.ref }}</span>
+</code></pre></div><ul>
+<li><a href=https://github.com/nalgeon/sqlite-stats/blob/main/.github/workflows/build.yml>Полный пример конфигурации</a></li>
+</ul>
+<ol start=5>
+<li>Коммитите изменения, пушите и наблюдаете результат на вкладке <em>Actions</em> репозитория на Гитхабе.</li>
+</ol>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Готово! Теперь Гитхаб трудится, а вы отдыхаете.</p>
+<p>Еще почитать:</p>
+<ul>
+<li><a href=https://docs.github.com/en/actions>Документация по GitHub Actions</a></li>
+<li><a href=https://docs.github.com/en/actions>Как сделать все что угодно вообще с GitHub Actions</a></li>
+</ul>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-02-11 13:34:09 +0000 UTC">11.02.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/median/>Медиана вместо среднего</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/simple-made-easy/>Простое против легкого</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/language-doc/>Плохая и хорошая документация языка</a></p>
+<p><a href=/go-errors/>Красавица и чудовище. Обработка ошибок в Go</a></p>
+<p><a href=/packaging/>Как сделать классный Python-пакет</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

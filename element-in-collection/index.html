@@ -1,0 +1,193 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Python. Проверить, входит ли элемент в коллекцию</title>
+<meta name=description content="С помощью списка, множества и фильтра Блума.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/element-in-collection/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python. Проверить, входит ли элемент в коллекцию">
+<meta property="og:description" content="С помощью списка, множества и фильтра Блума.">
+<meta property="og:url" content="https://antonz.ru/element-in-collection/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Python. Проверить, входит ли элемент в коллекцию">
+<meta name=twitter:description content="С помощью списка, множества и фильтра Блума.">
+<meta name=twitter:url content="https://antonz.ru/element-in-collection/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Python. Проверить, входит ли элемент в коллекцию</h1>
+</header>
+<p>Предположим, вы ведёте реестр монет. В нём записаны монетки всех времён, стран и достоинств. На вашем сайте любой может проверить, есть ли та или иная монета в реестре, и если нет — добавить её.</p>
+<p>Как проверить, есть ли монета в реестре?</p>
+<h2 id=список-очень-очень-медленно>Список: очень, очень медленно</h2>
+<p>Можно так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>coins</span> <span style=color:#000>=</span> [<span style=color:#c41a16>&#34;1 aud&#34;</span>, <span style=color:#c41a16>&#34;5 ars&#34;</span>, <span style=color:#c41a16>&#34;1 byn&#34;</span>, <span style=color:#c41a16>&#34;10 ghs&#34;</span>]
+
+<span style=color:#a90d91>def</span> <span style=color:#000>has</span>(<span style=color:#000>coin</span>):
+    <span style=color:#a90d91>return</span> <span style=color:#000>coin</span> <span style=color:#000>in</span> <span style=color:#000>coins</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>has</span>(<span style=color:#c41a16>&#34;1 byn&#34;</span>)
+<span style=color:#a90d91>True</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>has</span>(<span style=color:#c41a16>&#34;20 cny&#34;</span>)
+<span style=color:#a90d91>False</span>
+</code></pre></div><p>Конечно, так делать нехорошо. Операция <code>element in list</code> последовательно проверяет каждый элемент списка, то есть её сложность <code>O(n)</code>. Незаметно на маленьких списках, но если у вас в реестре 1 млн монет, а с сайта приходит по тысяче запросов в секунду — начнёт тормозить:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>import</span> <span style=color:#000>random</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>import</span> <span style=color:#000>timeit</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>list_</span> <span style=color:#000>=</span> [<span style=color:#a90d91>str</span>(<span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>random</span>()) <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#1c01ce>1_000_000</span>)]
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>elem</span> <span style=color:#000>=</span> <span style=color:#a90d91>str</span>(<span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>random</span>())
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>timeit</span><span style=color:#000>.</span><span style=color:#000>timeit</span>(<span style=color:#a90d91>lambda</span>: <span style=color:#000>elem</span> <span style=color:#000>in</span> <span style=color:#000>list_</span>, <span style=color:#000>number</span><span style=color:#000>=</span><span style=color:#1c01ce>1000</span>)
+<span style=color:#1c01ce>11.2</span>
+</code></pre></div><p>10 секунд на проверку тысячи элементов, пффф. Решение — использовать множества.</p>
+<h2 id=множество-очень-быстро-тяжеловесно>Множество: очень быстро, тяжеловесно</h2>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>set_</span> <span style=color:#000>=</span> <span style=color:#a90d91>set</span>(<span style=color:#a90d91>str</span>(<span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>random</span>()) <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#1c01ce>1_000_000</span>))
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>elem</span> <span style=color:#000>=</span> <span style=color:#a90d91>str</span>(<span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>random</span>())
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>timeit</span><span style=color:#000>.</span><span style=color:#000>timeit</span>(<span style=color:#a90d91>lambda</span>: <span style=color:#000>elem</span> <span style=color:#000>in</span> <span style=color:#000>set_</span>, <span style=color:#000>number</span><span style=color:#000>=</span><span style=color:#1c01ce>1000</span>)
+<span style=color:#1c01ce>0.00014</span>
+</code></pre></div><p>Операция <code>element in set</code> выполняется за <code>O(1)</code>. На множестве проверка отработала в несколько десятков тысяч раз быстрее, чем на списке.</p>
+<p>А что с памятью? Проверим:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>pympler</span> <span style=color:#a90d91>import</span> <span style=color:#000>asizeof</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>size_mb</span>(<span style=color:#000>obj</span>):
+    <span style=color:#a90d91>return</span> <span style=color:#a90d91>round</span>(<span style=color:#000>asizeof</span><span style=color:#000>.</span><span style=color:#000>asizeof</span>(<span style=color:#000>obj</span>) <span style=color:#000>/</span> <span style=color:#1c01ce>1024</span><span style=color:#000>**</span><span style=color:#1c01ce>2</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>size_mb</span>(<span style=color:#000>list_</span>)
+<span style=color:#1c01ce>77</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>size_mb</span>(<span style=color:#000>set_</span>)
+<span style=color:#1c01ce>101</span>
+</code></pre></div><p>Множество оказалось в 1.3 раза тяжелее списка. Ничего, для миллиона монеток хватит. Но что делать, если в коллекции один миллиард объектов, тоже всё в память запихивать?</p>
+<h2 id=фильтр-блума-быстро-легко-неуверенно>Фильтр Блума: быстро, легко, неуверенно</h2>
+<p>Для множества на 1 млн элементов получилось 140 микросекунд на 1000 проверок, 101 Мб в памяти.</p>
+<p>Что если элементов будет 1 млрд? Это уже около 100 Гб, не хотелось бы держать их в памяти. Устроил бы компромиссный вариант, который работает медленнее, но занимает меньше места.</p>
+<p>И он существует! Это фильтр Блума — специальная вероятностная структура данных. Она отвечает на вопрос «есть ли элемент в коллекции?» одним из двух вариантов:</p>
+<ul>
+<li>точно нет;</li>
+<li>возможно есть.</li>
+</ul>
+<p>Вот как это работает:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; from bloom_filter import BloomFilter
+&gt;&gt;&gt; bloom = BloomFilter(max_elements=1_000_000, error_rate=0.001)
+&gt;&gt;&gt; for el in set_:
+...   bloom.add(el)
+&gt;&gt;&gt; size_mb(bloom)
+3
+</code></pre><p>Фильтр Блума на 1 млн элементов с вероятностью ложно-положительного ответа 0.1% занимает всего 3 Мб (вместо 100 Мб «честного» множества). А что со скоростью?</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>timeit</span><span style=color:#000>.</span><span style=color:#000>timeit</span>(<span style=color:#a90d91>lambda</span>: <span style=color:#000>elem</span> <span style=color:#000>in</span> <span style=color:#000>bloom</span>, <span style=color:#000>number</span><span style=color:#000>=</span><span style=color:#1c01ce>1000</span>)
+<span style=color:#1c01ce>0.015</span>
+</code></pre></div><p>15 миллисекунд — в 100 раз медленнее, чем проверка по множеству, но всё ещё достаточно быстро (например, в сотни раз быстрее проверки по списку).</p>
+<p>Проверим на 1 млрд:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>bloom</span> <span style=color:#000>=</span> <span style=color:#000>BloomFilter</span>(<span style=color:#000>max_elements</span><span style=color:#000>=</span><span style=color:#1c01ce>1_000_000_000</span>, <span style=color:#000>error_rate</span><span style=color:#000>=</span><span style=color:#1c01ce>0.001</span>)
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>size_mb</span>(<span style=color:#000>bloom</span>)
+<span style=color:#1c01ce>3428</span>
+</code></pre></div><p>Три с лишним гигабайта, рост линейный. Чудес не бывает, но выигрыш по памяти в 30 раз при сохранении приемлемой скорости иногда может вам пригодиться.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=https://t.me/ohmypy>Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2020-07-30 16:05:51 +0000 UTC">30.07.2020</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/language-doc/>Плохая и хорошая документация языка</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/range/>Python. Грамотно работать с любым диапазоном</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/checkcache/>Зачем читать исходники стандартной библиотеки</a></p>
+<p><a href=/linecache/>Python. Прочитать произвольную строку из файла</a></p>
+<p><a href=/removeprefix/>Python. Отрезать строке голову и хвост</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

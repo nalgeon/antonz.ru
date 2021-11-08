@@ -1,0 +1,313 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Python. Кортеж здорового человека</title>
+<meta name=description content="С помощью collections.namedtuple">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/namedtuple/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python. Кортеж здорового человека">
+<meta property="og:description" content="С помощью collections.namedtuple">
+<meta property="og:url" content="https://antonz.ru/namedtuple/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Python. Кортеж здорового человека">
+<meta name=twitter:description content="С помощью collections.namedtuple">
+<meta name=twitter:url content="https://antonz.ru/namedtuple/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Python. Кортеж здорового человека</h1>
+</header>
+<p>Эта статья — об одном из лучших изобретений Python: именованном кортеже (namedtuple). Мы рассмотрим его приятные особенности, от известных до неочевидных. Уровень погружения в тему будет нарастать постепенно, так что, надеюсь, каждый найдёт для себя что-то интересное. Поехали!</p>
+<h2 id=введение>Введение</h2>
+<p>Наверняка вы сталкивались с ситуацией, когда нужно передать несколько свойств объекта одним куском. Например, информацию о домашнем питомце: тип, кличка и возраст.</p>
+<p>Часто создавать отдельный класс под это дело лень, и используют кортежи:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#1c01ce>3</span>)
+(<span style=color:#c41a16>&#34;fox&#34;</span>, <span style=color:#c41a16>&#34;Клер&#34;</span>, <span style=color:#1c01ce>7</span>)
+(<span style=color:#c41a16>&#34;parrot&#34;</span>, <span style=color:#c41a16>&#34;Питер&#34;</span>, <span style=color:#1c01ce>1</span>)
+</code></pre></div><p>Для большей наглядности подойдёт именованный кортеж — <code>collections.namedtuple</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>collections</span> <span style=color:#a90d91>import</span> <span style=color:#000>namedtuple</span>
+
+<span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#c41a16>&#34;type name age&#34;</span>)
+<span style=color:#000>frank</span> <span style=color:#000>=</span> <span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>3</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>frank</span><span style=color:#000>.</span><span style=color:#000>age</span>
+<span style=color:#1c01ce>3</span>
+</code></pre></div><p>Это все знают ツ А вот несколько менее известных особенностей:</p>
+<h2 id=быстрое-изменение-полей>Быстрое изменение полей</h2>
+<p>Что делать, если одно из свойств надо изменить? Френк стареет, а кортеж-то неизменяемый. Чтобы не пересоздавать его целиком, придумали метод <code>_replace()</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>frank</span><span style=color:#000>.</span><span style=color:#000>_replace</span>(<span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>4</span>)
+<span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;pigeon&#39;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;Френк&#39;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>4</span>)
+</code></pre></div><p>А если хотите сделать всю структуру изменяемой — <code>_asdict()</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>frank</span><span style=color:#000>.</span><span style=color:#000>_asdict</span>()
+<span style=color:#000>OrderedDict</span>([(<span style=color:#c41a16>&#39;type&#39;</span>, <span style=color:#c41a16>&#39;pigeon&#39;</span>), (<span style=color:#c41a16>&#39;name&#39;</span>, <span style=color:#c41a16>&#39;Френк&#39;</span>), (<span style=color:#c41a16>&#39;age&#39;</span>, <span style=color:#1c01ce>3</span>)])
+</code></pre></div><h2 id=автоматическая-замена-названий>Автоматическая замена названий</h2>
+<p>Допустим, вы импортируете данные из CSV и превращаете каждую строчку в кортеж. Названия полей взяли из заголовка CSV-файла. Но что-то идёт не так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#177500># headers = (&#34;name&#34;, &#34;age&#34;, &#34;with&#34;)</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#000>headers</span>)
+<span style=color:#000>ValueError</span>: <span style=color:#000>Type</span> <span style=color:#000>names</span> <span style=color:#000>and</span> <span style=color:#000>field</span> <span style=color:#000>names</span> <span style=color:#000>cannot</span> <span style=color:#000>be</span> <span style=color:#000>a</span> <span style=color:#000>keyword</span>: <span style=color:#c41a16>&#39;with&#39;</span>
+
+<span style=color:#177500># headers = (&#34;name&#34;, &#34;age&#34;, &#34;name&#34;)</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#000>headers</span>)
+<span style=color:#000>ValueError</span>: <span style=color:#000>Encountered</span> <span style=color:#000>duplicate</span> <span style=color:#000>field</span> <span style=color:#000>name</span>: <span style=color:#c41a16>&#39;name&#39;</span>
+</code></pre></div><p>Решение — аргумент <code>rename=True</code> в конструкторе:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#177500># headers = (&#34;name&#34;, &#34;age&#34;, &#34;with&#34;, &#34;color&#34;, &#34;name&#34;, &#34;food&#34;)</span>
+<span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#000>headers</span>, <span style=color:#000>rename</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>Pet</span><span style=color:#000>.</span><span style=color:#000>_fields</span>
+(<span style=color:#c41a16>&#39;name&#39;</span>, <span style=color:#c41a16>&#39;age&#39;</span>, <span style=color:#c41a16>&#39;_2&#39;</span>, <span style=color:#c41a16>&#39;color&#39;</span>, <span style=color:#c41a16>&#39;_4&#39;</span>, <span style=color:#c41a16>&#39;food&#39;</span>)
+</code></pre></div><p>«Неудачные» названия переименовались в соответствии с порядковыми номерами.</p>
+<h2 id=значения-по-умолчанию>Значения по умолчанию</h2>
+<p>Если у кортежа куча необязательных полей, всё равно приходится каждый раз перечислять их при создании объекта:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#c41a16>&#34;type name alt_name&#34;</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>Pet</span>(<span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#c41a16>&#34;Френк&#34;</span>)
+<span style=color:#000>TypeError</span>: <span style=color:#000>__new__</span>() <span style=color:#000>missing</span> <span style=color:#1c01ce>1</span> <span style=color:#000>required</span> <span style=color:#000>positional</span> <span style=color:#000>argument</span>: <span style=color:#c41a16>&#39;alt_name&#39;</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>Pet</span>(<span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#a90d91>None</span>)
+<span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;pigeon&#39;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;Френк&#39;</span>, <span style=color:#000>alt_name</span><span style=color:#000>=</span><span style=color:#a90d91>None</span>)
+</code></pre></div><p>Чтобы этого избежать, укажите в конструкторе аргумент <code>defaults</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#c41a16>&#34;type name alt_name&#34;</span>, <span style=color:#000>defaults</span><span style=color:#000>=</span>(<span style=color:#c41a16>&#34;нет&#34;</span>,))
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>Pet</span>(<span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#c41a16>&#34;Френк&#34;</span>)
+<span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;pigeon&#39;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;Френк&#39;</span>, <span style=color:#000>alt_name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;нет&#39;</span>)
+</code></pre></div><p><code>defaults</code> присваивает умолчательные значения с хвоста. Работает в питоне 3.7+</p>
+<p>Для старых версий можно более коряво добиться того же результата через прототип:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#c41a16>&#34;type name alt_name&#34;</span>)
+<span style=color:#000>default_pet</span> <span style=color:#000>=</span> <span style=color:#000>Pet</span>(<span style=color:#a90d91>None</span>, <span style=color:#a90d91>None</span>, <span style=color:#c41a16>&#34;нет&#34;</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>default_pet</span><span style=color:#000>.</span><span style=color:#000>_replace</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>)
+<span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;pigeon&#39;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;Френк&#39;</span>, <span style=color:#000>alt_name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;нет&#39;</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>default_pet</span><span style=color:#000>.</span><span style=color:#000>_replace</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;fox&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Клер&#34;</span>)
+<span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;fox&#39;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;Клер&#39;</span>, <span style=color:#000>alt_name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;нет&#39;</span>)
+</code></pre></div><p>Но с <code>defaults</code>, конечно, куда приятнее.</p>
+<h2 id=необычайная-лёгкость>Необычайная лёгкость</h2>
+<p>Одно из преимуществ именованного кортежа — легковесность. Армия из ста тысяч голубей займёт всего 10 мегабайт:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>collections</span> <span style=color:#a90d91>import</span> <span style=color:#000>namedtuple</span>
+<span style=color:#a90d91>import</span> <span style=color:#000>objsize</span>  <span style=color:#177500># 3rd party</span>
+
+<span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#c41a16>&#34;type name age&#34;</span>)
+<span style=color:#000>frank</span> <span style=color:#000>=</span> <span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#a90d91>None</span>)
+
+<span style=color:#000>pigeons</span> <span style=color:#000>=</span> [<span style=color:#000>frank</span><span style=color:#000>.</span><span style=color:#000>_replace</span>(<span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#000>idx</span>) <span style=color:#a90d91>for</span> <span style=color:#000>idx</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#1c01ce>100000</span>)]
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>round</span>(<span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>pigeons</span>)<span style=color:#000>/</span>(<span style=color:#1c01ce>1024</span><span style=color:#000>**</span><span style=color:#1c01ce>2</span>), <span style=color:#1c01ce>2</span>)
+<span style=color:#1c01ce>10.3</span>
+</code></pre></div><p>Для сравнения, если Pet сделать обычным классом, аналогичный список займёт уже 19 мегабайт.</p>
+<p>Так происходит, потому что обычные объекты в питоне таскают с собой увесистый дандер <code>__dict__</code>, в котором лежат названия и значения всех атрибутов объекта:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetObj</span>:
+    <span style=color:#a90d91>def</span> <span style=color:#000>__init__</span>(<span style=color:#5b269a>self</span>, <span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>):
+        <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>type</span> <span style=color:#000>=</span> <span style=color:#a90d91>type</span>
+        <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>name</span>
+        <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>age</span> <span style=color:#000>=</span> <span style=color:#000>age</span>
+
+<span style=color:#000>frank_obj</span> <span style=color:#000>=</span> <span style=color:#000>PetObj</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>3</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>frank_obj</span><span style=color:#000>.</span><span style=color:#000>__dict__</span>
+{<span style=color:#c41a16>&#39;type&#39;</span>: <span style=color:#c41a16>&#39;pigeon&#39;</span>, <span style=color:#c41a16>&#39;name&#39;</span>: <span style=color:#c41a16>&#39;Френк&#39;</span>, <span style=color:#c41a16>&#39;age&#39;</span>: <span style=color:#1c01ce>3</span>}
+</code></pre></div><p>Объекты-namedtuple же лишены этого словаря, а потому занимают меньше памяти:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>frank</span> <span style=color:#000>=</span> <span style=color:#000>Pet</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>3</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>frank</span><span style=color:#000>.</span><span style=color:#000>__dict__</span>
+<span style=color:#000>AttributeError</span>: <span style=color:#c41a16>&#39;Pet&#39;</span> <span style=color:#a90d91>object</span> <span style=color:#000>has</span> <span style=color:#000>no</span> <span style=color:#000>attribute</span> <span style=color:#c41a16>&#39;__dict__&#39;</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank_obj</span>)
+<span style=color:#1c01ce>335</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank</span>)
+<span style=color:#1c01ce>239</span>
+</code></pre></div><p>Но как именованному кортежу удалось избавиться от <code>__dict__</code>? Читайте дальше ツ</p>
+<h2 id=богатый-внутренний-мир>Богатый внутренний мир</h2>
+<p>Если вы давно работаете с питоном, то наверняка знаете: легковесный объект можно создать через дандер <code>__slots__</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetSlots</span>:
+    <span style=color:#000>__slots__</span> <span style=color:#000>=</span> (<span style=color:#c41a16>&#34;type&#34;</span>, <span style=color:#c41a16>&#34;name&#34;</span>, <span style=color:#c41a16>&#34;age&#34;</span>)
+  
+    <span style=color:#a90d91>def</span> <span style=color:#000>__init__</span>(<span style=color:#5b269a>self</span>, <span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>):
+        <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>type</span> <span style=color:#000>=</span> <span style=color:#a90d91>type</span>
+        <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>name</span>
+        <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>age</span> <span style=color:#000>=</span> <span style=color:#000>age</span>
+
+<span style=color:#000>frank_slots</span> <span style=color:#000>=</span> <span style=color:#000>PetSlots</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>3</span>)
+</code></pre></div><p>У «слотовых» объектов нет словаря с атрибутами, поэтому они занимают мало памяти. «Френк на слотах» такой же лёгкий, как «Френк на кортеже», смотрите:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank</span>)
+<span style=color:#1c01ce>239</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank_slots</span>)
+<span style=color:#1c01ce>231</span>
+</code></pre></div><p>Если вы решили, что namedtuple тоже использует слоты — это недалеко от истины. Как вы помните, конкретные классы-кортежи объявляются динамически:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>Pet</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Pet&#34;</span>, <span style=color:#c41a16>&#34;type name age&#34;</span>)
+</code></pre></div><p>Конструктор namedtuple применяет разную тёмную магию и генерит примерно такой класс (сильно упрощаю):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>Pet</span>(<span style=color:#a90d91>tuple</span>):
+    <span style=color:#000>__slots__</span> <span style=color:#000>=</span> ()
+  
+    <span style=color:#a90d91>type</span> <span style=color:#000>=</span> <span style=color:#a90d91>property</span>(<span style=color:#000>operator</span><span style=color:#000>.</span><span style=color:#000>itemgetter</span>(<span style=color:#1c01ce>0</span>))
+    <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#a90d91>property</span>(<span style=color:#000>operator</span><span style=color:#000>.</span><span style=color:#000>itemgetter</span>(<span style=color:#1c01ce>1</span>))
+    <span style=color:#000>age</span> <span style=color:#000>=</span> <span style=color:#a90d91>property</span>(<span style=color:#000>operator</span><span style=color:#000>.</span><span style=color:#000>itemgetter</span>(<span style=color:#1c01ce>2</span>))
+  
+    <span style=color:#a90d91>def</span> <span style=color:#000>__new__</span>(<span style=color:#5b269a>cls</span>, <span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>):
+        <span style=color:#a90d91>return</span> <span style=color:#a90d91>tuple</span><span style=color:#000>.</span><span style=color:#000>__new__</span>(<span style=color:#5b269a>cls</span>, (<span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>))
+</code></pre></div><p>То есть наш Pet — это обычный <code>tuple</code>, к которому гвоздями приколотили три метода-свойства:</p>
+<ul>
+<li><code>type</code> возвращает нулевой элемент кортежа</li>
+<li><code>name</code> — первый элемент кортежа</li>
+<li><code>age</code> — второй элемент кортежа</li>
+</ul>
+<p>А <code>__slots__</code> нужен только для того, чтобы объекты получились лёгкими. В результате Pet и занимает мало места, и может использоваться как обычный кортеж:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>frank</span><span style=color:#000>.</span><span style=color:#000>index</span>(<span style=color:#c41a16>&#34;Френк&#34;</span>)
+<span style=color:#1c01ce>1</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>type</span>, <span style=color:#000>_</span>, <span style=color:#000>_</span> <span style=color:#000>=</span> <span style=color:#000>frank</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>type</span>
+<span style=color:#c41a16>&#39;pigeon&#39;</span>
+</code></pre></div><p>Хитро придумано, а?</p>
+<h2 id=неуступает-дата-классам>Не уступает дата-классам</h2>
+<p>Раз уж мы заговорили о генерации кода. В питоне 3.7 появился убер-генератор кода, которому нет равных — дата-классы (dataclasses).</p>
+<p>Когда впервые видишь дата-класс, хочется перейти на новую версию языка только ради него:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>dataclasses</span> <span style=color:#a90d91>import</span> <span style=color:#000>dataclass</span>
+
+<span style=color:#000>@dataclass</span>
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetData</span>:
+    <span style=color:#a90d91>type</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>age</span>: <span style=color:#a90d91>int</span>
+</code></pre></div><p>Чудо как хорош! Но есть нюанс — он толстый:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>frank_data</span> <span style=color:#000>=</span> <span style=color:#000>PetData</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>3</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank_data</span>)
+<span style=color:#1c01ce>335</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank</span>)
+<span style=color:#1c01ce>239</span>
+</code></pre></div><p>Дата-класс генерит обычный питонячий класс, объекты которого изнемогают под тяжестью <code>__dict__</code>. Так что если вы начитываете из базы вагон строк и превращаете их в объекты, дата-классы — не лучший выбор.</p>
+<p>Но постойте, дата-класс ведь можно «заморозить», как кортеж. Может тогда он станет легче?</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>@dataclass</span>(<span style=color:#000>frozen</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>)
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetFrozen</span>:
+    <span style=color:#a90d91>type</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>age</span>: <span style=color:#a90d91>int</span>
+
+<span style=color:#000>frank_frozen</span> <span style=color:#000>=</span> <span style=color:#000>PetFrozen</span>(<span style=color:#a90d91>type</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;pigeon&#34;</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>age</span><span style=color:#000>=</span><span style=color:#1c01ce>3</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>objsize</span><span style=color:#000>.</span><span style=color:#000>get_deep_size</span>(<span style=color:#000>frank_frozen</span>)
+<span style=color:#1c01ce>335</span>
+</code></pre></div><p>Увы. Даже замороженный, он остался обычным увесистым объектом со словарём атрибутов. Так что если вам нужны лёгкие неизменяемые объекты (которые к тому же можно использовать как обычные кортежи) — namedtuple по-прежнему лучший выбор.</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Мне очень нравится именованный кортеж:</p>
+<ul>
+<li>честный iterable,</li>
+<li>динамическое объявление типов,</li>
+<li>именованный доступ к атрибутам,</li>
+<li>лёгкий и неизменяемый.</li>
+</ul>
+<p>И при этом реализован в 150 строк кода. Что ещё надо для счастья ツ</p>
+<p><em>Если хотите узнать больше о стандартной библиотеке Python — подписывайтесь на канал <a href=https://t.me/ohmypy>@ohmypy</a></em></p>
+<p><em><a href=https://habr.com/ru/post/438162/#comments>33 комментария</a></em></p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2019-02-01 11:52:24 +0000 UTC">01.02.2019</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/float-as-integer-ratio/>Python. Из десятичной дроби — в обычную</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/heapq-merge/>Python. Объединить отсортированные списки в один</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/float-as-integer-ratio/>Python. Из десятичной дроби — в обычную</a></p>
+<p><a href=/deque-maxlen/>Python. Хранить последние N объектов</a></p>
+<p><a href=/sum-gotcha/>Python. Подвох в функции sum()</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

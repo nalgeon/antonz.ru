@@ -1,0 +1,549 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Оконные функции: смещение</title>
+<meta name=description content="Сравниваем соседние значения и границы диапазона.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/window-offset/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Оконные функции: смещение">
+<meta property="og:description" content="Сравниваем соседние значения и границы диапазона.">
+<meta property="og:url" content="https://antonz.ru/window-offset/">
+<meta property="og:image" content="https://antonz.ru/window-offset/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Оконные функции: смещение">
+<meta name=twitter:description content="Сравниваем соседние значения и границы диапазона.">
+<meta name=twitter:url content="https://antonz.ru/window-offset/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/window-offset/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Оконные функции: смещение</h1>
+</header>
+<p><em>Это третья статья из серии <a href=/window-functions>Оконные функции в картинках</a>. Рекомендую не просто читать, а <a href=https://stepik.org/z/95367>проходить курс</a> — с ним знания превратятся в навыки.</em></p>
+<p>Сравнение со смещением — это когда мы смотрим, в чем разница между соседними значениями. Например, сравниваем страны, которые занимают 5 и 6 место в мировом рейтинге ВВП — сильно ли отличаются? А если сравнить 1 и 6 место?</p>
+<p>Сюда же попадают задачи, в которых мы сравниваем значение из набора с границами набора. Например, есть 100 лучших теннисисток мира. Мария Саккари занимает в рейтинге 20 место. Как ее показатели соотносятся с Эшли Бартли, которая занимает 1 место? А с Лин Чжоу, которая занимает 100 место?</p>
+<p>Мы будем сравнить сотрудников из таблички <code>employees</code>:</p>
+<pre tabindex=0><code>┌────┬──────────┬────────┬────────────┬────────┐
+│ id │   name   │  city  │ department │ salary │
+├────┼──────────┼────────┼────────────┼────────┤
+│ 11 │ Дарья    │ Самара │ hr         │ 70     │
+│ 12 │ Борис    │ Самара │ hr         │ 78     │
+│ 21 │ Елена    │ Самара │ it         │ 84     │
+│ 22 │ Ксения   │ Москва │ it         │ 90     │
+│ 23 │ Леонид   │ Самара │ it         │ 104    │
+│ 24 │ Марина   │ Москва │ it         │ 104    │
+│ 25 │ Иван     │ Москва │ it         │ 120    │
+│ 31 │ Вероника │ Москва │ sales      │ 96     │
+│ 32 │ Григорий │ Самара │ sales      │ 96     │
+│ 33 │ Анна     │ Москва │ sales      │ 100    │
+└────┴──────────┴────────┴────────────┴────────┘
+</code></pre><ul>
+<li><a href=#lag>сравнение с предыдущим</a>,</li>
+<li><a href=#nth>диапазон</a>,</li>
+<li><a href=#frame>окно, секция и фрейм</a>,</li>
+<li><a href=#functions>функции смещения</a>.</li>
+</ul>
+<p>Все запросы можно повторять <a href=https://antonz.org/sqliter/sandbox/#window.db>в песочнице</a>.</p>
+<h2 id=lag>Разница по зарплате с предыдущим</h2>
+<p>Упорядочим сотрудников по возрастанию зарплаты и проверим, велик ли разрыв между соседями:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Было</strong>
+<figure><img alt="Таблица сотрудников" src=window-employees.png style=max-height:269px></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Стало</strong>
+<figure><img alt="Разница с предыдущим" src=window-offset-lag.png></figure>
+</div>
+</div>
+<p>Столбец <code>diff</code> показывает, на сколько процентов зарплата сотрудника отличается от предыдущего коллеги. Видно, что больших разрывов нет. Самые крупные — между Дарьей и Борисом (10%) и Мариной и Иваном (13%).</p>
+<p>Как перейти от «было» к «стало»?</p>
+<p>Сначала отсортируем таблицу по возрастанию зарплаты:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>prev</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬────────────┬────────┬──────┐
+│   name   │ department │ salary │ prev │
+├──────────┼────────────┼────────┼──────┤
+│ Дарья    │ hr         │ 70     │      │
+│ Борис    │ hr         │ 78     │      │
+│ Елена    │ it         │ 84     │      │
+│ Ксения   │ it         │ 90     │      │
+│ Вероника │ sales      │ 96     │      │
+│ Григорий │ sales      │ 96     │      │
+│ Анна     │ sales      │ 100    │      │
+│ Леонид   │ it         │ 104    │      │
+│ Марина   │ it         │ 104    │      │
+│ Иван     │ it         │ 120    │      │
+└──────────┴────────────┴────────┴──────┘
+</code></pre><p>Теперь пройдем от первой строчки до последней, на каждом шаге «подтягивая» зарплату предыдущего сотрудника:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+1️⃣
+<figure><img alt="Шаг 1" src=offset-lag-03.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+2️⃣
+<figure><img alt="Шаг 2" src=offset-lag-04.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+3️⃣
+<figure><img alt="Шаг 3" src=offset-lag-05.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+4️⃣
+<figure><img alt="Шаг 4" src=offset-lag-06.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+5️⃣
+<figure><img alt="Шаг 5" src=offset-lag-07.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6 flex" style=align-items:center>
+<p>и так далее...</p>
+</div>
+</div>
+<p>Одной гифкой:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Смещение: сравнение с предыдущим" src=offset-lag.gif>
+</figure>
+</div>
+</div>
+<p>Видно, что окно в данном случае охватывает текущую и предыдущую запись. Оно сдвигается вниз на каждом шаге, скользит. Это логичная трактовка происходящего, и задать скользящее окно в SQL можно. Но у таких окон более сложный синтаксис, поэтому отложим их до статьи о скользящих агрегатах.</p>
+<p>Вместо этого возьмем более простое и знакомое нам окно — все записи, упорядоченные по возрастанию <code>salary</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>)
+</code></pre></div><div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Окно по всем записям" src=offset-lag-window.png>
+</figure>
+</div>
+</div>
+<p>А чтобы на каждом шаге подтягивать зарплату предыдущего сотрудника, будем использовать оконную функцию <code>lag()</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>lag</span>(<span style=color:#000>salary</span>, <span style=color:#1c01ce>1</span>) <span style=color:#000>over</span> <span style=color:#000>w</span>
+</code></pre></div><p>Функция <code>lag()</code> возвращает значение из указанного столбца, отстоящее от текущего на указанное количество записей назад. В нашем случае — <code>salary</code> от предыдущей записи.</p>
+<p>Добавим окно и оконную функцию в исходный запрос:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>id</span>, <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>,
+  <span style=color:#000>lag</span>(<span style=color:#000>salary</span>, <span style=color:#1c01ce>1</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>prev</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌────┬──────────┬────────────┬────────┬──────┐
+│ id │   name   │ department │ salary │ prev │
+├────┼──────────┼────────────┼────────┼──────┤
+│ 11 │ Дарья    │ hr         │ 70     │      │
+│ 12 │ Борис    │ hr         │ 78     │ 70   │
+│ 21 │ Елена    │ it         │ 84     │ 78   │
+│ 22 │ Ксения   │ it         │ 90     │ 84   │
+│ 31 │ Вероника │ sales      │ 96     │ 90   │
+│ 32 │ Григорий │ sales      │ 96     │ 96   │
+│ 33 │ Анна     │ sales      │ 100    │ 96   │
+│ 23 │ Леонид   │ it         │ 104    │ 100  │
+│ 24 │ Марина   │ it         │ 104    │ 104  │
+│ 25 │ Иван     │ it         │ 120    │ 104  │
+└────┴──────────┴────────────┴────────┴──────┘
+</code></pre><p>Столбец <code>prev</code> показывает зарплату предыдущего сотрудника. Осталось посчитать разницу между <code>prev</code> и <code>salary</code> в процентах:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>,
+  <span style=color:#000>round</span>(
+    (<span style=color:#000>salary</span> <span style=color:#000>-</span> <span style=color:#000>lag</span>(<span style=color:#000>salary</span>, <span style=color:#1c01ce>1</span>) <span style=color:#000>over</span> <span style=color:#000>w</span>)<span style=color:#000>*</span><span style=color:#1c01ce>100</span>.<span style=color:#1c01ce>0</span> <span style=color:#000>/</span> <span style=color:#000>salary</span>
+  ) <span style=color:#a90d91>as</span> <span style=color:#000>diff</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬────────────┬────────┬──────┐
+│   name   │ department │ salary │ diff │
+├──────────┼────────────┼────────┼──────┤
+│ Дарья    │ hr         │ 70     │      │
+│ Борис    │ hr         │ 78     │ 10.0 │
+│ Елена    │ it         │ 84     │ 7.0  │
+│ Ксения   │ it         │ 90     │ 7.0  │
+│ Вероника │ sales      │ 96     │ 6.0  │
+│ Григорий │ sales      │ 96     │ 0.0  │
+│ Анна     │ sales      │ 100    │ 4.0  │
+│ Леонид   │ it         │ 104    │ 4.0  │
+│ Марина   │ it         │ 104    │ 0.0  │
+│ Иван     │ it         │ 120    │ 13.0 │
+└──────────┴────────────┴────────┴──────┘
+</code></pre><p>Здесь мы заменили <code>prev</code> → <code>lag(salary, 1) over w</code>. Конструкцию вида <code>function_name(...) over window_name</code> движок заменяет на конкретное значение, которое вернула функция. Так что оконную функцию можно вызывать прямо внутри вычислений, и вы не раз встретите такие запросы в документации и примерах.</p>
+<h2 id=nth>Диапазон зарплат в департаменте</h2>
+<p>Посмотрим, как зарплата сотрудника соотносится с минимальной и максимальной зарплатой в его департаменте:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-5">
+<strong>Было</strong>
+<figure><img alt="Таблица сотрудников" src=window-employees.png></figure>
+</div>
+<div class="col-xs-12 col-sm-7">
+<strong>Стало</strong>
+<figure><img alt="Диапазон зарплат в департаменте" src=window-offset-first-last.png style=max-height:241px></figure>
+</div>
+</div>
+<p>Для каждого сотрудника столбец <code>low</code> показывает минимальную зарплату родного департамента, а столбец <code>high</code> — максимальную.</p>
+<p>Как перейти от «было» к «стало»?</p>
+<p>Сначала отсортируем таблицу по департаментам, а внутри департамента — по возрастанию зарплаты:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>low</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>high</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>, <span style=color:#000>salary</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬────────────┬────────┬─────┬──────┐
+│   name   │ department │ salary │ low │ high │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Дарья    │ hr         │ 70     │     │      │
+│ Борис    │ hr         │ 78     │     │      │
+│ Елена    │ it         │ 84     │     │      │
+│ Ксения   │ it         │ 90     │     │      │
+│ Леонид   │ it         │ 104    │     │      │
+│ Марина   │ it         │ 104    │     │      │
+│ Иван     │ it         │ 120    │     │      │
+│ Вероника │ sales      │ 96     │     │      │
+│ Григорий │ sales      │ 96     │     │      │
+│ Анна     │ sales      │ 100    │     │      │
+└──────────┴────────────┴────────┴─────┴──────┘
+</code></pre><p>Теперь пройдем от первой строчки до последней, на каждом шаге «подтягивая» наименьшую и наибольшую зарплаты в отделе:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+1️⃣
+<figure><img alt="Шаг 1" src=offset-nth-03.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+2️⃣
+<figure><img alt="Шаг 2" src=offset-nth-04.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+3️⃣
+<figure><img alt="Шаг 3" src=offset-nth-05.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+4️⃣
+<figure><img alt="Шаг 4" src=offset-nth-06.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+5️⃣
+<figure><img alt="Шаг 5" src=offset-nth-07.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6 flex" style=align-items:center>
+<p>и так далее...</p>
+</div>
+</div>
+<p>Одной гифкой:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Смещение: границы секции" src=offset-nth.gif>
+</figure>
+</div>
+</div>
+<p>Окно состоит из трех секций. Секция на каждом шаге охватывает весь департамент сотрудника. Записи при этом упорядочены по возрастанию зарплаты внутри департамента, чтобы минимальная и максимальная зарплаты всегда находились на границах секции:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>
+)
+</code></pre></div><p>Хотелось бы воспользоваться функциями <code>lag()</code> и <code>lead()</code>, чтобы получить диапазон зарплат в отделе. Но они заглядывают на фиксированное количество записей назад или вперед. Нам же требуется нечто другое:</p>
+<ul>
+<li><code>low</code> — зарплата первого сотрудника, входящего в секцию окна;</li>
+<li><code>high</code> — зарплата последнего сотрудника, входящего в секцию.</li>
+</ul>
+<p>К счастью, есть оконные функции ровно для этого:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>first_value</span>(<span style=color:#000>salary</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>low</span>,
+<span style=color:#000>last_value</span>(<span style=color:#000>salary</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>high</span>
+</code></pre></div><p>Добавим окно и оконную функцию в исходный запрос:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>,
+  <span style=color:#000>first_value</span>(<span style=color:#000>salary</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>low</span>,
+  <span style=color:#000>last_value</span>(<span style=color:#000>salary</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>high</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>
+)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>, <span style=color:#000>salary</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬────────────┬────────┬─────┬──────┐
+│   name   │ department │ salary │ low │ high │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Дарья    │ hr         │ 70     │ 70  │ 70   │
+│ Борис    │ hr         │ 78     │ 70  │ 78   │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Елена    │ it         │ 84     │ 84  │ 84   │
+│ Ксения   │ it         │ 90     │ 84  │ 90   │
+│ Леонид   │ it         │ 104    │ 84  │ 104  │
+│ Марина   │ it         │ 104    │ 84  │ 104  │
+│ Иван     │ it         │ 120    │ 84  │ 120  │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Вероника │ sales      │ 96     │ 96  │ 96   │
+│ Григорий │ sales      │ 96     │ 96  │ 96   │
+│ Анна     │ sales      │ 100    │ 96  │ 100  │
+└──────────┴────────────┴────────┴─────┴──────┘
+</code></pre><p><code>low</code> рассчитался корректно, а вот с <code>high</code> какая-то ерунда. Вместо того, чтобы равняться максимальной зарплате департамента, он меняется от сотрудника к сотруднику. Что ж, давайте разбираться.</p>
+<h2 id=frame>Окно, секция, фрейм</h2>
+<p>До сих пор все было логично:</p>
+<ul>
+<li>есть окно, которое состоит из одной или нескольких секций;</li>
+<li>внутри секции записи упорядочены по конкретному столбцу.</li>
+</ul>
+<p>На предыдущем шаге мы разделили окно на три секции — по департаментам, и упорядочили записи внутри секций по зарплате:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>
+)
+</code></pre></div><p>Допустим, движок выполняет запрос, и текущая запись — Леонид из it-отдела. Мы ожидаем, что <code>first_value()</code> вернет первую запись it-секции (<code>salary = 84</code>), а <code>last_value()</code> — последнюю (<code>salary = 120</code>):</p>
+<p>Вместо этого <code>last_value()</code> возвращает <code>salary = 104</code>:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Ожидание</strong>
+<figure><img alt="Ожидаемый last_value" src=window-fl-expected.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Реальность</strong>
+<figure><img alt="Реальный last_value" src=window-fl-actual.png></figure>
+</div>
+</div>
+<p>Дело в том, что функции <code>first_value()</code> и <code>last_value()</code> работают не просто с секцией окна. Они работают с <em>фреймом</em> внутри секции:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм внутри секции" src=window-frame.png></figure>
+</div>
+</div>
+<p>Фрейм находится в той же секции, где текущая запись (Леонид):</p>
+<ul>
+<li>начало фрейма = начало секции (Елена);</li>
+<li>конец фрейма = последняя запись со значением <code>salary</code>, равным текущей записи (Марина).</li>
+</ul>
+<p>Секция фиксирована, фрейм же зависит от текущей записи и постоянно меняется:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Секция</strong>
+<figure><img alt=Секция src=offset-partition.gif></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Фрейм</strong>
+<figure><img alt=Фрейм src=offset-frame-1.gif></figure>
+</div>
+</div>
+<p><code>first_value()</code> возвращает первую строчку фрейма, а не секции. Но поскольку начало фрейма совпадает с началом секции, функция отрабатывает как мы ожидали.</p>
+<p><code>last_value()</code> возвращает последнюю строчку фрейма, а не секции. Именно поэтому в нашем запросе она вернула не максимальную зарплату для каждого отдела, а какую-то ерунду.</p>
+<p>Чтобы <code>last_value()</code> работала как мы ожидаем, придется «прибить» границы фрейма к границам секции. Тогда для каждой секции фрейм будет в точности совпадать с ней:</p>
+<div class=row>
+<div class=col-xs-12>
+<figure><img alt="Фрейм совпадает с секцией" src=window-partition-frame.png></figure>
+</div>
+</div>
+<p><strong>Зачем так сложно-то?</strong> 🤦 <em>Если возникла такая реакция — прекрасно вас понимаю. От фреймов есть польза, но зачем авторы стандарта SQL сделали такое неочевидное поведение по умолчанию — я не знаю. Остается только понять и простить.</em></p>
+<p>Подытожим принцип, по которому работают <code>first_value()</code> и <code>last_value()</code>:</p>
+<ol>
+<li>Есть <em>окно</em>, которое состоит из одной или нескольких <em>секций</em> (<code>partition by department</code>).</li>
+<li>Внутри секции записи упорядочены по конкретному столбцу (<code>order by salary</code>).</li>
+<li>У каждой записи в секции свой <em>фрейм</em>. По умолчанию начало фрейма совпадает с началом секции, а конец для каждой записи свой.</li>
+<li>Конец фрейма можно приклеить к концу секции, чтобы фрейм в точности совпадал с секцией.</li>
+<li>Функция <code>first_value()</code> возвращает значение из первой строки фрейма.</li>
+<li>Функция <code>last_value()</code> возвращает значение из последней строки фрейма.</li>
+</ol>
+<p>Теперь разберемся, как прибить фрейм к окну — и закончим с запросом по диапазону зарплат в департаментах.</p>
+<h2 id=nth-continued>Диапазон зарплат в департаменте, окончание</h2>
+<p>Возьмем наше окно:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>
+)
+</code></pre></div><p>И настроим его, чтобы фрейм в точности совпадал с секцией (департаментом):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>
+  <span style=color:#a90d91>rows</span> <span style=color:#a90d91>between</span> <span style=color:#000>unbounded</span> <span style=color:#000>preceding</span> <span style=color:#a90d91>and</span> <span style=color:#000>unbounded</span> <span style=color:#000>following</span>
+)
+</code></pre></div><p>Не будем сейчас разбирать конструкцию <code>rows between</code> — ее время придет в статье про скользящие агрегаты. Важно, что благодаря ей фрейм совпадает с секцией, а значит <code>last_value()</code> вернет максимальную зарплату по департаменту:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>name</span>, <span style=color:#000>department</span>, <span style=color:#000>salary</span>,
+  <span style=color:#000>first_value</span>(<span style=color:#000>salary</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>low</span>,
+  <span style=color:#000>last_value</span>(<span style=color:#000>salary</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>high</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>employees</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#000>partition</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>salary</span>
+  <span style=color:#a90d91>rows</span> <span style=color:#a90d91>between</span> <span style=color:#000>unbounded</span> <span style=color:#000>preceding</span> <span style=color:#a90d91>and</span> <span style=color:#000>unbounded</span> <span style=color:#000>following</span>
+)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>department</span>, <span style=color:#000>salary</span>, <span style=color:#000>id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬────────────┬────────┬─────┬──────┐
+│   name   │ department │ salary │ low │ high │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Дарья    │ hr         │ 70     │ 70  │ 78   │
+│ Борис    │ hr         │ 78     │ 70  │ 78   │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Елена    │ it         │ 84     │ 84  │ 120  │
+│ Ксения   │ it         │ 90     │ 84  │ 120  │
+│ Леонид   │ it         │ 104    │ 84  │ 120  │
+│ Марина   │ it         │ 104    │ 84  │ 120  │
+│ Иван     │ it         │ 120    │ 84  │ 120  │
+├──────────┼────────────┼────────┼─────┼──────┤
+│ Вероника │ sales      │ 96     │ 96  │ 100  │
+│ Григорий │ sales      │ 96     │ 96  │ 100  │
+│ Анна     │ sales      │ 100    │ 96  │ 100  │
+└──────────┴────────────┴────────┴─────┴──────┘
+</code></pre><p>Теперь движок заполняет <code>low</code> и <code>high</code> так же, как мы делали это вручную.</p>
+<h2 id=functions>Функции смещения</h2>
+<table>
+<tbody>
+<tr>
+<td class=nowrap><code>lag(value, offset)</code></td>
+<td>значение <code>value</code> из строки, отстоящей на <code>offset</code> строк назад от текущей</td>
+</tr>
+<tr>
+<td class=nowrap><code>lead(value, offset)</code></td>
+<td>значение <code>value</code> из строки, отстоящей на <code>offset</code> строк вперед от текущей</td>
+</tr>
+<tr>
+<td class=nowrap><code>first_value(value)</code></td>
+<td>значение <code>value</code> из первой строки фрейма</td>
+</tr>
+<tr>
+<td class=nowrap><code>last_value(value)</code></td>
+<td>значение <code>value</code> из последней строки фрейма</td>
+</tr>
+<tr>
+<td class=nowrap><code>nth_value(value, n)</code></td>
+<td>значение <code>value</code> из <code>n</code>-й строки фрейма</td>
+</tr>
+</tbody>
+</table>
+<p><code>lag()</code> и <code>lead()</code> действуют относительно текущей строки, заглядывая вперед или назад на указанное количество строк.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="lag и lead" src=window-lag-lead.png>
+</figure>
+</div>
+</div>
+<p><code>first_value()</code>, <code>last_value()</code> и <code>nth_value()</code> действуют относительно границ фрейма, выбирая указанную строку в пределах фрейма.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="first_value и last_value" src=window-first-last.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt=nth_value src=window-nth.png></figure>
+</div>
+</div>
+<p>Чтобы границы фрейма совпадали с границами секции (или всего окна, если секция одна) — используют конструкцию <code>rows between unbounded preceding and unbounded following</code> в определении окна.</p>
+<p class=text-centered>⌘ ⌘ ⌘</p>
+<p>Мы разобрались, как сравнивать строки с соседями и границами окна. В <a href=/window-aggregate/>следующей части</a> займемся агрегацией данных!</p>
+<p>Чтобы закрепить знания на практике — <a href=https://stepik.org/z/95367><strong>записывайтесь на курс</strong></a> 🚀</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-04-19 09:49:43 +0000 UTC">19.04.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/dataviz-guide/>Книга по визуализации данных</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/cheat-sh/>​Шпаргалки как альтернатива man</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/lets-sql/>Всем SQL</a></p>
+<p><a href=/window-ranking/>Оконные функции: ранжирование</a></p>
+<p><a href=/window-functions/>Оконные функции в картинках</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

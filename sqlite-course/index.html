@@ -1,0 +1,259 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>SQLite для аналитики</title>
+<meta name=description content="Как работать с данными без экселя и pandas.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/sqlite-course/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQLite для аналитики">
+<meta property="og:description" content="Как работать с данными без экселя и pandas.">
+<meta property="og:url" content="https://antonz.ru/sqlite-course/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/sqliter-2.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="SQLite для аналитики">
+<meta name=twitter:description content="Как работать с данными без экселя и pandas.">
+<meta name=twitter:url content="https://antonz.ru/sqlite-course/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/sqliter-2.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>SQLite для аналитики</h1>
+</header>
+<p><em>Я сделал интерактивный курс по прикладному анализу данных в SQLite. В этой заметке расскажу о нем и покажу, что внутри.</em></p>
+<p>Аналитики, разработчики и тестировщики часто работают с наборами данных. Посчитать статистику продаж в разных измерениях, преобразовать и «почистить» JSON неудобной структуры, найти проблемы в 500-мегабайтном логе nginx — похожие задачи приходится решать постоянно.</p>
+<p>Чтобы проанализировать или преобразовать данные, часто используют Excel или библиотеки вроде pandas. Это неплохие инструменты: Excel удобен для самых простых задач, а pandas отлично подойдёт, как только вы посвятите ему первые 1000 часов.</p>
+<p>Но есть ещё один инструмент. Намного мощнее Excel, проще и выразительнее pandas. Это SQLite — полноценная СУБД, которая не требует настройки и администрирования. SQLite использует SQL — язык, специально созданный для обработки данных — и добавляет к нему кучу приятных возможностей.</p>
+<ul>
+<li><a href=#about>о чем курс</a></li>
+<li><a href=#syllabus>содержание</a></li>
+<li><a href=#inside>что внутри</a></li>
+<li><a href=#lessons>как проходят занятия</a></li>
+<li><a href=#pricing>стоимость</a></li>
+</ul>
+<h2 id=about>О чем и для кого</h2>
+<p>Курс расскажет, как использовать SQLite для повседневной работы с данными:</p>
+<ul>
+<li>Быстро проанализировать большой набор данных и найти неочевидные закономерности.</li>
+<li>Построить сводный отчет из нескольких источников, с группировками и аналитическими функциями.</li>
+<li>Загрузить, преобразовать и выгрузить данные в нужном формате.</li>
+<li>Удобно работать с JSON-документами.</li>
+</ul>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<figure>
+<img alt="SQLite на практике" src=sqlite-promo.png>
+</figure>
+</div>
+</div>
+<p>Курс для вас, если:</p>
+<ul>
+<li>✔️ Вы устали от возни с экселем или не хотите запоминать тысячу и одну команду pandas.</li>
+<li>✔️ Уже знаете SQL и не хотите учить ещё один язык или библиотеку, чтобы решать повседневные задачи.</li>
+<li>✔️ Хотите раз и навсегда освоить универсальный инструмент работы с данными.</li>
+<li>✔️ Думаете, что SQLite — «игрушечная» СУБД, не пригодная для реальных задач.</li>
+</ul>
+<p>Курс не подойдет, если:</p>
+<ul>
+<li>❌ Вы совсем не знаете SQL.</li>
+<li>❌ Не готовы работать с командной строкой.</li>
+</ul>
+<p>Курс исключительно практический. Мы не будем разбирать пять вариантов конструкции FOREIGN KEY ON DELETE, уровни изоляции транзакций или разницу между нормальными формами. Вместо этого сфокусируемся на конкретных задачах — так вы сразу сможете применять знания в работе.</p>
+<p>Вы сможете использовать SQLite на практике уже после первого модуля. А если пройдете курс до конца — SQLite превратится для вас в универсальный инструмент, которые подходит почти для любых задач.</p>
+<p>Курс интерактивный. Упражнения можно выполнять прямо в браузере, не нужно ничего скачивать или устанавливать. Когда немного освоитесь — повторите их в консоли.</p>
+<p>Навыки программирования не требуются.</p>
+<h2 id=syllabus>Содержание</h2>
+<ol>
+<li><strong>Основы SQLite</strong>. Загружаем датасет, вспоминаем SQL, выгружаем в CSV.</li>
+<li><strong>Очистка данных</strong>. «Причесываем» проблемные данные и разбираемся с типами.</li>
+<li><strong>Связи в данных</strong>. Соединяем, объединяем и пересекаем таблицы в наборе данных.</li>
+<li><strong>Данные → знания</strong>. Считаем среднее, процентили, распределение и корреляцию. Анализируем текст.</li>
+<li><strong>JSON</strong>. Нативно работаем с JSON-документами и нереляционными структурами данных.</li>
+<li><strong>Большие наборы</strong>. Эффективно работаем с увесистыми таблицами.</li>
+<li><strong>Оконные функции</strong>. Осваиваем продвинутые аналитические функции для классных отчетов.</li>
+</ol>
+<h2 id=inside>Что внутри</h2>
+<p>Вот несколько инсайдов:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<a href=sqlite-lesson.png class=img-link target=_blank><img alt="Чистим данные" src=sqlite-lesson.png></a>
+<figcaption class=text-centered>Учимся приводить данные в порядок</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<a href=sqlite-question.png class=img-link target=_blank><img alt=Задачка src=sqlite-question.png></a>
+<figcaption class=text-centered>Задачка на агрегацию данных</figcaption>
+</figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<a href=sqlite-playground.png class=img-link target=_blank><img alt=Песочница src=sqlite-playground.png></a>
+<figcaption class=text-centered>Интерактивная песочница в браузере</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<a href=sqlite-types.png class=img-link target=_blank><img alt="Типы данных" src=sqlite-types.png></a>
+<figcaption class=text-centered>Шпаргалка по типам данных</figcaption>
+</figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Связи в данных" src=sqlite-icons.png>
+<figcaption class=text-centered>Уроки одного из модулей</figcaption>
+</figure>
+</div>
+</div>
+<h2 id=lessons>Как проходят занятия</h2>
+<p>Курс проходит на «Степике» — это лучшая образовательная платформа в рунете. Собран из модулей, каждый модуль — отдельная большая тема: например, «JSON» или «оконные функции». Модуль состоит из 5–6 уроков. Урок состоит из лекции и нескольких практических заданий.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<img alt="Курс состоит из модулей" src=sqlite-modules.png>
+</div>
+</div>
+<p>Практические задания участники выполняют в интерактивной песочнице. Ответы проверяются автоматически, ждать не придется. Если что-то не получается — участники задают вопросы в комментариях к заданию, я отвечаю.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-4">
+<img alt="Урок состоит из шагов" src=sqlite-steps.png>
+</div>
+</div>
+<p>Лекции письменные, видео нет. Я умею понятно объяснять сложные вещи, так что читать их приятно. Много примеров и картинок, нет сухой теории. В конце каждого модуля идет краткое резюме.</p>
+<p>Прохождение модуля занимает 2–4 часа, зависит от вашей подготовки. Весь курс займет 15–30 часов.</p>
+<h2 id=reviews>Отзывы</h2>
+<p>Прямо сейчас курс проходят 130 человек, 20 уже закончили и получили сертификат. Вот некоторые отзывы:</p>
+<blockquote>
+<p>Искал для себя способ быстро освоить sqlite, чтобы научиться часть обработки данных переводить из Python на уровень СУБД. Курс идеально соответствует цели.</p>
+</blockquote>
+<br>
+<blockquote>
+<p>Курс оправдал все ожидания и даже больше. Вся информация - с большим уважением к слушателю и огромной любовью к предмету изучения, разложена по полочкам. При этом, чтобы до них дотянуться, нужно все-таки поработать.</p>
+</blockquote>
+<br>
+<blockquote>
+<p>Это точно курс не для совсем начинающих (о чём автор вовремя предупреждает), но это отличный материал для тех кто «как-то умеет в sql, но бессистемно».</p>
+</blockquote>
+<br>
+<blockquote>
+<p>Можно порекомендовать любому, кому приходится анализировать больше пары табличек, и есть базовые знания SQL.</p>
+</blockquote>
+<h2 id=pricing>Стоимость и участие</h2>
+<p>Курс состоит из семи модулей и экзамена. Это 47 уроков и 130 практических заданий. Если наберете 80% баллов — получите сертификат, 90% баллов — сертификат с отличием.</p>
+<p>Стоимость — <strong>3000</strong> ₽. Первый модуль доступен бесплатно.</p>
+<p><a class=button href=https://stepik.org/z/90778>Перейти к курсу</a></p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-01-12 11:45:44 +0000 UTC">12.01.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+<a href=https://antonz.ru/tags/project/>проекты</a>&nbsp;
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/status-page/>Аптайм на статус-странице</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/comments/>Сила комментария</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/iuliia/>Юлия → Iuliia. Всё о транслитерации</a></p>
+<p><a href=/ohmypy/>Oh My Py — всё о стандартной библиотеке Python</a></p>
+<p><a href=/sin/>Финал «Интерфейсов без шелухи»</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

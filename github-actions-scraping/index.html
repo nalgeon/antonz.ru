@@ -1,0 +1,195 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Собираем открытые данные с GitHub Actions</title>
+<meta name=description content="Как собрать данные из API, опубликовать датасет на гитхабе и автоматически актуализировать.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/github-actions-scraping/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Собираем открытые данные с GitHub Actions">
+<meta property="og:description" content="Как собрать данные из API, опубликовать датасет на гитхабе и автоматически актуализировать.">
+<meta property="og:url" content="https://antonz.ru/github-actions-scraping/">
+<meta property="og:image" content="https://antonz.ru/github-actions-scraping/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Собираем открытые данные с GitHub Actions">
+<meta name=twitter:description content="Как собрать данные из API, опубликовать датасет на гитхабе и автоматически актуализировать.">
+<meta name=twitter:url content="https://antonz.ru/github-actions-scraping/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/github-actions-scraping/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Собираем открытые данные с GitHub Actions</h1>
+</header>
+<p>GitHub Actions чаще всего используют для сборки и тестов, но вообще сервис подходит для любой автоматизации.</p>
+<p>В этой заметке я расскажу:</p>
+<ul>
+<li>как собрать данные из API,</li>
+<li>опубликовать датасет на гитхабе,</li>
+<li>и автоматически актуализировать.</li>
+</ul>
+<p>В результате получится идеальный инструмент для сбора и публикации открытых данных.</p>
+<p>Будем работать с API станций метро, которое предоставляет <a href=https://github.com/hhru/api>HeadHunter</a>. Я буду приводить фрагменты конфига для GitHub Actions, а в конце дам ссылку на готовый репозиторий. Поехали!</p>
+<h2 id=1-собрать-данные-изapi>1. Собрать данные из API</h2>
+<p>Получаем сырой JSON от API, красиво форматируем, сохраняем в файл:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- <span style=color:#000>name</span>: <span style=color:#1c01ce>Fetch latest data</span>
+  <span style=color:#000>run</span>: |-<span style=color:#c41a16>
+</span><span style=color:#c41a16>      </span>      <span style=color:#1c01ce>curl https://api.hh.ru/metro | jq --indent 4 . &gt; data/metro.json</span>
+</code></pre></div><h2 id=2-опубликовать-датасет-нагитхабе>2. Опубликовать датасет на гитхабе</h2>
+<p>Коммитим от имени специального пользователя <code>actions@users.noreply.github.com</code> — его можно использовать в сценариях GitHub Actions:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- <span style=color:#000>name</span>: <span style=color:#1c01ce>Commit and push if changed</span>
+  <span style=color:#000>run</span>: |-<span style=color:#c41a16>
+</span><span style=color:#c41a16>      git config user.name &#34;Automated&#34;
+</span><span style=color:#c41a16>      git config user.email &#34;actions@users.noreply.github.com&#34;
+</span><span style=color:#c41a16>      git add -A
+</span><span style=color:#c41a16>      timestamp=$(date --rfc-3339=seconds --utc)
+</span><span style=color:#c41a16>      git commit -m &#34;Latest data: ${timestamp}&#34; || exit 0
+</span><span style=color:#c41a16>      git push</span>      
+</code></pre></div><p>Бонусом получаем автоматическую проверку, изменились ли данные с предыдущего запуска. Если не изменились, команда <code>git add -A</code> ничего не добавит, и коммит не произойдет. Таким образом, новая версия датасета опубликуется, только если есть изменения.</p>
+<h2 id=3-автоматически-актуализировать>3. Автоматически актуализировать</h2>
+<p>Сценарий запускается по расписанию, как указано в cron-выражении. Здесь — в 23:00 UTC каждый день:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>on</span>:
+    <span style=color:#000>push</span>:
+    <span style=color:#000>workflow_dispatch</span>:
+    <span style=color:#000>schedule</span>:
+        - <span style=color:#000>cron</span>: <span style=color:#c41a16>&#34;00 23 * * *&#34;</span>
+</code></pre></div><h2 id=4-бонус-json--csv>4. Бонус: JSON → CSV</h2>
+<p>JSON — это замечательно, но неплохо бы публиковать датасет еще и в CSV. В этом поможет SQLite, который умеет нативно работать с JSON.</p>
+<p>Создаем таблицу:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>create</span> <span style=color:#a90d91>table</span> <span style=color:#000>city</span> (
+    <span style=color:#000>id</span> <span style=color:#a90d91>text</span>,
+    <span style=color:#000>name</span> <span style=color:#a90d91>text</span>,
+    <span style=color:#000>url</span> <span style=color:#a90d91>text</span>,
+    <span style=color:#000>fullkey</span>
+);
+</code></pre></div><p>Загружаем данные из JSON:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>insert</span> <span style=color:#a90d91>into</span> <span style=color:#000>city</span> (<span style=color:#000>id</span>, <span style=color:#000>name</span>, <span style=color:#000>url</span>, <span style=color:#000>fullkey</span>)
+<span style=color:#a90d91>select</span>
+   <span style=color:#000>json_extract</span>(<span style=color:#000>value</span>, <span style=color:#c41a16>&#39;$.id&#39;</span>) <span style=color:#a90d91>as</span> <span style=color:#000>id</span>,
+   <span style=color:#000>json_extract</span>(<span style=color:#000>value</span>, <span style=color:#c41a16>&#39;$.name&#39;</span>) <span style=color:#a90d91>as</span> <span style=color:#000>name</span>,
+   <span style=color:#000>json_extract</span>(<span style=color:#000>value</span>, <span style=color:#c41a16>&#39;$.url&#39;</span>) <span style=color:#a90d91>as</span> <span style=color:#000>url</span>,
+   <span style=color:#000>fullkey</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>json_tree</span>(<span style=color:#000>readfile</span>(<span style=color:#c41a16>&#39;data/metro.json&#39;</span>))
+<span style=color:#a90d91>where</span> <span style=color:#000>path</span> <span style=color:#000>=</span> <span style=color:#c41a16>&#39;$&#39;</span> <span style=color:#a90d91>and</span> <span style=color:#a90d91>type</span> <span style=color:#000>=</span> <span style=color:#c41a16>&#39;object&#39;</span>;
+</code></pre></div><p>Выгружаем в CSV:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql>.<span style=color:#a90d91>mode</span> <span style=color:#000>csv</span>
+.<span style=color:#000>headers</span> <span style=color:#a90d91>on</span>
+.<span style=color:#000>once</span> <span style=color:#a90d91>data</span><span style=color:#000>/</span><span style=color:#000>city</span>.<span style=color:#000>csv</span>
+<span style=color:#a90d91>select</span> <span style=color:#000>id</span>, <span style=color:#000>name</span> <span style=color:#a90d91>from</span> <span style=color:#000>city</span>;
+</code></pre></div><p>Сохраняем команды в файл и запускаем в сценарии:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- <span style=color:#000>name</span>: <span style=color:#1c01ce>Convert json to csv</span>
+  <span style=color:#000>run</span>: |-<span style=color:#c41a16>
+</span><span style=color:#c41a16>      </span>      <span style=color:#1c01ce>sqlite3 -batch data/metro.db &lt; json-to-csv.sql</span>
+</code></pre></div><p class=text-centered>⌘ ⌘ ⌘</p>
+<p>Набор данных в трех форматах (JSON, CSV, SQLite) — готов! А теперь попробуйте на своем датасете ツ</p>
+<p><a href=https://github.com/nalgeon/metro/blob/main/.github/workflows/scrape.yaml>Полный сценарий</a></p>
+<p><a href=https://github.com/nalgeon/metro>Репозиторий с данными</a></p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-03-12 14:12:59 +0000 UTC">12.03.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/episode-3/>JSON:API</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/episode-4/>Ошибки в API</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/sqlite-3-35/>Что нового в SQLite 3.35</a></p>
+<p><a href=/simple-made-easy/>Простое против легкого</a></p>
+<p><a href=/github-actions/>Кросс-платформенная сборка с GitHub Actions</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

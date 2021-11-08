@@ -1,0 +1,535 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Найти группы похожих объектов с помощью SQL</title>
+<meta name=description content="Ищем похожих людей, товары и все что угодно.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/sql-groups/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Найти группы похожих объектов с помощью SQL">
+<meta property="og:description" content="Ищем похожих людей, товары и все что угодно.">
+<meta property="og:url" content="https://antonz.ru/sql-groups/">
+<meta property="og:image" content="https://antonz.ru/sql-groups/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Найти группы похожих объектов с помощью SQL">
+<meta name=twitter:description content="Ищем похожих людей, товары и все что угодно.">
+<meta name=twitter:url content="https://antonz.ru/sql-groups/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/sql-groups/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Найти группы похожих объектов с помощью SQL</h1>
+</header>
+<p>Бывает, есть множество объектов с разными свойствами, и хочется идентифицировать группы похожих:</p>
+<ul>
+<li>объединить людей с одинаковым ФИО и адресами-телефонами в клиентской базе;</li>
+<li>сегментировать покупателей магазина по товарам, которые они приобрели;</li>
+<li>определить персоны в зависимости от сценариев, по которым люди взаимодействуют с сервисом.</li>
+</ul>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Группы похожих объектов" src=sql-groups.png>
+</figure>
+</div>
+</div>
+<p>Давайте посмотрим, как решить эту задачу на «голом» SQL.</p>
+<h2 id=постановка-задачи>Постановка задачи</h2>
+<p>Рассмотрим на конкретном примере. Есть таблица <code>attributes</code> с атрибутами пользователей:</p>
+<pre tabindex=0><code>┌─────────┬─────────┐
+│ user_id │  attr   │
+├─────────┼─────────┤
+│ 1       │ alpha   │
+│ 1       │ beta    │
+│ 2       │ beta    │
+│ 2       │ gamma   │
+│ 3       │ delta   │
+│ 3       │ epsilon │
+│ 4       │ delta   │
+│ 4       │ zeta    │
+│ 5       │ alpha   │
+│ 5       │ zeta    │
+│ 6       │ iota    │
+│ 7       │ iota    │
+│ 7       │ kappa   │
+│ 8       │ kappa   │
+│ 8       │ lambda  │
+└─────────┴─────────┘
+</code></pre><p>Хотим объединить пользователей в группы. При этом действуют правила:</p>
+<ul>
+<li>Если пользователи A и B обладают общим свойством → они входят в одну группу.</li>
+<li>Если A и B обладают общим свойством P1, B и C обладают общим свойством P2 → A, B, C входят в одну группу.</li>
+<li>Идентификатором группы считается минимальный идентификатор из входящих в нее пользователей.</li>
+</ul>
+<p>Для каждой группы хотим еще определить список атрибутов ее пользователей.</p>
+<p>В итоге должно получиться две группы:</p>
+<pre tabindex=0><code>┌──────────┬─────────┬─────────────────────────────────────┐
+│ group_id │ user_id │                attrs                │
+├──────────┼─────────┼─────────────────────────────────────┤
+│ 1        │ 1       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 2       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 3       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 4       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 5       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 6        │ 6       │ iota,kappa,lambda                   │
+│ 6        │ 7       │ iota,kappa,lambda                   │
+│ 6        │ 8       │ iota,kappa,lambda                   │
+└──────────┴─────────┴─────────────────────────────────────┘
+</code></pre><p>Как решить задачу на чистом SQL? Использовать процедурные расширения вроде pl/sql и pl/pgSQL — нельзя.</p>
+<h2 id=0-какие-бывают-группы>0. Какие бывают группы</h2>
+<p>Сначала договоримся о терминах.</p>
+<p>Пользователи <code>A</code> и <code>B</code> <em>напрямую</em> похожи, если у них есть общее свойство <code>P</code>. В нашем примере пользователи 1 и 5 похожи напрямую:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-4">
+<figure>
+<img alt="Похожи напрямую" src=sql-groups-direct.png>
+</figure>
+</div>
+</div>
+<pre tabindex=0><code>┌─────────┬─────────┐
+│ user_id │  attr   │
+├─────────┼─────────┤
+│ 1       │ alpha   │
+│ 5       │ alpha   │
+└─────────┴─────────┘
+</code></pre><p>Пользователи <code>A</code> и <code>C</code> <em>транзитивно</em> похожи, если у них нет общих свойств, но существует пользователь <code>B</code> такой, что у <code>A</code> и <code>B</code> есть общее свойство <code>P1</code>, а у <code>B</code> и <code>C</code> — общее свойство <code>P2</code>. В нашем примере пользователи 3 и 5 похожи транзитивно, через пользователя 4:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Похожи транзитивно" src=sql-groups-transitive.png>
+</figure>
+</div>
+</div>
+<pre tabindex=0><code>┌─────────┬─────────┐
+│ user_id │  attr   │
+├─────────┼─────────┤
+│ 3       │ delta   │
+│ 4       │ delta   │
+│ 4       │ zeta    │
+│ 5       │ zeta    │
+└─────────┴─────────┘
+</code></pre><p>Вообще, когда слышишь задачу «найти группы» — первая мысль должна быть «сортировка». Например, найти группы напрямую похожих пользователей очень просто — достаточно отсортировать или сгруппировать по значению атрибута:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>*</span> <span style=color:#a90d91>from</span> <span style=color:#000>attributes</span> <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>attr</span>;
+</code></pre></div><pre tabindex=0><code>┌─────────┬─────────┐
+│ user_id │  attr   │
+├─────────┼─────────┤
+│ 1       │ alpha   │
+│ 5       │ alpha   │
+│ 1       │ beta    │
+│ 2       │ beta    │
+│ 3       │ delta   │
+│ 4       │ delta   │
+│ 3       │ epsilon │
+│ 2       │ gamma   │
+│ 6       │ iota    │
+│ 7       │ iota    │
+│ 7       │ kappa   │
+│ 8       │ kappa   │
+│ 8       │ lambda  │
+│ 4       │ zeta    │
+│ 5       │ zeta    │
+└─────────┴─────────┘
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>attr</span>,
+  <span style=color:#000>group_concat</span>(<span style=color:#000>user_id</span>) <span style=color:#a90d91>as</span> <span style=color:#000>users</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>attributes</span>
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> <span style=color:#000>attr</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>attr</span>;
+</code></pre></div><blockquote>
+<p>Здесь я использую функцию <code>group_concat()</code>, чтобы объединить значения в строку. Так она называется в MySQL и SQLite, но в других СУБД тоже есть аналогичные. Например, <code>string_agg()</code> в PostgreSQL и <code>listagg()</code> в Oracle.</p>
+</blockquote>
+<pre tabindex=0><code>┌─────────┬───────┐
+│  attr   │ users │
+├─────────┼───────┤
+│ alpha   │ 1,5   │
+│ beta    │ 1,2   │
+│ delta   │ 3,4   │
+│ epsilon │ 3     │
+│ gamma   │ 2     │
+│ iota    │ 6,7   │
+│ kappa   │ 7,8   │
+│ lambda  │ 8     │
+│ zeta    │ 4,5   │
+└─────────┴───────┘
+</code></pre><p>Проблема в том, что по условиям задачи мы должны учитывать и транзитивную похожесть. Обычной сортировкой уже не обойдешься.</p>
+<h2 id=1-находим-прямые-пары>1. Находим прямые пары</h2>
+<p>Если подход с сортировкой не работает, следующая мысль должна быть «пары». Если мы найдем все пары похожих пользователей — сможем построить по ним и группы.</p>
+<p>Для начала найдем пары с прямой похожестью:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>create</span> <span style=color:#a90d91>view</span> <span style=color:#000>pairs</span> <span style=color:#a90d91>as</span> 
+<span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>min</span>(<span style=color:#000>a1</span>.<span style=color:#000>user_id</span>, <span style=color:#000>a2</span>.<span style=color:#000>user_id</span>) <span style=color:#a90d91>as</span> <span style=color:#000>uid1</span>,
+  <span style=color:#a90d91>max</span>(<span style=color:#000>a1</span>.<span style=color:#000>user_id</span>, <span style=color:#000>a2</span>.<span style=color:#000>user_id</span>) <span style=color:#a90d91>as</span> <span style=color:#000>uid2</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>attributes</span> <span style=color:#a90d91>as</span> <span style=color:#000>a1</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>attributes</span> <span style=color:#a90d91>as</span> <span style=color:#000>a2</span>
+    <span style=color:#a90d91>on</span> <span style=color:#000>a1</span>.<span style=color:#000>attr</span> <span style=color:#000>=</span> <span style=color:#000>a2</span>.<span style=color:#000>attr</span> <span style=color:#a90d91>and</span> <span style=color:#000>a1</span>.<span style=color:#000>user_id</span> <span style=color:#000>&lt;&gt;</span> <span style=color:#000>a2</span>.<span style=color:#000>user_id</span>
+;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────┐
+│ uid1 │ uid2 │
+├──────┼──────┤
+│ 1    │ 2    │
+│ 1    │ 2    │
+│ 1    │ 5    │
+│ 1    │ 5    │
+│ 3    │ 4    │
+│ 3    │ 4    │
+│ 4    │ 5    │
+│ 4    │ 5    │
+│ 6    │ 7    │
+│ 6    │ 7    │
+│ 7    │ 8    │
+│ 7    │ 8    │
+└──────┴──────┘
+</code></pre><p>Здесь левый элемент пары — всегда меньший из двух идентификаторов, а правый — больший. Правило «левый меньший, правый больший» не обязательно, но поможет нам не плодить лишние пары на следующем шаге.</p>
+<h2 id=2-находим-транзитивные-пары>2. Находим транзитивные пары</h2>
+<p>Теперь добавим к прямым парам транзитивные. Это самый сложный шаг алгоритма: дело в том, что между транзитивно похожими пользователями X и Y может быть не одно промежуточное звено, а сколько угодно:</p>
+<pre tabindex=0><code>X → U1 → U2 → ... → Un → Y
+</code></pre><p>Есть только один вид запроса, которой умеет размотать цепочку произвольной длины — <code>WITH RECURSIVE</code>. Подробно расскажу о нем в отдельной заметке, но общий принцип такой:</p>
+<ol>
+<li>Однократно выполнить запрос <code>Q0</code>.</li>
+<li>Снова и снова выполнять запрос <code>Qi</code>, пока он возвращает результаты.</li>
+<li>Объединить результаты всех шагов и вернуть итоговый.</li>
+</ol>
+<p>В нашем случае алгоритм такой:</p>
+<ol>
+<li>Выбрать все прямые пары.</li>
+<li>Для очередной пары пользователей <code>(x, y)</code>:
+2.1. Найти пользователей <code>(u1, ... un)</code>, напрямую похожих на <code>y</code>.
+2.2. Добавить к результатам пары <code>(x, u1), (x, u2), ... (x, un)</code>.</li>
+<li>Выполнить шаг 2 для следующей пары.</li>
+</ol>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Находим транзитивнные пары" src=sql-groups-step.png>
+</figure>
+</div>
+</div>
+<p>На SQL:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>create</span> <span style=color:#a90d91>view</span> <span style=color:#000>allpairs</span> <span style=color:#a90d91>as</span>
+<span style=color:#a90d91>with</span> <span style=color:#a90d91>recursive</span> <span style=color:#000>cte</span>(<span style=color:#000>uid1</span>, <span style=color:#000>uid2</span>) <span style=color:#a90d91>as</span> (
+  <span style=color:#177500>-- Пары пользователей (uid1, uid2) с одинаковыми свойствами
+</span><span style=color:#177500></span>  <span style=color:#a90d91>select</span> <span style=color:#000>uid1</span>, <span style=color:#000>uid2</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>pairs</span>
+  
+  <span style=color:#a90d91>union</span>
+  
+  <span style=color:#177500>-- Пары, в которых uid2 фигурирует слева
+</span><span style=color:#177500></span>  <span style=color:#177500>-- (они транзитивно похожи на uid1)
+</span><span style=color:#177500></span>  <span style=color:#a90d91>select</span> <span style=color:#000>cte</span>.<span style=color:#000>uid1</span>, <span style=color:#000>p</span>.<span style=color:#000>uid2</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>pairs</span> <span style=color:#a90d91>as</span> <span style=color:#000>p</span>
+    <span style=color:#a90d91>join</span> <span style=color:#000>cte</span> <span style=color:#a90d91>on</span> <span style=color:#000>cte</span>.<span style=color:#000>uid2</span> <span style=color:#000>=</span> <span style=color:#000>p</span>.<span style=color:#000>uid1</span>
+  
+  <span style=color:#a90d91>union</span>
+  
+  <span style=color:#177500>-- Пары, в которых uid2 фигурирует справа
+</span><span style=color:#177500></span>  <span style=color:#177500>-- (тоже транзитивно похожи на uid1)
+</span><span style=color:#177500></span>  <span style=color:#a90d91>select</span> <span style=color:#000>cte</span>.<span style=color:#000>uid1</span>, <span style=color:#000>p</span>.<span style=color:#000>uid1</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>pairs</span> <span style=color:#a90d91>as</span> <span style=color:#000>p</span>
+    <span style=color:#a90d91>join</span> <span style=color:#000>cte</span> <span style=color:#a90d91>on</span> <span style=color:#000>cte</span>.<span style=color:#000>uid2</span> <span style=color:#000>=</span> <span style=color:#000>p</span>.<span style=color:#000>uid2</span>
+)
+<span style=color:#a90d91>select</span> <span style=color:#000>*</span> <span style=color:#a90d91>from</span> <span style=color:#000>cte</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬──────┐
+│ uid1 │ uid2 │
+├──────┼──────┤
+│ 1    │ 1    │
+│ 1    │ 2    │
+│ 1    │ 3    │
+│ 1    │ 4    │
+│ 1    │ 5    │
+│ 3    │ 1    │
+│ 3    │ 2    │
+│ 3    │ 3    │
+│ 3    │ 4    │
+│ 3    │ 5    │
+│ 4    │ 1    │
+│ 4    │ 2    │
+│ 4    │ 3    │
+│ 4    │ 4    │
+│ 4    │ 5    │
+│ 6    │ 6    │
+│ 6    │ 7    │
+│ 6    │ 8    │
+│ 7    │ 6    │
+│ 7    │ 7    │
+│ 7    │ 8    │
+└──────┴──────┘
+</code></pre><p>Теперь для каждого пользователя (столбец <code>uid1</code>) мы знаем всех похожих на него пользователей (столбец <code>uid2</code>) — как напрямую, так и транзитивно. Осталось из пар сформировать группы.</p>
+<h2 id=3-объединяем-пары-вгруппы>3. Объединяем пары в группы</h2>
+<p>Пары есть, можно объединить их в группы. Проблема только в том, что в <code>allpairs</code> группы дублируются:</p>
+<pre tabindex=0><code>┌──────┬──────┐
+│ uid1 │ uid2 │
+├──────┼──────┤
+│ 1    │ 1    │
+│ 1    │ 2    │
+│ 1    │ 3    │
+│ 1    │ 4    │
+│ 1    │ 5    │
+│ 3    │ 1    │
+│ 3    │ 2    │
+│ 3    │ 3    │
+│ 3    │ 4    │
+│ 3    │ 5    │
+└──────┴──────┘
+</code></pre><p>Формально здесь есть группа для <code>uid1 = 1</code> и группа для <code>uid1 = 3</code> — но по сути это одна и та же группа. Дубли нас не интересуют, так что выберем только уникальные группы:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>create</span> <span style=color:#a90d91>view</span> <span style=color:#000>groups</span> <span style=color:#a90d91>as</span>
+<span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>min</span>(<span style=color:#000>uid1</span>) <span style=color:#a90d91>as</span> <span style=color:#000>group_id</span>,
+  <span style=color:#000>uid2</span> <span style=color:#a90d91>as</span> <span style=color:#000>user_id</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>allpairs</span>
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> <span style=color:#000>uid2</span>;
+</code></pre></div><p>Группировка по <code>uid2</code> гарантирует, что каждый пользователь входит только в одну группу. А выбор <code>min(uid1)</code> в качестве идентификатора группы — требование из постановки задачи.</p>
+<pre tabindex=0><code>┌──────────┬─────────┐
+│ group_id │ user_id │
+├──────────┼─────────┤
+│ 1        │ 1       │
+│ 1        │ 2       │
+│ 1        │ 3       │
+│ 1        │ 4       │
+│ 1        │ 5       │
+│ 6        │ 6       │
+│ 6        │ 7       │
+│ 6        │ 8       │
+└──────────┴─────────┘
+</code></pre><p>В целом, задача решена. Осталось только собрать список атрибутов для каждой группы.</p>
+<h2 id=4-объединяем-атрибуты-групп>4. Объединяем атрибуты групп</h2>
+<p>Тут все просто:</p>
+<ol>
+<li>Для каждой группы выбираем ее пользователей.</li>
+<li>Для каждого пользователя выбираем его атрибуты.</li>
+<li>Объединяем атрибуты в одну строку, отсеивая дубли.</li>
+</ol>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>create</span> <span style=color:#a90d91>view</span> <span style=color:#000>group_attributes</span> <span style=color:#a90d91>as</span>
+<span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>g</span>.<span style=color:#000>group_id</span>,
+  <span style=color:#000>group_concat</span>(<span style=color:#a90d91>distinct</span> <span style=color:#000>a</span>.<span style=color:#000>attr</span>) <span style=color:#a90d91>as</span> <span style=color:#000>attrs</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>groups</span> <span style=color:#a90d91>as</span> <span style=color:#a90d91>g</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>attributes</span> <span style=color:#a90d91>as</span> <span style=color:#000>a</span> <span style=color:#a90d91>on</span> <span style=color:#000>a</span>.<span style=color:#000>user_id</span> <span style=color:#000>=</span> <span style=color:#a90d91>g</span>.<span style=color:#000>user_id</span>
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>g</span>.<span style=color:#000>group_id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬─────────────────────────────────────┐
+│ group_id │                attrs                │
+├──────────┼─────────────────────────────────────┤
+│ 1        │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 6        │ iota,kappa,lambda                   │
+└──────────┴─────────────────────────────────────┘
+</code></pre><h2 id=5-собираем-все-вместе>5. Собираем все вместе</h2>
+<p>Для каждого пользователя выбираем номер его группы и список атрибутов, которые в нее входят:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>g</span>.<span style=color:#000>group_id</span>,
+  <span style=color:#a90d91>g</span>.<span style=color:#000>user_id</span>,
+  <span style=color:#000>ga</span>.<span style=color:#000>attrs</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>groups</span> <span style=color:#a90d91>as</span> <span style=color:#a90d91>g</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>group_attributes</span> <span style=color:#a90d91>as</span> <span style=color:#000>ga</span> <span style=color:#a90d91>on</span> <span style=color:#000>ga</span>.<span style=color:#000>group_id</span> <span style=color:#000>=</span> <span style=color:#a90d91>g</span>.<span style=color:#000>group_id</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>g</span>.<span style=color:#000>group_id</span>, <span style=color:#a90d91>g</span>.<span style=color:#000>user_id</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬─────────┬─────────────────────────────────────┐
+│ group_id │ user_id │                attrs                │
+├──────────┼─────────┼─────────────────────────────────────┤
+│ 1        │ 1       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 2       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 3       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 4       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 1        │ 5       │ alpha,beta,gamma,delta,epsilon,zeta │
+│ 6        │ 6       │ iota,kappa,lambda                   │
+│ 6        │ 7       │ iota,kappa,lambda                   │
+│ 6        │ 8       │ iota,kappa,lambda                   │
+└──────────┴─────────┴─────────────────────────────────────┘
+</code></pre><p>Тадам! Задача решена.</p>
+<p>Если угодно, можно обойтись <a href=#show-sql onclick="return showSql()">без промежуточных вьюх</a>.</p>
+<pre id=sql style=display:none>
+<code class=language-sql>with recursive
+
+-- Уникальные пары пользователей с одинаковыми свойствами.
+-- Если есть пара (1,2), то пары (2,1) уже не будет.
+pairs as (
+  select distinct
+    -- Левый элемент пары - меньший из двух идентификаторов,
+    min(a1.user_id, a2.user_id) as uid1,
+    -- а правый - больший.
+    -- Правило «левый меньший, правый больший» нужно,
+    -- чтобы собрать транзитивные пары в allpairs ниже.
+    max(a1.user_id, a2.user_id) as uid2
+  from attributes as a1
+    join attributes as a2
+      on a1.attr = a2.attr and a1.user_id <> a2.user_id
+),
+
+-- Все пары похожих пользователей (в том числе транзитивно похожих).
+-- Общий принцип: для каждой пары пользователей с одинаковыми свойствами
+-- выбираем все пары, которые пересекаются с ними. Если выбрать все такие пары,
+-- то для каждого пользователя получим полный набор пар, в которые он входит.
+allpairs(uid1, uid2) as (
+  -- Пары пользователей (uid1, uid2) с одинаковыми свойствами
+  select uid1, uid2
+  from pairs
+  
+  union
+  
+  -- Пары, в которых uid2 фигурирует слева
+  -- (они транзитивно похожи на uid1)
+  select ap.uid1, p.uid2
+  from pairs as p
+    join allpairs as ap on ap.uid2 = p.uid1
+  
+  union
+  
+  -- Пары, в которых uid2 фигурирует справа
+  -- (тоже транзитивно похожи на uid1)
+  select ap.uid1, p.uid1
+  from pairs as p
+    join allpairs as ap on ap.uid2 = p.uid2
+),
+
+-- Для каждого пользователя собираем группу похожих на него пользователей.
+-- Каждый пользователь может входить только в одну группу:
+-- если есть группа 1:[1,2,3], то группы 3:[1,2,3] уже не будет.
+groups as (
+  select
+    -- id группы = минимальный user_id входящих в нее пользователей
+    min(uid1) as group_id,
+    -- пользователи, входящие в группу
+    uid2 as user_id
+  from allpairs
+  -- группируем по пользователю, чтобы не было разных групп,
+  -- в которые входит один и тот же пользователь
+  group by uid2
+),
+
+-- Атрибуты пользователей для каждой группы (одной строкой)
+group_attributes as (
+  select
+    g.group_id,
+    group_concat(distinct a.attr) as attrs
+  from groups as g
+    join attributes as a on a.user_id = g.user_id
+  group by g.group_id
+)
+
+-- Итог: для каждого пользователя номер его группы
+-- и список атрибутов пользователей, входящих в группу
+select
+  g.group_id,
+  g.user_id,
+  ga.attrs
+from groups as g
+  join group_attributes as ga on ga.group_id = g.group_id
+order by g.group_id, g.user_id;</code>
+</pre>
+<h2 id=итого>Итого</h2>
+<p>Вот общий алгоритм решения задач типа «объединить элементы в группы»:</p>
+<ol>
+<li>Попытаться сформировать группы через обычную сортировку.</li>
+<li>Если не получается — идентифицировать все пары элементов.</li>
+<li>Объединить пары в группы.</li>
+</ol>
+<p>Далеко не всегда такие задачи стоит решать на SQL. Часто процедурный код будет понятнее и эффективнее.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+<script>function showSql(a){return document.querySelector("#sql").style.display="",!1}</script>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-06-06 14:47:53 +0000 UTC">06.06.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+<a href=https://antonz.ru/tags/puzzle/>задачка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/notifiers/>Универсальные оповещения на Python</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/httpx/>Современный HTTP-клиент для Python</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/window-rolling/>Оконные функции: скользящие агрегаты</a></p>
+<p><a href=/window-aggregate/>Оконные функции: агрегация</a></p>
+<p><a href=/window-offset/>Оконные функции: смещение</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

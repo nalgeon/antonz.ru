@@ -1,0 +1,156 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Картоха, урлы и состояние</title>
+<meta name=description content>
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/urls-state-potatoes/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Картоха, урлы и состояние">
+<meta property="og:description" content>
+<meta property="og:url" content="https://antonz.ru/urls-state-potatoes/">
+<meta property="og:image" content="https://antonz.ru/">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Картоха, урлы и состояние">
+<meta name=twitter:description content>
+<meta name=twitter:url content="https://antonz.ru/urls-state-potatoes/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Картоха, урлы и состояние</h1>
+</header>
+<p><img src=potato.jpg alt="Картинка для привлечения внимания"></p>
+<p>Если вы разрабатываете веб-приложение, то рано или поздно столкнетесь с проблемой сохранения текущего состояния системы для пользователя.</p>
+<p>Например, вы продаете через интернет элитный картофель. Покупатель заходит на сайт и первым делом настраивает условия отбора картофелин: строго из Боливии или ЮАР, урожая 2013 года, размер клубня от 3 до 7 см, желательно в форме морского тюленя. Получает список из 300 позиций (да, в ЮАР очень популярна картоха в форме тюленя), нарезанный на 6 страниц из 50 элементов каждая. Переходит на 3 страницу, открывает карточку картофелины и застывает в немом восхищении на несколько секунд. А потом случайно нажимает на рефреш страницы. Как поступит ваше приложение?</p>
+<h2 id=весь-мир-насилья-мыразрушим>Весь мир насилья мы разрушим</h2>
+<p>Если вы не стали заморачиваться с состоянием, то текущий контекст благополучно потеряется, а пользователя перекинет на главную страницу, где он с негодованием уставится на аршинный заголовок <strong>КАРТОХА ТУТ!</strong></p>
+<p>Яркий представитель подобных приложений — <a href=https://www.google.com/calendar>гугл-календарь</a>. Как бы вы не перемещались по календарю, какие бы фильтры не накладывали — урл всегда сохраняет свой изначальный вид:</p>
+<pre><code>https://www.google.com/calendar/render
+</code></pre>
+<p>Обновляете страницу — и календарь радостно сбрасывает вас на текущую неделю. Скопировали урл и отправили другу как ссылку на событие? Ну да, ну да.</p>
+<h2 id=все-понимаю-сказать-немогу>Все понимаю, сказать не могу</h2>
+<p>Некоторые сервисы, которые помнят, что на дворе уже десятые годы XXI века, запоминают состояние на клиенте (в куках или локал-сторадже). Это решает проблему с рефрешем страницы, но поставить закладку у вас все равно не получится.</p>
+<p>Плюс такой подход создает классическую проблему с конфликтующими изменениями состояния. Я открыл две вкладки браузера, зашел на ваш картофельный сайт, и в одной вкладке ищу «картофель молодой», а в другой — «ботва разлапистая». Какой из запросов сохраним?</p>
+<h2 id=что-вурле-тебе-моем>Что в урле тебе моем?</h2>
+<p>Еще со времен, когда динамическая природа веб-сайтов ограничивалась тегом BLINK, хорошим тоном считается хранить состояние в урле. Такой урл хоть в почту, хоть в закладки — восстановить контекст по нему не проблема.</p>
+<p>Хороший пример — <a href=https://www.google.com>гугл-поиск</a>. Посмотрите, как скурпулезно он сохранил все параметры расширенного поиска, которые я задал:</p>
+<pre><code>https://www.google.com/search?
+q=allintext: +google+sucks&amp;lr=lang_en&amp;
+cr=countryUS&amp;hl=en&amp;tbs=qdr: y,lr: lang_1en,
+ctr: countryUS&amp;ei=NsAIS_WATCin5youDAYANdnigh1&amp;
+start=10&amp;sa=N&amp;biw=1090&amp;bih=963&amp;cad=cbv&amp;
+sei=WtF_isThisS4iT
+</code></pre>
+<p>Кстти, обртите внмние, как пргрмсты в гугле озбочн крткстью: все эти «tbs», «qdr», «sa», «biw». Збс, првд? Буквы в интернете надо экономить, а то вон IP-адреса уже закончились.</p>
+<p>Хранение состояния в урле делает каждую вкладку браузера полностью автономной — нет общих данных в куках или локальном хранилище. Это упрощает жизнь разработчику, а пользователю не срывает башню от загадочных глюков системы.</p>
+<h2 id=месье-знает-толк-визвращениях>Месье знает толк в извращениях</h2>
+<p>Иногда хранить контекст в урле — это слишком просто. Я встречал следующие вариации:</p>
+<ul>
+<li>Список хранит свое состояние, но как только переходим к элементу списка — он открывается в отдельной вкладке (так не надо заморачиваться с возвратом к списку). Это <a href=https://drive.google.com/>гугл-документы</a>.</li>
+<li>Урл содержит все нужное состояние, но при попытке открыть его в другом браузере приложение падает с необработанным исключением (привет, <a href=https://www.atlassian.com/software/jira>Джира</a>!).</li>
+<li>Все состояние в урле кодировано в Base64, чтобы враг не догадался.</li>
+</ul>
+<h2 id=ω-итого>Ω Итого</h2>
+<ol>
+<li>Умейте сохранять и восстанавливать контекст прозрачно для пользователя.</li>
+<li>Храните состояние в урле и не морочьте мне голову.</li>
+<li>КАРТОХА РУЛИТ.</li>
+</ol>
+<p><img src=potato-rules.jpg alt="Картоха рулит!"></p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2014-05-15 20:44:26 +0000 UTC">15.05.2014</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/your-anonymous-friend/>Ваш лучший друг, анонимус</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/gamify/>Геймифицируй это!</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

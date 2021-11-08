@@ -1,0 +1,177 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Угадайка и неленивый интерфейс</title>
+<meta name=description content="Лучше один раз напрячь программиста, чем тысячу раз приставать к пользователям.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/guess/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Угадайка и неленивый интерфейс">
+<meta property="og:description" content="Лучше один раз напрячь программиста, чем тысячу раз приставать к пользователям.">
+<meta property="og:url" content="https://antonz.ru/guess/">
+<meta property="og:image" content="https://antonz.ru/guess/cover.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Угадайка и неленивый интерфейс">
+<meta name=twitter:description content="Лучше один раз напрячь программиста, чем тысячу раз приставать к пользователям.">
+<meta name=twitter:url content="https://antonz.ru/guess/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/guess/cover.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Угадайка и неленивый интерфейс</h1>
+</header>
+<p>Ленивые интерфейсы любят выносить мозг. В любой ситуации, когда можно догадаться самостоятельно или спросить человека — ленивая программа предпочитает спросить. Давайте посмотрим, как этого избежать.</p>
+<h2 id=угадайка>Угадайка</h2>
+<p>Вот Мейлчимп требует, чтобы человек рассказал, где что лежит:</p>
+<figure>
+<img alt="Угадайка в Мейлчимпе" src=guess-mailchimp.png>
+<figcaption>Ну невозможно же догадаться, где здесь имя, а где телефон, правда?</figcaption>
+</figure>
+<p>Когда мы проектировали «<a href=https://dadata.ru/>Дадату</a>», сразу хотели сделать нормально. В результате появилась угадайка типов:</p>
+<figure>
+<img alt="Угадайка в Дадате" src=guess-dadata.png>
+<figcaption>Человек загружает файл, а Дадата сама расставляет типы на столбцах и просит проверить.</figcaption>
+</figure>
+<p>Угадайку можно сделать довольно навороченной: приделать к ней нейросеть, обучать в реальном времени, учитывать индивидуальные особенности пользователя, и так далее.</p>
+<p>Сильно проще — угадывать по эвристикам:</p>
+<pre tabindex=0><code>***@***.*** → это емейл
+Начинается на 79xx или 89xx → телефон
+Есть слово из топ-100 имён или фамилий → ФИО
+Встречается «область», «город» или «улица» → почтовый адрес
+</code></pre><p>Даже простой эвристический механизм работает много лучше, чем ничего. В 80% случаев человек пробежит глазами по заголовкам, убедится что всё хорошо, и запустит обработку. В оставшихся 20% беззлобно матернёт тупую железяку и исправит где надо.</p>
+<p>А если взять историю взаимодействия с пользователями и проанализировать паттерны поведения, вообще можно делать чудеса.</p>
+<h2 id=эвристики>Эвристики</h2>
+<p>Я уважаю машинное обучение — оно помогает угадывать правильный вариант в сложных ситуациях. Но удивительно, как много можно сделать без него, с помощью простых эвристик. Например:</p>
+<ul>
+<li>В магазине автоматически выбирать домашний или рабочий адрес доставки в зависимости от дня недели и геопозиции.</li>
+<li>После регистрации, когда требуется подтвердить емейл, показать ссылку «перейти в почту», которая отправит человека в почту Яндекса, Мейла или Гугла — в зависимости от почтового домена.</li>
+<li>Предложить сохранить фильтр в CRM, если пользователь вручную настраивает его уже в третий раз.</li>
+<li>Автоматически выбрать предпочтительную папку для письма из тематической рассылки, ориентируясь на предыдущие письма.</li>
+</ul>
+<p>Другую информацию легко получить из сторонних API (Дадата, Яндекс, Гугл, &mldr;):</p>
+<ul>
+<li>Пол по ФИО.</li>
+<li>Индекс, район города, ближайшее метро и почтовое отделение по адресу.</li>
+<li>Реквизиты компании по названию или ИНН.</li>
+<li>Страну, оператора связи и часовой пояс по телефону.</li>
+<li>Банк по номеру карты.</li>
+<li>Аватарку по емейлу.</li>
+</ul>
+<p>Такие мелочи производят приятное впечатление на человека, а в реализации обходятся недорого.</p>
+<h2 id=итого>Итого</h2>
+<p>Лучше один раз напрячь программиста, чем тысячу раз приставать к пользователям:</p>
+<ol>
+<li>Программа нормально угадывает и не теребит человека по мелочам.</li>
+<li>Для этого не нужен отдел машинлёнинга и бюджет в миллион рублей. Достаточно выделить день на анализ эвристик и несколько дней на реализацию.</li>
+<li>Попробуйте сами ツ</li>
+</ol>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fa fa-star-o color-sin"></i> «<a href=https://t.me/dangry>Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2017-11-28 16:03:48 +0000 UTC">28.11.2017</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+<a href=https://antonz.ru/tags/dadata/>dadata</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/specs/>Никто не читает требования</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/android-lego/>Андроид и китайское лего</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/specs/>Никто не читает требования</a></p>
+<p><a href=/bad-bad-shop/>Плохой, плохой магазин</a></p>
+<p><a href=/smooth-integration/>Гладкие и шершавые интеграции</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

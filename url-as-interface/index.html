@@ -1,0 +1,223 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Урл как интерфейс</title>
+<meta name=description content="URL — часть интерфейса. Поэтому он должен быть хорош.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/url-as-interface/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Урл как интерфейс">
+<meta property="og:description" content="URL — часть интерфейса. Поэтому он должен быть хорош.">
+<meta property="og:url" content="https://antonz.ru/url-as-interface/">
+<meta property="og:image" content="https://antonz.ru/url-as-interface/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Урл как интерфейс">
+<meta name=twitter:description content="URL — часть интерфейса. Поэтому он должен быть хорош.">
+<meta name=twitter:url content="https://antonz.ru/url-as-interface/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/url-as-interface/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Урл как интерфейс</h1>
+</header>
+<p>Для меня урл (URL) на сайте или в веб-приложении — часть интерфейса. Поэтому он должен быть хорош.</p>
+<p>Понимаю, что нормальные люди не задумываются об урлах, а в идеале вовсе не знают, что это такое. Но я гик, поэтому хочу красивые и информативные адреса. Если у вас так же — оставайтесь, поговорим о плохих и хороших урлах.</p>
+<h2 id=плохие-урлы>Плохие урлы</h2>
+<p>Начнём с характеристик плохого урла.</p>
+<h3 id=урл-независит-отсостояния>Урл не зависит от состояния</h3>
+<p>Пусть есть список клиентов с адресом <em>/customers</em>. Если при поиске, фильтрации и переходе по страницам списка адрес не меняется — это плохой урл. Такой не сохранишь в закладках и не пришлёшь коллеге.</p>
+<p>Лучше, если урл отражает состояние списка:</p>
+<pre tabindex=0><code>/customers?channel=facebook&amp;sort-by=ltv&amp;page=3
+</code></pre><h3 id=урл-шифрует-состояние>Урл шифрует состояние</h3>
+<p>Допустим, программист осознал проблему с урлом из предыдущего примера, и добавил в него состояние:</p>
+<pre tabindex=0><code>/customers?state=eyAiZmlsdGVyIjogeyAiY2hhbm5lbCI6ICJmYWNlYm9vayIsICJuYW1lIjogbnVsbCwgInBob25lIjogbnVsbCwgImVtYWlsIjogbnVsbCB9LCAic29ydC1ieSI6IHsgImZpZWxkIjogImx0diIsICJkaXJlY3Rpb24iOiAiYXNjIiB9LCAicGFnZSI6IDMgfQ==
+</code></pre><p>Это всё равно плохой адрес. Во-первых, он уродлив. Во-вторых, непонятно, что в нём зашифровано — вдруг там мой пароль, а я поделюсь ссылкой?</p>
+<h3 id=вурле-мусор>В урле мусор</h3>
+<p>Вот адрес поискового запроса в Гугле:</p>
+<pre tabindex=0><code>https://www.google.ru/search?newwindow=1&amp;site=&amp;source=hp&amp;q=who+am+i&amp;oq=who+am+i&amp;gs_l=psy-ab.3..0l4.563.2744.0.2962.8.8.0.0.0.0.73.547.8.8.0....0...1.1.64.psy-ab..0.8.546...0i131k1._To1c908Z2U
+</code></pre><p>Большая часть в нём — мусор:</p>
+<pre tabindex=0><code>newwindow=1&amp;site=&amp;source=hp&amp;oq=who+am+i&amp;gs_l=psy-ab.3..0l4.563.2744.0.2962.8.8.0.0.0.0.73.547.8.8.0....0...1.1.64.psy-ab..0.8.546...0i131k1._To1c908Z2U
+</code></pre><p>Лучше убрать служебные параметры, бесполезные для человека, и оставить только то, что по делу:</p>
+<pre tabindex=0><code>https://www.google.com/search?q=who+am+i
+</code></pre><h3 id=урл-содержит-кириллицу>Урл содержит кириллицу</h3>
+<p>Добавил этот пункт ради Медиума, который делает такие ссылки, если вовремя не словить его за хвост:</p>
+<pre tabindex=0><code>https://medium.com/russian/%D0%BE-%D1%86%D0%B5%D0%BB%D1%8F%D1%85-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0-%D0%B8-%D0%B4%D1%80%D1%83%D0%B3%D0%B8%D1%85-%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D1%85-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0%D1%85-c6c1aa6c32
+</code></pre><p>Задумка хорошая: включить заголовок статьи в урл и повысить информативность. А получился мусор. Решить проблему несложно — автоматически транслитерировать кириллицу, которая идёт в адрес:</p>
+<pre tabindex=0><code>https://medium.com/russian/o-celyah-proekta-i-drugih-ritoricheskih-voprosah-c6c1aa6c32
+</code></pre><h3 id=урл-спрятан-засокращателем-ссылок>Урл спрятан за сокращателем ссылок</h3>
+<p>Сокращатели превращают нормальные ссылки:</p>
+<pre tabindex=0><code>https://explainshell.com/?utm_source=twitter.com&amp;utm_medium=social
+https://dangry.ru/sona/interface/
+https://antonz.ru/choice/
+</code></pre><p>в такие:</p>
+<pre tabindex=0><code>https://amp.gs/mgYs
+https://goo.gl/QspV62
+https://t.co/JCZGu9SelO
+</code></pre><p>Тут плохо всё. Потерялись не только параметры, но и сам сайт. Теперь я совсем не понимаю, куда заведёт ссылка.</p>
+<p>Конечно, я знаю, зачем нужны сокращатели. Маркетологи прячут за ними utm-метки — параметры, которые говорят владельцу сайта, откуда пришёл посетитель. Я даже понимаю, почему нужны эти метки — соцсети не сообщают источник перехода (это большое зло и тема для отдельной статьи).</p>
+<p>Но для меня как для пользователя сети — сокращатели чистейшее зло.</p>
+<h2 id=хорошие-урлы>Хорошие урлы</h2>
+<p>Перейдём к хорошему.</p>
+<h3 id=урл-однозначно-идентифицирует-конкретный-объект>Урл однозначно идентифицирует конкретный объект</h3>
+<p>Для магазина значимые объекты — товары, для журнала — статьи и комментарии, для системы контроля версий — каждая строка кода:</p>
+<pre tabindex=0><code>https://market.yandex.ru/product/8478688
+https://habrahabr.ru/company/hflabs/blog/267997/#comment_8598021
+https://github.com/hflabs/suggestions-jquery/blob/master/less/suggestions.less#L40
+</code></pre><p>Хороший урл ведёт прямо на идентифицируемый объект, без промежуточных страниц и попапов.</p>
+<h3 id=урл-информативный>Урл информативный</h3>
+<p>По хорошему урлу примерно понятно, о чём он. Например, клиенты с единственным заказом за последний год:</p>
+<pre tabindex=0><code>/customers?order-count=1&amp;order-date=last-year
+</code></pre><p>Урл может быть уникальным и при этом информативным:</p>
+<pre tabindex=0><code>https://wpdev.uservoice.com/forums/257854-universal-windows-platform/suggestions/6509607-stop-internet-explorer-development
+
+https://www.citilink.ru/catalog/mobile/cell_phones/393683/
+</code></pre><p>Ссылка должна оставаться рабочей, даже если объект переместят в другую категорию или раздел сайта. Пока в урле есть идентификатор, этого достаточно.</p>
+<p>Более того, «текстовую» часть можно убрать, а адрес продолжит работать:</p>
+<pre tabindex=0><code>https://wpdev.uservoice.com/forums/257854/suggestions/6509607
+
+https://www.citilink.ru/catalog/393683/
+</code></pre><p>Такой подход хорошо показал себя на форумах, в блогах и каталогах.</p>
+<h3 id=урл-читается-как-обычное-предложение>Урл читается как обычное предложение</h3>
+<p>Это высший пилотаж:</p>
+<pre tabindex=0><code>http://yasobe.ru/na/obed
+</code></pre><p>Так редко получается, но если видите возможность — не упустите.</p>
+<div class=boxed style=margin-bottom:.8em>
+<h3>Красота и иерархичность</h3>
+<p>Важно, чтобы адрес оставался иерархичным: каждый кусочек от слэша до слэша не просто «создаёт красоту», а имеет самостоятельный смысл:</p>
+<ul>
+<li><em>/na/obed</em> — конкретный сбор;</li>
+<li><em>/na/</em> — список всех сборов (а Яндекс отдаёт 404, ататат);</li>
+<li><em>/</em> — главная страница.</li>
+</ul>
+<p>Каждый слэш создаёт уровень иерархии. Если убирать уровни один за одним справа налево, ссылка каждый раз должна отдавать что-то логичное, пока не дойдём до главной страницы.</p>
+<p>Не пренебрегайте иерархией ради красоты. Но если получается сделать иерархичный адрес красивым — отлично.</p>
+</div>
+<h3 id=урл-живёт-вечно>Урл живёт вечно</h3>
+<p>Сайты меняются, сливаются в один и разбиваются на несколько. Урлы страниц при этом изменяются, и это нормально. Главное — оставлять со старых адресов редирект на новые:</p>
+<pre tabindex=0><code>weather.yandex.ru → yandex.ru/pogoda
+designpreppy.ru/interface.html → dangry.ru/sona/interface/
+antonz.ru/2016/04/12/laws/ → antonz.ru/laws/
+</code></pre><p>Единожды опубликованный урл должен жить вечно. Даже если страница по ссылке удалена, на её месте оставляют заглушку с пояснением:</p>
+<figure>
+<img alt=Покемон-радар class="bordered img-grayscale" src=pokemon.png>
+<figcaption>RIP, <a href=http://dadata.ru/pokemon>покемон-радар</a></figcaption>
+</figure>
+<p class=text-centered>⌘ ⌘ ⌘</p>
+<p>Делать хорошие урлы нелегко, а оценит их мало кто. Но если у вас получится — знайте, я вами горжусь ツ</p>
+<p>Спасибо коллегам:</p>
+<ul>
+<li><a href=https://iamakulov.com>Ване Акулову</a>, который вдохновил меня написать эту заметку, прислав ссылку на статью Скотта Хансельмана <a href=https://www.hanselman.com/blog/URLsAreUI.aspx>URLs are UI</a>.</li>
+<li><a href=https://www.facebook.com/dorofeev.pavel22>Павлу Дорофееву</a>, который обратил внимание на устойчивость урлов к изменению текстовой части.</li>
+<li><a href=http://tonsky.me>Никите Прокопову</a>, который поднял проблему красоты и иерархичности урлов.</li>
+<li>Андрею Лёзову, который напомнил о редиректах.</li>
+</ul>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Больше таких статей — на канале <span class=nowrap><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2017-07-26 12:41:03 +0000 UTC">26.07.2017</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/no-more-latch/>Хватит сортировать по алфавиту</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/delivery-city-puzzle/>Задачка: город в интернет-магазине</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/no-more-latch/>Хватит сортировать по алфавиту</a></p>
+<p><a href=/spy-ui/>Куда подглядывать, когда проектируешь интерфейс</a></p>
+<p><a href=/ilya-aleksandrov/>Как веб-дизайнеру проектировать хардварные интерфейсы</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

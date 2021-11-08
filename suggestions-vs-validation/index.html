@@ -1,0 +1,169 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Автокомплит и проверка данных</title>
+<meta name=description content="Ограничивать пользователя фиксированным списком вариантов — плохая идея.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/suggestions-vs-validation/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Автокомплит и проверка данных">
+<meta property="og:description" content="Ограничивать пользователя фиксированным списком вариантов — плохая идея.">
+<meta property="og:url" content="https://antonz.ru/suggestions-vs-validation/">
+<meta property="og:image" content="https://antonz.ru/suggestions-vs-validation/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Автокомплит и проверка данных">
+<meta name=twitter:description content="Ограничивать пользователя фиксированным списком вариантов — плохая идея.">
+<meta name=twitter:url content="https://antonz.ru/suggestions-vs-validation/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/suggestions-vs-validation/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Автокомплит и проверка данных</h1>
+</header>
+<p>Чтобы помочь человеку правильно ввести сложные данные, часто используют автокомплит (он же «подсказки»):</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Подсказки по адресу" src=suggestions-address.png>
+<figcaption>Например, по адресу</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Подсказки по компании" src=suggestions-party.png>
+<figcaption>Или по компании</figcaption>
+</figure>
+</div>
+</div>
+<p>Когда программист видит автокомплит — немедленно совмещает его с проверкой. Программист думает так:</p>
+<blockquote>
+<p>Если пользователь хочет ввести что-то непредусмотренное автокомплитом, следует сурово его покарать.</p>
+</blockquote>
+<p>Нельзя допустить, чтобы человек вводил отсебятину, думает программист:</p>
+<figure>
+<img alt=«Некорректный» адрес src=suggestions-address-error.png class=img-bordered-thin>
+<figcaption>Плохой адрес, плохой. Уходи, негодный человек!</figcaption>
+</figure>
+<p>Люди спокойно вешают такие проверки на формы заказа в интернет-магазинах, например. Их не смущает, что покупатель, получив свой «некорректный адрес» (или ещё лучше — «некорректное ФИО»), просто уйдёт.</p>
+<p>Мы в «<a href=https://dadata.ru/suggestions/>Дадате</a>» как раз занимаемся автокомплитом по разным видам данных, и не проходит и недели, чтобы в техподдержку не пришёл очередной программист с вопросом «как запретить вводить данные, которых нет в подсказках».</p>
+<p>Нормальное решение только одно:</p>
+<blockquote class=big>
+Не использовать автокомплит для проверки данных
+</blockquote>
+<p>Подсказки помогают человеку быстро и правильно ввести данные: домашний адрес, марку автомобиля, реквизиты компании. Они не предназначены для проверки:</p>
+<ul>
+<li>Если покупатель в магазине указал неизвестный автокомплиту дом — ничего страшного. Менеджер потом перезвонит и уточнит.</li>
+<li>Если человеку нравится указывать машину как «BMW X5 3.0 SD», а подсказки знают только «BMW 5-Series» — не надо рассказывать, что записаться в сервис никак невозможно.</li>
+<li>Если предприниматель два часа назад зарегистрировал компанию в налоговой, и облачная бухгалтерия ещё не успела подтянуть данные — не надо отказывать в регистрации, пусть введёт реквизиты вручную.</li>
+</ul>
+<p>Бывают, конечно, ситуации, когда уместно жёстко ограничить варианты — например, если выбирают пункт выдачи товара или аэропорт вылета. Но чаще встречаются «открытые» списки.</p>
+<p>Простая эвристика:</p>
+<blockquote class=big>
+Автокомплит — для помощи человеку, не для проверки
+</blockquote>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2018-06-04 17:29:32 +0000 UTC">04.06.2018</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/cloud-vs-box/>Облако vs коробка</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/officer/>Прапор информационной безопасности</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/error-position/>Где расположить ошибку</a></p>
+<p><a href=/cards/>Карточки в интерфейсе</a></p>
+<p><a href=/signup-puzzle/>Задачка: регистрация с фото и паспортом</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

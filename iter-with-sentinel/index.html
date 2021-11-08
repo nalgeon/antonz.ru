@@ -1,0 +1,214 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Задачка об итераторе на Python</title>
+<meta name=description content="Как подобрать коллектив единомышленников с помощью random и iter">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/iter-with-sentinel/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Задачка об итераторе на Python">
+<meta property="og:description" content="Как подобрать коллектив единомышленников с помощью random и iter">
+<meta property="og:url" content="https://antonz.ru/iter-with-sentinel/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Задачка об итераторе на Python">
+<meta name=twitter:description content="Как подобрать коллектив единомышленников с помощью random и iter">
+<meta name=twitter:url content="https://antonz.ru/iter-with-sentinel/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Задачка об итераторе на Python</h1>
+</header>
+<p><em>На днях я предложил читателям телеграм-канала <a href=https://t.me/ohmypy>Oh My Py</a> задачку об итераторе с ограничениями. Давайте её разберём.</em></p>
+<h2 id=условия-задачи>Условия задачи</h2>
+<p>Допустим, вы основали модный HR-стартап, который подбирает идеальные коллективы сотрудников. Дело это нелёгкое, так что начали с простой эвристики:</p>
+<blockquote>
+<p>Любой коллектив идеален, пока в нём не появляется Френк</p>
+</blockquote>
+<p>Подготовили интеллектуальный алгоритм, который предлагает сотрудника:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>random</span>
+<span style=color:#000>names</span> <span style=color:#000>=</span> [<span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#c41a16>&#34;Клер&#34;</span>, <span style=color:#c41a16>&#34;Зоя&#34;</span>, <span style=color:#c41a16>&#34;Питер&#34;</span>, <span style=color:#c41a16>&#34;Лукас&#34;</span>]
+
+<span style=color:#a90d91>def</span> <span style=color:#000>employee</span>():
+  <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>choice</span>(<span style=color:#000>names</span>)
+  <span style=color:#a90d91>return</span> <span style=color:#000>name</span>
+</code></pre></div><p>Остался последний шаг — разработать нечто под названием <code>employeficator()</code>, что и будет подбирать дружный коллектив. Использоваться будет так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> [<span style=color:#000>name</span> <span style=color:#a90d91>for</span> <span style=color:#000>name</span> <span style=color:#000>in</span> <span style=color:#000>employeficator</span>()]
+[<span style=color:#c41a16>&#39;Зоя&#39;</span>, <span style=color:#c41a16>&#39;Зоя&#39;</span>, <span style=color:#c41a16>&#39;Питер&#39;</span>]
+<span style=color:#000>&gt;&gt;&gt;</span> [<span style=color:#000>name</span> <span style=color:#a90d91>for</span> <span style=color:#000>name</span> <span style=color:#000>in</span> <span style=color:#000>employeficator</span>()]
+[<span style=color:#c41a16>&#39;Лукас&#39;</span>, <span style=color:#c41a16>&#39;Зоя&#39;</span>, <span style=color:#c41a16>&#39;Питер&#39;</span>]
+</code></pre></div><p>Ваша задача — реализовать <code>employeficator()</code> максимально идиоматично.</p>
+<p>Для затравки начну заведомо неудачным вариантом:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+  <span style=color:#000>employees</span> <span style=color:#000>=</span> []
+  <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>employee</span>()
+  <span style=color:#a90d91>while</span> <span style=color:#000>name</span> <span style=color:#000>!=</span> <span style=color:#c41a16>&#34;Френк&#34;</span>:
+    <span style=color:#000>employees</span><span style=color:#000>.</span><span style=color:#000>append</span>(<span style=color:#000>name</span>)
+    <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>employee</span>()
+  <span style=color:#a90d91>return</span> <span style=color:#000>employees</span>
+</code></pre></div><h2 id=решение-победитель>Решение-победитель</h2>
+<p>Для начала, что такое «идиоматично». Идиоматичный код использует «родные» конструкции языка и стандартной библиотеки, не нарушая при этом питонячий дзен (simple is better than complex, readability counts, вот это всё).</p>
+<p>Месиво из вложенных циклов с break и continue вряд ли можно назвать идиоматичным. Точно также не будет идиоматичной «функциональная» колбаса из вызовов functools и itertools. Абсолютных критериев тут нет, но общий смысл, надеюсь, понятен.</p>
+<p>Теперь к решению. Задача была с небольшим подвохом: искомый <code>employeficator()</code> уже есть в стандартной библиотеке. Больше того, не просто в стандартной библиотеке, а в самом её сердце, в built-in функциях! Вот он:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>[<span style=color:#000>name</span> <span style=color:#a90d91>for</span> <span style=color:#000>name</span> <span style=color:#000>in</span> <span style=color:#a90d91>iter</span>(<span style=color:#000>employee</span>, <span style=color:#c41a16>&#34;Френк&#34;</span>)]
+</code></pre></div><p>Да, это функция <code>iter()</code>. Обычно её вызывают с одним аргументом — коллекцией:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>seq</span> <span style=color:#000>=</span> [<span style=color:#1c01ce>1</span>, <span style=color:#1c01ce>2</span>, <span style=color:#1c01ce>3</span>]
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>it</span> <span style=color:#000>=</span> <span style=color:#a90d91>iter</span>(<span style=color:#000>seq</span>)
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>next</span>(<span style=color:#000>it</span>)
+<span style=color:#1c01ce>1</span>
+</code></pre></div><p>Но в варианте с двумя аргументами <code>iter()</code> работает иначе:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>iter</span>(<span style=color:#000>callable</span>, <span style=color:#000>sentinel</span>)
+</code></pre></div><p>Первый аргумент — функция или что-нибудь вызываемое (callable), второй — контрольное значение (sentinel). Каждое обращение к итератору вызывает <code>callable()</code> и возвращает результат его выполнения. А как только <code>callable()</code> возвращает значение <code>sentinel</code>, итератор прекращает работу.</p>
+<p>Это ровно то поведение, что требовалось в задаче — вызывать <code>employee()</code>, пока очередной вызов не вернёт <code>"Френк"</code>.</p>
+<p>Так что <code>iter()</code> здесь — идеальное решение. Поздравляю всех, кто его предложил!</p>
+<h2 id=хорошие-решения>Хорошие решения</h2>
+<p>Удачное решение — использовать генератор. Благо, в питоне 3.8 появилась короткая форма записи для инициализации переменной внутри выражения («моржовый» оператор):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+    <span style=color:#a90d91>while</span> (<span style=color:#000>name</span> <span style=color:#000>:=</span> <span style=color:#000>employee</span>()) <span style=color:#000>!=</span> <span style=color:#c41a16>&#34;Френк&#34;</span>:
+        <span style=color:#a90d91>yield</span> <span style=color:#000>name</span>
+</code></pre></div><p>«Морж» вызвал большое недовольство в питонячьем мире, так что если он вам не по душе, то можно и так:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+    <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>employee</span>()
+    <span style=color:#a90d91>while</span> <span style=color:#000>name</span> <span style=color:#000>!=</span> <span style=color:#c41a16>&#34;Френк&#34;</span>:
+        <span style=color:#a90d91>yield</span> <span style=color:#000>name</span>
+        <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>employee</span>()
+</code></pre></div><h2 id=неудачные-решения>Неудачные решения</h2>
+<p>Часто предлагали такой вариант:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+    <span style=color:#a90d91>while</span> <span style=color:#a90d91>True</span>:
+        <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>employee</span>()
+        <span style=color:#a90d91>if</span> <span style=color:#000>name</span> <span style=color:#000>==</span> <span style=color:#c41a16>&#34;Френк&#34;</span>:
+            <span style=color:#a90d91>break</span>
+        <span style=color:#a90d91>yield</span> <span style=color:#000>name</span>
+</code></pre></div><p>Ничего плохого в нём нет, но если есть возможность обойтись без break, не усложняя код — лучше это сделать (см. решение из предыдущего раздела).</p>
+<p>Бывает, людям хочется применить «функциональщину»:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>itertools</span> <span style=color:#a90d91>import</span> <span style=color:#000>takewhile</span>, <span style=color:#000>count</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+    <span style=color:#a90d91>return</span> <span style=color:#000>takewhile</span>(
+        <span style=color:#a90d91>lambda</span> <span style=color:#000>name</span>: <span style=color:#000>name</span> <span style=color:#000>!=</span> <span style=color:#c41a16>&#39;Френк&#39;</span>, (<span style=color:#000>employee</span>() <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#000>count</span>())
+    )
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>itertools</span> <span style=color:#a90d91>import</span> <span style=color:#000>takewhile</span>, <span style=color:#000>starmap</span>, <span style=color:#000>repeat</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+    <span style=color:#a90d91>return</span> <span style=color:#000>takewhile</span>(
+        <span style=color:#a90d91>lambda</span> <span style=color:#000>name</span>: <span style=color:#000>name</span> <span style=color:#000>!=</span> <span style=color:#c41a16>&#34;Френк&#34;</span>, <span style=color:#000>starmap</span>(<span style=color:#000>employee</span>, <span style=color:#000>repeat</span>(()))
+    )
+</code></pre></div><p>Тоже не беда. Но на мой вкус, когнитивная стоимость таких решений высоковата. Неохота скрипеть мозгом каждый раз, когда читаешь код.</p>
+<p>Некоторые участники решили, что коллектив обязательно должен состоять из 3 сотрудников или не может включать нескольких сотрудников с одинаковыми именами. Но таких ограничений в условиях не было, поэтому эти решения я не буду рассматривать, как бы хороши они не были.</p>
+<p>Хотя нет, одно всё же покажу:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>employeficator</span>():
+    <span style=color:#000>team_size</span> <span style=color:#000>=</span> <span style=color:#a90d91>range</span>(<span style=color:#1c01ce>0</span>, <span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>randint</span>(<span style=color:#1c01ce>1</span>, <span style=color:#a90d91>len</span>(<span style=color:#000>names</span>) <span style=color:#000>+</span> <span style=color:#1c01ce>1</span>))
+    <span style=color:#a90d91>return</span> <span style=color:#a90d91>iter</span>(<span style=color:#a90d91>set</span>(<span style=color:#000>name</span> <span style=color:#a90d91>if</span> <span style=color:#000>name</span> <span style=color:#000>!=</span> <span style=color:#c41a16>&#39;Френк&#39;</span> <span style=color:#a90d91>else</span>
+               <span style=color:#a90d91>next</span>(<span style=color:#000>employeficator</span>()) <span style=color:#a90d91>for</span> <span style=color:#000>name</span> <span style=color:#000>in</span>
+               (<span style=color:#000>employee</span>() <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#000>team_size</span>)))
+</code></pre></div><p>Пожалуйста, никогда не пишите так продакшен-код. Пожалейте коллег и себя.</p>
+<p>И подписывайтесь на <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=https://t.me/ohmypy>Oh My Py</a>», конечно!</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2020-08-10 11:11:02 +0000 UTC">10.08.2020</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+<a href=https://antonz.ru/tags/puzzle/>задачка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/range/>Python. Грамотно работать с любым диапазоном</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/boycott/>Мой личный бойкот</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/range/>Python. Грамотно работать с любым диапазоном</a></p>
+<p><a href=/element-in-collection/>Python. Проверить, входит ли элемент в коллекцию</a></p>
+<p><a href=/checkcache/>Зачем читать исходники стандартной библиотеки</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

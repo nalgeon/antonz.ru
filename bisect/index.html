@@ -1,0 +1,179 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Python. Быстро найти элемент коллекции</title>
+<meta name=description content="С помощью bisect.bisect()">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/bisect/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python. Быстро найти элемент коллекции">
+<meta property="og:description" content="С помощью bisect.bisect()">
+<meta property="og:url" content="https://antonz.ru/bisect/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Python. Быстро найти элемент коллекции">
+<meta name=twitter:description content="С помощью bisect.bisect()">
+<meta name=twitter:url content="https://antonz.ru/bisect/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Python. Быстро найти элемент коллекции</h1>
+</header>
+<p>Френк решил открыть магазин диковинок. Прайс-лист огромный, приведу только несколько позиций:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>collections</span> <span style=color:#a90d91>import</span> <span style=color:#000>namedtuple</span>
+<span style=color:#000>Product</span> <span style=color:#000>=</span> <span style=color:#000>namedtuple</span>(<span style=color:#c41a16>&#34;Product&#34;</span>, (<span style=color:#c41a16>&#34;price&#34;</span>, <span style=color:#c41a16>&#34;name&#34;</span>))
+
+<span style=color:#000>products</span> <span style=color:#000>=</span> [
+  <span style=color:#000>Product</span>(<span style=color:#1c01ce>1500</span>, <span style=color:#c41a16>&#34;живой багет&#34;</span>),
+  <span style=color:#000>Product</span>(<span style=color:#1c01ce>3300</span>, <span style=color:#c41a16>&#34;мельница для сыра&#34;</span>),
+  <span style=color:#000>Product</span>(<span style=color:#1c01ce>6500</span>, <span style=color:#c41a16>&#34;костюм картошки&#34;</span>),
+  <span style=color:#000>Product</span>(<span style=color:#1c01ce>9900</span>, <span style=color:#c41a16>&#34;беспилотная сова&#34;</span>),
+]
+</code></pre></div><p>Магазин открылся, торговля идёт бойко, но есть проблемка. Покупатели донимают вопросом «у меня есть X рублей, какую самую дорогую дичь я могу купить за эту сумму?».</p>
+<p>Френк очень плохо считает (неудивительно для голубя), поэтому требуется наша помощь. Давайте сначала решим «в лоб»:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>def</span> <span style=color:#000>suggest</span>(<span style=color:#000>max_price</span>):
+    <span style=color:#000>best_product</span> <span style=color:#000>=</span> <span style=color:#000>Product</span>(<span style=color:#1c01ce>0</span>, <span style=color:#a90d91>None</span>)
+    <span style=color:#a90d91>for</span> <span style=color:#000>product</span> <span style=color:#000>in</span> <span style=color:#000>products</span>:
+        <span style=color:#a90d91>if</span> <span style=color:#000>product</span><span style=color:#000>.</span><span style=color:#000>price</span> <span style=color:#000>&gt;</span> <span style=color:#000>max_price</span>:
+            <span style=color:#a90d91>continue</span>
+        <span style=color:#a90d91>if</span> <span style=color:#000>product</span><span style=color:#000>.</span><span style=color:#000>price</span> <span style=color:#000>&gt;</span> <span style=color:#000>best_product</span><span style=color:#000>.</span><span style=color:#000>price</span>:
+            <span style=color:#000>best_product</span> <span style=color:#000>=</span> <span style=color:#000>product</span>
+    <span style=color:#a90d91>if</span> <span style=color:#000>best_product</span><span style=color:#000>.</span><span style=color:#000>name</span> <span style=color:#000>is</span> <span style=color:#a90d91>None</span>:
+        <span style=color:#a90d91>return</span> <span style=color:#a90d91>None</span>
+    <span style=color:#a90d91>return</span> <span style=color:#000>best_product</span>
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>suggest</span>(<span style=color:#1c01ce>5000</span>)
+<span style=color:#000>Product</span>(<span style=color:#000>price</span><span style=color:#000>=</span><span style=color:#1c01ce>3300</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;мельница для сыра&#39;</span>)
+</code></pre></div><p>Работает как часы! Только Френк жалуется, что <code>suggest()</code> что-то долго думает (прайс-лист огромный, помните?). Это неудивительно, мы ведь каждый раз перебираем все товары — сложность алгоритма <code>O(n)</code></p>
+<p>Надо бы отсортировать товары по цене и использовать алгоритм бинарного поиска, который работает за <code>O(log n)</code>. Правда, не слишком греет перспектива реализации алгоритма — Френк требует сделать всё сию же секунду.</p>
+<p>Нам поможет модуль <code>bisect</code> стандартной библиотеки:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>bisect</span>
+
+<span style=color:#000>prices</span> <span style=color:#000>=</span> <span style=color:#a90d91>sorted</span>(<span style=color:#000>p</span><span style=color:#000>.</span><span style=color:#000>price</span> <span style=color:#a90d91>for</span> <span style=color:#000>p</span> <span style=color:#000>in</span> <span style=color:#000>products</span>)
+
+<span style=color:#a90d91>def</span> <span style=color:#000>suggest</span>(<span style=color:#000>max_price</span>):
+    <span style=color:#000>best_index</span> <span style=color:#000>=</span> <span style=color:#000>bisect</span><span style=color:#000>.</span><span style=color:#000>bisect</span>(<span style=color:#000>prices</span>, <span style=color:#000>max_price</span>)
+    <span style=color:#a90d91>if</span> <span style=color:#000>best_index</span> <span style=color:#000>==</span> <span style=color:#1c01ce>0</span>:
+        <span style=color:#a90d91>return</span> <span style=color:#a90d91>None</span>
+    <span style=color:#a90d91>return</span> <span style=color:#000>products</span>[<span style=color:#000>best_index</span> <span style=color:#000>-</span> <span style=color:#1c01ce>1</span>]
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>suggest</span>(<span style=color:#1c01ce>5000</span>)
+<span style=color:#000>Product</span>(<span style=color:#000>price</span><span style=color:#000>=</span><span style=color:#1c01ce>3300</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;мельница для сыра&#39;</span>)
+</code></pre></div><p>Работает так:</p>
+<ul>
+<li>Создали отсортированный список цен.</li>
+<li>Покупатель принёс 5000₽ денег.</li>
+<li><code>bisect.bisect()</code> определил, на какую позицию списка можно вставить 5000, чтобы список остался отсортированным (третья позиция, между 3300 и 6500).</li>
+<li>Элемент слева от этой позиции и есть интересующий нас товар («мельница» за 3300).</li>
+</ul>
+<p>Френк доволен.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=http://ohmypy.ru>Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2019-06-26 16:44:00 +0000 UTC">26.06.2019</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/calendar/>Python. Узнать день недели 40 лет назад</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/sorted-puzzle/>Python. Cортировать в конце или держать отсортированным?</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/calendar/>Python. Узнать день недели 40 лет назад</a></p>
+<p><a href=/deepcopy/>Python. Создать полный дубль коллекции</a></p>
+<p><a href=/today-is-now/>Python. Сегодня == сейчас</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

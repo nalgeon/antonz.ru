@@ -1,0 +1,165 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Django и пустые значения</title>
+<meta name=description content="Неожиданный креатив от авторов популярного фреймворка">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/django-null/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django и пустые значения">
+<meta property="og:description" content="Неожиданный креатив от авторов популярного фреймворка">
+<meta property="og:url" content="https://antonz.ru/django-null/">
+<meta property="og:image" content="https://antonz.ru/django-null/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Django и пустые значения">
+<meta name=twitter:description content="Неожиданный креатив от авторов популярного фреймворка">
+<meta name=twitter:url content="https://antonz.ru/django-null/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/django-null/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Django и пустые значения</h1>
+</header>
+<p><em>В последние недели жизнь тесно познакомила меня с самым популярным фреймворком для быстрой разработки веб-приложений на Питоне — <a href=https://www.djangoproject.com>Django</a>. В нём много любопытного, чем я время от времени намерен делиться ツ</em></p>
+<p>Допустим, у вас в приложении есть сущность «Клиент», а у клиента поле «Имя». Клиенты указывают имя при регистрации, но поскольку это не обязательно — многие предпочитают оставлять поле пустым. Как в таких случаях должно имя храниться в базе данных?</p>
+<p>Я всегда полагал, что на этот вопрос может быть единственный ответ — использовать специальное значение <code>NULL</code>. Оно ведь ровно для этого и предназначено: показать, что поле не заполнено, его значение неизвестно.</p>
+<h2 id=null-vsпустая-строка>NULL vs пустая строка</h2>
+<p>Создатели «Джанги», однако, пошли против вековой мудрости разработчиков, и норовят сохранять отсутствующее значение как пустую строку. За это отвечает специальная настройка (<code>null=False</code>). Менять её не рекомендуют — мол, <a href=https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.Field.null>путаница от этого возникнет</a>:</p>
+<blockquote>
+<p>If <code>True</code>, Django will store empty values as <code>NULL</code> in the database. Default is <code>False</code>.</p>
+</blockquote>
+<blockquote>
+<p>Avoid using <code>null</code> on string-based fields because empty string values will always be stored as empty strings, not as <code>NULL</code>.</p>
+</blockquote>
+<blockquote>
+<p>If a string-based field has <code>null=True</code>, that means it has two possible values for &ldquo;no data&rdquo;: <code>NULL</code>, and the empty string. In most cases, it’s redundant to have two possible values for &ldquo;no data&rdquo;; the Django convention is to use the empty string, not <code>NULL</code>.</p>
+</blockquote>
+<p>Этот кусок документации заслуживает особой похвалы. Так всё запутать, ничего толком не объяснив — это ещё надо суметь. Следите за руками:</p>
+<ul>
+<li>с одной стороны, «<strong>if True</strong>, Django will store empty values <strong>as NULL</strong>»,</li>
+<li>одновременно с этим «empty string values will <strong>always</strong> be stored <strong>as empty strings</strong>, not as NULL».</li>
+</ul>
+<p>Так вы храните пустые значения как NULL при включённой настройке? Или всегда-всегда как пустую строку (и на кой чёрт тогда настройка)? Определитесь уже!</p>
+<p>На самом деле, авторы имели в виду следующее:</p>
+<ul>
+<li>Если <code>null=False</code>, и вы не присвоите полю значение, «Джанга» молча присвоит ему <code>""</code> и сохранит в базе как пустую строку.</li>
+<li>Если <code>null=True</code>, и вы не присвоите полю значение, «Джанга» молча присвоит ему <code>None</code> и сохранит в базе как <code>NULL</code>.</li>
+<li>Вне зависимости от настройки, если вы явно присвоите полю значение <code>""</code>, «Джанга» сохранит его в базе как пустую строку.</li>
+<li>Вне зависимости от настройки, если вы явно присвоите полю значение <code>None</code>, «Джанга» сохранит его в базе как <code>NULL</code>.</li>
+</ul>
+<p>Ох.</p>
+<h2 id=not-null-натаблице>NOT NULL на таблице</h2>
+<p>Но это полбеды. О чём авторы совсем забыли упомянуть в документации — о том, что <code>null=False</code> генерирует такой SQL-код:</p>
+<pre tabindex=0><code>ALTER TABLE &quot;tablename&quot;
+ADD COLUMN &quot;columnname&quot; varchar (50) DEFAULT '' NOT NULL;
+</code></pre><p>То есть не просто «мы будем записывать неизвестное значение в базу как пустую строку», а «мы вообще запретим этому полю иметь значение <code>NULL</code>».</p>
+<p>Это очень, очень творческое дизайнерское решение. Дело в том, что если у вас таблица на 100000 строк, и вы добавляете в неё <code>NOT NULL</code> столбец, то это, мягко говоря, небыстро. И полностью блокирует таблицу на всё время операции.</p>
+<p>А если приложение развивается, новые столбцы добавляют регулярно. И с <code>NOT NULL</code> каждый раз при миграции таблица блокируется и полностью перезаписывается. Как вообще можно было додуматься до такого подхода?</p>
+<p>Чтобы решить проблему, достаточно игнорировать рекомендации «Джанги» и ставить текстовым полям <code>null=True</code>.</p>
+<p>P.S. В PostgreSQL 11 добавили специальную оптимизацию, благодаря которой добавление <code>NOT NULL</code> столбца <a href=https://www.depesz.com/2018/04/04/waiting-for-postgresql-11-fast-alter-table-add-column-with-a-non-null-default/>работает моментально</a>, если у него есть значение по умолчанию. Так что в новом «Постгресе» рекомендуемые настройки «Джанги» наконец-то перестали стрелять в ногу разработчикам.</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2018-11-08 19:01:50 +0000 UTC">08.11.2018</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/conversion/>Секта свидетелей раздутой конверсии</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/sin/>Финал «Интерфейсов без шелухи»</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/alice/>Алиса, всё грустно</a></p>
+<p><a href=/recursion/>Как понять рекурсию</a></p>
+<p><a href=/speech-api/>Синтез и распознавание речи в 50 строк на JavaScript</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

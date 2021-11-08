@@ -1,0 +1,265 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Хватит сортировать по алфавиту</title>
+<meta name=description content="Как упорядочить объекты в интерфейсе, чтобы пользователю было удобно с ними работать.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/no-more-latch/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Хватит сортировать по алфавиту">
+<meta property="og:description" content="Как упорядочить объекты в интерфейсе, чтобы пользователю было удобно с ними работать.">
+<meta property="og:url" content="https://antonz.ru/no-more-latch/">
+<meta property="og:image" content="https://antonz.ru/no-more-latch/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Хватит сортировать по алфавиту">
+<meta name=twitter:description content="Как упорядочить объекты в интерфейсе, чтобы пользователю было удобно с ними работать.">
+<meta name=twitter:url content="https://antonz.ru/no-more-latch/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/no-more-latch/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Хватит сортировать по алфавиту</h1>
+</header>
+<p>Часто при проектировании интерфейса нужно показать на экране список однотипных объектов: людей, товаров, статей. И возникает вопрос — как их организовать?
+Классический ответ дал в 1989 году Ричард Вурман, автор термина «информационная архитектура». Он предложил <a href="http://www.informit.com/articles/article.aspx?p=130881&seqNum=6">мнемонику LATCH</a>: положение, алфавит, время, категория, иерархия.</p>
+<p>Это неплохая модель, но есть что улучшить. Вот мой вариант — как организовать информацию в интерфейсе.</p>
+<h2 id=поалфавиту>По алфавиту</h2>
+<p>Составить список объектов и отсортировать по названию. Например, контакты в телефонной книге компании упорядочены по фамилиям:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по алфавиту" src=alphabet.png class=bordered></p>
+</div>
+</div>
+<p>Организацию по алфавиту используют, если пользователь будет искать нужный объект по первым буквам названия:</p>
+<ul>
+<li>глоссарий в книге,</li>
+<li>список учеников в классном журнале,</li>
+<li>код компании в биржевой сводке.</li>
+</ul>
+<p>Часто алфавит используют «по умолчанию». Подход ленивого дизайнера: не знаешь, как упорядочить список — отсортируй по алфавиту ツ</p>
+<h2 id=повремени>По времени</h2>
+<p>Показать объекты в хронологическом порядке — привязать к событиям во времени. Например, чтобы проиллюстрировать историю становления компании, написать, когда начал работать каждый сотрудник:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по времени" src=time.png class=bordered></p>
+</div>
+</div>
+<p>Организацию по времени используют, когда важно знать точный момент события:</p>
+<ul>
+<li>список встреч на день,</li>
+<li>расписание автобуса,</li>
+<li>история изменения карточки клиента в CRM.</li>
+</ul>
+<p>Не всегда нужна привязка к моменту, иногда достаточно знать взаимный порядок событий (что произошло раньше, что позже):</p>
+<ul>
+<li>инструкция на случай пожара,</li>
+<li>последовательность шагов при регистрации на сайте,</li>
+<li>следующие номера на табло в электронной очереди.</li>
+</ul>
+<h2 id=поположению>По положению</h2>
+<p>Привязать объекты к положению в пространстве. Например, если в компании сотрудники работают в разных городах, удобно показать их на карте:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по положению" src=location.png class=bordered></p>
+</div>
+</div>
+<p>Заодно понятно, какая у кого разница во времени.</p>
+<p>Организацию по положению используют, когда важно, как расположены объекты относительно контейнера, друг друга или наблюдателя:</p>
+<ul>
+<li>станции метро на карте,</li>
+<li>туалеты на схеме терминала аэропорта,</li>
+<li>органы в теле человека.</li>
+</ul>
+<p>Обычно объекты привязывают к точке в двух- или трёхмерном пространстве. Но иногда достаточно упорядочить объекты по взаимному расположению (первый, второй, третий). Так организован список сносок в конце книги или станции на конкретной ветке метро.</p>
+<h2 id=покатегориям>По категориям</h2>
+<p>Разложить объекты по именованным кучкам — категориям. Например, распределить сотрудников по отделам:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по категориям" src=category-1.png class=bordered></p>
+</div>
+</div>
+<p>Организацию по категориям используют, когда есть очевидный пользователю признак, по которому объекты похожи или отличаются:</p>
+<ul>
+<li>меню в ресторане (закуски, салаты, супы, основные блюда, десерт),</li>
+<li>формат листа в магазине канцтоваров (А1, А2, А3, А4),</li>
+<li>контакты на карточке клиента в CRM (адреса, телефоны, емейлы, аккаунты в соцсетях).</li>
+</ul>
+<p>Для категории подходит любой качественный признак: цвет, форма, вкус, фактура. Если признак количественный (площадь, стоимость, вес) — попадаем в следующий раздел («по количеству»).</p>
+<p>Иногда одновременно используют несколько наборов категорий. Основной набор показывают сразу. Например, для магазина ноутбуков это будут «бюджетные», «игровые» и «компактные» категории. Дополнительную классификацию прячут за фильтрами: бренды, диагональ экрана, объем диска, цвет.</p>
+<h2 id=поколичеству>По количеству</h2>
+<p>Упорядочить объекты по значению количественного признака. Например, руководителю компании захотелось узнать, кто сколько получает:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по количеству" src=count.png class=bordered></p>
+</div>
+</div>
+<p>Организацию по количеству используют, когда важно знать «у кого больше, у кого меньше» и «сколько конкретно»:</p>
+<ul>
+<li>фильмы по рейтингу IMDB,</li>
+<li>ноутбуки по цене,</li>
+<li>города по населению.</li>
+</ul>
+<p>Если выделить диапазоны значений и придумать для них названия — получатся категории. Например, вместо точного количества товара на складе магазин может использовать категории «много», «несколько» и «остался последний».</p>
+<div class=boxed>
+<h3>Что не так с мнемоникой LATCH Ричарда Вурмана</h3>
+<p>Вурман напортачил с последним пунктом, иерархией (hierarchy). Он имел в виду «упорядочить по количеству»: расстоянию, стоимости, рейтингу. Но так бы не получилась мнемоника, поэтому он взял «иерархию» и всех запутал.</p>
+<p>На самом деле иерархия возникает, когда дизайнер комбинирует несколько способов. Например, показать офисы компании на карте, а внутри офисов — сотрудников по алфавиту. Получилась иерархия.</p>
+<p>Композиция конкретного способа с самим собой тоже создаёт иерархию. Особенно часто это встречается в категориях. Например, организовать сотрудников по отделам, отделы — по департаментам, департаменты — по бизнес-единицам. Тоже иерархия.</p>
+</div>
+<h2 id=порелевантности>По релевантности</h2>
+<p>Упорядочить объекты по полезности — по соответствию предпочтениям человека. Например, при поиске по списку контактов ранжировать результаты по соответствию запросу:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по релевантности" src=relevance.png class=bordered></p>
+</div>
+</div>
+<p>Организацию по релевантности используют, когда человек явно или неявно сообщил о своих предпочтениях:</p>
+<ul>
+<li>результаты поиска на сайте (явное предпочтение — поисковый запрос),</li>
+<li>выдача в социальной сети (неявное предпочтение — история лайков и просмотров пользователя),</li>
+<li>рекомендуемые товары (неявное предпочтение — поведение человека на сайте и история покупок).</li>
+</ul>
+<p>Ещё порядок «по полезности» отлично подходит для коротких списков, элементы которых слабо связаны между собой:</p>
+<ul>
+<li>преимущества на сайте компании,</li>
+<li>характеристики на карточке товара в магазине,</li>
+<li>отзывы в портфолио консультанта.</li>
+</ul>
+<h2 id=посвязям-сдругими-объектами>По связям с другими объектами</h2>
+<p>Организовать объекты в сеть и показать отношения между ними. Например, компания пригласила консультанта, чтобы проанализировал психологический климат в коллективе. Он нарисовал такую схему:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p><img alt="Организация по связям" src=relations-1.png class=bordered></p>
+</div>
+</div>
+<p>Организация по связям отличается от остальных методов: нет ни упорядоченности, ни явной принадлежности объекта к категории. Её используют, чтобы увидеть закономерности, пути и расстояния между объектами:</p>
+<ul>
+<li>социальный граф знакомств, чтобы «достучаться» до нужного человека,</li>
+<li>схема владения и аффилированности компаний, чтобы определить конечного бенефициара,</li>
+<li>схема дорог, чтобы найти кратчайший маршрут.</li>
+</ul>
+<h2 id=случайным-образом>Случайным образом</h2>
+<p>Показать список объектов «абы как», отобразить в случайном порядке. Если «по алфавиту» — умолчательный вариант ленивого дизайнера, то «случайным образом» — ленивого программиста.</p>
+<p>Такой способ редко полезен. Но иногда случается: например, перемешать варианты ответов в тесте, чтобы сложнее было списать.</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<h3 id=как-это-использовать>Как это использовать</h3>
+<p>Когда в следующий раз будете проектировать экран с множеством однотипных объектов, не выбирайте вариант организации «по умолчанию» — абы как или по алфавиту.</p>
+<p>Задайтесь вопросами:</p>
+<ul>
+<li>Как пользователь будет искать нужный объект?</li>
+<li>Важно ли знать взаимный порядок объектов?</li>
+<li>Привязаны ли объекты к моментам времени или точкам в пространстве?</li>
+<li>Чем объекты похожи и чем отличаются?</li>
+<li>Какие взаимосвязи есть между объектами?</li>
+<li>Что больше всего интересно человеку, каковы его намерения?</li>
+</ul>
+<p>Ответив на вопросы, увидите, какой метод организации подходит лучше.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class=nowrap><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2017-07-18 08:52:05 +0000 UTC">18.07.2017</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/spy-ui/>Куда подглядывать, когда проектируешь интерфейс</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/url-as-interface/>Урл как интерфейс</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/spy-ui/>Куда подглядывать, когда проектируешь интерфейс</a></p>
+<p><a href=/ilya-aleksandrov/>Как веб-дизайнеру проектировать хардварные интерфейсы</a></p>
+<p><a href=/important-notifications/>Важные оповещения и ковбой Мальборо</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

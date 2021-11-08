@@ -1,0 +1,448 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Оконные функции: скользящие агрегаты</title>
+<meta name=description content="Скользящее среднее и кумулятивная сумма.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/window-rolling/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Оконные функции: скользящие агрегаты">
+<meta property="og:description" content="Скользящее среднее и кумулятивная сумма.">
+<meta property="og:url" content="https://antonz.ru/window-rolling/">
+<meta property="og:image" content="https://antonz.ru/window-rolling/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Оконные функции: скользящие агрегаты">
+<meta name=twitter:description content="Скользящее среднее и кумулятивная сумма.">
+<meta name=twitter:url content="https://antonz.ru/window-rolling/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/window-rolling/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Оконные функции: скользящие агрегаты</h1>
+</header>
+<p><em>Это пятая, заключительная статья из серии <a href=/window-functions>Оконные функции в картинках</a>. Рекомендую не просто читать, а <a href=https://stepik.org/z/95367>проходить курс</a> — с ним знания превратятся в навыки.</em></p>
+<p>Скользящие агрегаты — это те же сумма и среднее. Только рассчитывают их не по всем элементам набора, а более хитрым способом.</p>
+<p>Разберемся на примерах. Здесь возьмем другую табличку — <code>expenses</code>. Она показывает доходы и расходы одного из сотрудников (пусть это будет Марина) за 9 месяцев 2020 года:</p>
+<pre tabindex=0><code>┌──────┬───────┬────────┬─────────┐
+│ year │ month │ income │ expense │
+├──────┼───────┼────────┼─────────┤
+│ 2020 │ 1     │ 94     │ 82      │
+│ 2020 │ 2     │ 94     │ 75      │
+│ 2020 │ 3     │ 94     │ 104     │
+│ 2020 │ 4     │ 100    │ 94      │
+│ 2020 │ 5     │ 100    │ 99      │
+│ 2020 │ 6     │ 100    │ 105     │
+│ 2020 │ 7     │ 100    │ 95      │
+│ 2020 │ 8     │ 100    │ 110     │
+│ 2020 │ 9     │ 104    │ 104     │
+└──────┴───────┴────────┴─────────┘
+</code></pre><ul>
+<li><a href=#rolling-avg>скользящее среднее</a>,</li>
+<li><a href=#frame>фрейм</a>,</li>
+<li><a href=#cumulative-sum>нарастающий итог</a>,</li>
+<li><a href=#functions>функции</a>.</li>
+</ul>
+<p>Все запросы можно повторять <a href=https://antonz.org/sqliter/sandbox/#window.db>в песочнице</a>.</p>
+<h2 id=rolling-avg>Скользящее среднее по расходам</h2>
+<p>Судя по данным, доходы у Марины растут: 94К ₽ в январе → 104К ₽ в сентябре. А вот растут ли расходы? Сходу сложно сказать, месяц на месяц не приходится. Чтобы сгладить эти скачки, используют «скользящее среднее» — для каждого месяца рассчитывают средний расход с учетом предыдущего и следующего месяца. Например:</p>
+<ul>
+<li>скользящее среднее за февраль = (январь + февраль + март) / 3;</li>
+<li>за март = (февраль + март + апрель) / 3;</li>
+<li>за апрель = (март + апрель + май) / 3;</li>
+<li>и так далее.</li>
+</ul>
+<p>Рассчитаем скользящее среднее по всем месяцам:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<strong>Было</strong>
+<figure><img alt="Таблица расходов" src=window-expenses.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<strong>Стало</strong>
+<figure><img alt="Скользящее среднее" src=window-rolling-avg.png></figure>
+</div>
+</div>
+<p>Столбец <code>roll_avg</code> показывает скользящее среднее по расходам за три месяца (текущий, предыдущий и следующий). Теперь хорошо видно, что расходы стабильно растут.</p>
+<p>Как перейти от «было» к «стало»?</p>
+<p>Отсортируем таблицу по месяцам:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>, <span style=color:#000>expense</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>roll_avg</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>expenses</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬───────┬─────────┬──────────┐
+│ year │ month │ expense │ roll_avg │
+├──────┼───────┼─────────┼──────────┤
+│ 2020 │ 1     │ 82      │          │
+│ 2020 │ 2     │ 75      │          │
+│ 2020 │ 3     │ 104     │          │
+│ 2020 │ 4     │ 94      │          │
+│ 2020 │ 5     │ 99      │          │
+│ 2020 │ 6     │ 105     │          │
+│ 2020 │ 7     │ 95      │          │
+│ 2020 │ 8     │ 110     │          │
+│ 2020 │ 9     │ 104     │          │
+└──────┴───────┴─────────┴──────────┘
+</code></pre><p>Теперь пройдем от первой строчки до последней. На каждом шаге будем считать среднее по предыдущему, текущему и следующему значению из столбца <code>expense</code>:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+1️⃣
+<figure><img alt="Шаг 1" src=rolling-avg-03.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+2️⃣
+<figure><img alt="Шаг 2" src=rolling-avg-04.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+3️⃣
+<figure><img alt="Шаг 3" src=rolling-avg-05.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+4️⃣
+<figure><img alt="Шаг 4" src=rolling-avg-06.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+5️⃣
+<figure><img alt="Шаг 5" src=rolling-avg-07.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6 flex" style=align-items:center>
+<p>и так далее...</p>
+</div>
+</div>
+<p>Одной гифкой:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Агрегация: скользящее среднее" src=rolling-avg.gif>
+</figure>
+</div>
+</div>
+<p>Окно на каждом шаге сдвигается вниз, скользит — так и получается скользящее среднее. Чтобы описать на SQL, придется вспомнить концепцию фреймов, с которой мы познакомились в <a href=/window-offset/>статье о смещении</a>:</p>
+<ol>
+<li>Окно состоит из одной или нескольких секций (в нашем случае секция одна — все записи <code>expenses</code>).</li>
+<li>Внутри секции записи упорядочены по конкретным столбцам (<code>order by year, month</code>).</li>
+<li>У каждой записи свой фрейм.</li>
+</ol>
+<p>Фрейм на каждом шаге охватывает три записи — текущую, предыдущую и следующую:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 1" src=rolling-1.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 2" src=rolling-2.png></figure>
+</div>
+</div>
+<p>Вот как записать это на SQL:</p>
+<pre tabindex=0><code>window w as (
+  order by year, month
+  rows between 1 preceding and 1 following
+)
+</code></pre><p>С <code>order by</code> все понятно, а вторая строчка — это как раз определение фрейма: «выбрать строки от 1 предыдущей до 1 следующей». На следующем шаге разберемся с фреймами подробно, а пока закончим с нашим запросом.</p>
+<p>Считаем среднее по расходам — это функция <code>avg()</code>:</p>
+<pre tabindex=0><code>avg(expense) over w
+</code></pre><p>Добавим округление и сведем все вместе:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>, <span style=color:#000>expense</span>,
+  <span style=color:#000>round</span>(<span style=color:#a90d91>avg</span>(<span style=color:#000>expense</span>) <span style=color:#000>over</span> <span style=color:#000>w</span>) <span style=color:#a90d91>as</span> <span style=color:#000>roll_avg</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>expenses</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>
+  <span style=color:#a90d91>rows</span> <span style=color:#a90d91>between</span> <span style=color:#1c01ce>1</span> <span style=color:#000>preceding</span> <span style=color:#a90d91>and</span> <span style=color:#1c01ce>1</span> <span style=color:#000>following</span>
+)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬───────┬─────────┬──────────┐
+│ year │ month │ expense │ roll_avg │
+├──────┼───────┼─────────┼──────────┤
+│ 2020 │ 1     │ 82      │ 79.0     │
+│ 2020 │ 2     │ 75      │ 87.0     │
+│ 2020 │ 3     │ 104     │ 91.0     │
+│ 2020 │ 4     │ 94      │ 99.0     │
+│ 2020 │ 5     │ 99      │ 99.0     │
+│ 2020 │ 6     │ 105     │ 100.0    │
+│ 2020 │ 7     │ 95      │ 103.0    │
+│ 2020 │ 8     │ 110     │ 103.0    │
+│ 2020 │ 9     │ 104     │ 107.0    │
+└──────┴───────┴─────────┴──────────┘
+</code></pre><p>Скользящее среднее по расходам готово!</p>
+<h2 id=frame>Фрейм</h2>
+<p>В общем случае определение фрейма выглядит так:</p>
+<pre tabindex=0><code>rows between X preceding and Y following
+</code></pre><p>Где <code>X</code> — количество строк перед текущей, а <code>Y</code> — количество строк после текущей:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 1" src=frame-11.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 2" src=frame-12.png></figure>
+</div>
+</div>
+<p>Если указать вместо <code>X</code> или <code>Y</code> значение <code>unbounded</code> — это значит «граница секции»:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 3" src=frame-31.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 4" src=frame-32.png></figure>
+</div>
+</div>
+<p>Если указать вместо <code>X preceding</code> или <code>Y following</code> значение <code>current row</code> — это значит «текущая запись»:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 5" src=frame-21.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 6" src=frame-22.png></figure>
+</div>
+</div>
+<p>Фрейм никогда не выходит за границы секции, если столкнулся с ней — обрезается:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 7" src=frame-41.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure><img alt="Фрейм 8" src=frame-42.png></figure>
+</div>
+</div>
+<p>Вообще, у фреймов намного больше возможностей, но мы ограничимся этими. Подробности разберем на курсе.</p>
+<h2 id=cumulative-sum>Прибыль нарастающим итогом</h2>
+<p>Благодаря скользящему среднему, мы выяснили, что в <code>expenses</code> растут и доходы, и расходы. А как они соотносятся друг с другом? Хочется понять, находится ли человек «в плюсе» или «в минусе» с учетом всех заработанных и потраченных денег.</p>
+<p>Причем важно понимать не на конец года, а на каждый месяц. Потому что если по итогам года у Марины все ОК, а в июне ушла в минус — это потенциальная проблема (у компаний такую ситуацию называют «кассовым разрывом»).</p>
+<p>Поэтому посчитаем доходы и расходы по месяцам нарастающим итогом (кумулятивно):</p>
+<ul>
+<li>кумулятивный доход за январь = январь;</li>
+<li>за февраль = январь + февраль;</li>
+<li>за март = январь + февраль + март;</li>
+<li>за апрель = январь + февраль + март + апрель;</li>
+<li>и так далее.</li>
+</ul>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<figure><img alt="Прибыль нарастающим итогом" src=window-cumulative-sum.png></figure>
+</div>
+</div>
+<p><code>t_income</code> показывает доходы нарастающим итогом, <code>t_expense</code> — расходы, а <code>t_profit</code> — прибыль.</p>
+<pre tabindex=0><code>t_profit = t_income - t_expense
+</code></pre><p>Как рассчитать кумулятивные показатели?</p>
+<p>Отсортируем таблицу по месяцам:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>, <span style=color:#000>income</span>, <span style=color:#000>expense</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>t_income</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>t_expense</span>,
+  <span style=color:#a90d91>null</span> <span style=color:#a90d91>as</span> <span style=color:#000>t_profit</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>expenses</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬───────┬────────┬─────────┬──────────┬───────────┬──────────┐
+│ year │ month │ income │ expense │ t_income │ t_expense │ t_profit │
+├──────┼───────┼────────┼─────────┼──────────┼───────────┼──────────┤
+│ 2020 │ 1     │ 94     │ 82      │          │           │          │
+│ 2020 │ 2     │ 94     │ 75      │          │           │          │
+│ 2020 │ 3     │ 94     │ 104     │          │           │          │
+│ 2020 │ 4     │ 100    │ 94      │          │           │          │
+│ 2020 │ 5     │ 100    │ 99      │          │           │          │
+│ 2020 │ 6     │ 100    │ 105     │          │           │          │
+│ 2020 │ 7     │ 100    │ 95      │          │           │          │
+│ 2020 │ 8     │ 100    │ 110     │          │           │          │
+│ 2020 │ 9     │ 104    │ 104     │          │           │          │
+└──────┴───────┴────────┴─────────┴──────────┴───────────┴──────────┘
+</code></pre><p>Теперь пройдем от первой строчки до последней. На каждом шаге будем считать суммарные показатели от начала таблицы до текущей строки:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+1️⃣
+<figure><img alt="Шаг 1" src=cumulative-sum-03.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+2️⃣
+<figure><img alt="Шаг 2" src=cumulative-sum-04.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+3️⃣
+<figure><img alt="Шаг 3" src=cumulative-sum-05.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+4️⃣
+<figure><img alt="Шаг 4" src=cumulative-sum-06.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+5️⃣
+<figure><img alt="Шаг 5" src=cumulative-sum-07.png></figure>
+</div>
+<div class="col-xs-12 col-sm-6 flex" style=align-items:center>
+<p>и так далее...</p>
+</div>
+</div>
+<p>Одной гифкой:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<figure>
+<img alt="Агрегация: сумма нарастающим итогом" src=cumulative-sum.gif>
+</figure>
+</div>
+</div>
+<p>Окно на каждом шаге охватывает строки от начала таблицы до текущей записи. Мы уже значем, как сформулировать подходящий фрейм:</p>
+<pre tabindex=0><code>window w as (
+  order by year, month
+  rows between unbounded preceding and current row
+)
+</code></pre><p>Считаем сумму по доходам и расходам — это функция <code>sum()</code>:</p>
+<pre tabindex=0><code>sum(income) over w as t_income,
+sum(expense) over w as t_expense,
+</code></pre><p>Прибыль считаем как разницу между доходами и расходами:</p>
+<pre tabindex=0><code>(sum(income) over w) - (sum(expense) over w) as t_profit
+</code></pre><p>Все вместе:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>, <span style=color:#000>income</span>, <span style=color:#000>expense</span>,
+  <span style=color:#a90d91>sum</span>(<span style=color:#000>income</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>t_income</span>,
+  <span style=color:#a90d91>sum</span>(<span style=color:#000>expense</span>) <span style=color:#000>over</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> <span style=color:#000>t_expense</span>,
+  (<span style=color:#a90d91>sum</span>(<span style=color:#000>income</span>) <span style=color:#000>over</span> <span style=color:#000>w</span>) <span style=color:#000>-</span> (<span style=color:#a90d91>sum</span>(<span style=color:#000>expense</span>) <span style=color:#000>over</span> <span style=color:#000>w</span>) <span style=color:#a90d91>as</span> <span style=color:#000>t_profit</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>expenses</span>
+<span style=color:#000>window</span> <span style=color:#000>w</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>
+  <span style=color:#a90d91>rows</span> <span style=color:#a90d91>between</span> <span style=color:#000>unbounded</span> <span style=color:#000>preceding</span> <span style=color:#a90d91>and</span> <span style=color:#a90d91>current</span> <span style=color:#a90d91>row</span>
+)
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>, <span style=color:#a90d91>month</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬───────┬────────┬─────────┬──────────┬───────────┬──────────┐
+│ year │ month │ income │ expense │ t_income │ t_expense │ t_profit │
+├──────┼───────┼────────┼─────────┼──────────┼───────────┼──────────┤
+│ 2020 │ 1     │ 94     │ 82      │ 94       │ 82        │ 12       │
+│ 2020 │ 2     │ 94     │ 75      │ 188      │ 157       │ 31       │
+│ 2020 │ 3     │ 94     │ 104     │ 282      │ 261       │ 21       │
+│ 2020 │ 4     │ 100    │ 94      │ 382      │ 355       │ 27       │
+│ 2020 │ 5     │ 100    │ 99      │ 482      │ 454       │ 28       │
+│ 2020 │ 6     │ 100    │ 105     │ 582      │ 559       │ 23       │
+│ 2020 │ 7     │ 100    │ 95      │ 682      │ 654       │ 28       │
+│ 2020 │ 8     │ 100    │ 110     │ 782      │ 764       │ 18       │
+│ 2020 │ 9     │ 104    │ 104     │ 886      │ 868       │ 18       │
+└──────┴───────┴────────┴─────────┴──────────┴───────────┴──────────┘
+</code></pre><p>По <code>t_profit</code> видно, что дела у Марины идут неплохо. В некоторых месяцах расходы превышают доходы, но благодаря накопленной «денежной подушке» кассового разрыва не происходит.</p>
+<h2 id=functions>Функции агрегации</h2>
+<p>Скользящие агрегаты используют те же самые функции, что и агрегаты обычные:</p>
+<ul>
+<li><code>min()</code> и <code>max()</code></li>
+<li><code>count()</code>, <code>avg()</code> и <code>sum()</code></li>
+</ul>
+<p>Разница только в наличии фрейма у скользящих агрегатов.</p>
+<p class=text-centered>⌘ ⌘ ⌘</p>
+<p>Мы рассмотрели четыре класса задач, которые решаются с помощью оконных функций в SQL:</p>
+<ul>
+<li>Ранжирование (всевозможные рейтинги).</li>
+<li>Сравнение со смещением (соседние элементы и границы).</li>
+<li>Агрегация (количество, сумма и среднее).</li>
+<li>Скользящие агрегаты (сумма и среднее в динамике).</li>
+</ul>
+<p>Теперь попробуйте применить «окошки» на практике!</p>
+<p>Чтобы узнать больше об оконных функциях или потренироваться — <a href=https://stepik.org/z/95367><strong>записывайтесь на курс</strong></a> 🚀</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-05-13 14:06:22 +0000 UTC">13.05.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/python-plus-one/>Второй язык для питониста</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/natsort/>Естественная сортировка на Python</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/window-aggregate/>Оконные функции: агрегация</a></p>
+<p><a href=/window-offset/>Оконные функции: смещение</a></p>
+<p><a href=/lets-sql/>Всем SQL</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

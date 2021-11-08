@@ -1,0 +1,272 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Задачка: регистрация с фото и паспортом</title>
+<meta name=description content="Исправляем проблемы и рассматриваем альтернативы.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/signup-puzzle/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Задачка: регистрация с фото и паспортом">
+<meta property="og:description" content="Исправляем проблемы и рассматриваем альтернативы.">
+<meta property="og:url" content="https://antonz.ru/signup-puzzle/">
+<meta property="og:image" content="https://antonz.ru/signup-puzzle/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Задачка: регистрация с фото и паспортом">
+<meta name=twitter:description content="Исправляем проблемы и рассматриваем альтернативы.">
+<meta name=twitter:url content="https://antonz.ru/signup-puzzle/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/signup-puzzle/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Задачка: регистрация с фото и паспортом</h1>
+</header>
+<style>.img-bordered-thin{border:1px solid #aaa}</style>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<p>Я предложил читателям телеграм-канала «<a href=https://t.me/dangry class=nowrap>интерфейсов без шелухи</a>» такую задачку:</p>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<div class=boxed>
+<p>На просторах фейсбука встретил скрины регистрации в довольно типичном приложении, которому надо идентифицировать человека. Так обычно работают каршеринги и всяки уберо-подобные сервисы, которым не обойтись просто электронной почтой.</p>
+<p><img alt="Регистрация с фото и паспортом" src=signup-puzzle.jpg></p>
+<p>Интерфейс достаточно аккуратный, явно делал дизайнер. Но, думаю, есть что улучшить. Попробуем?</p>
+</div>
+</div>
+</div>
+<p>Спасибо всем, кто прислал свои варианты! Давайте разберём решение. Начнём с исправления проблем в существующем интерфейсе, а закончим альтернативными вариантами.</p>
+<p>Будем исходить из того, что и личное фото, и фото паспорта действительно нужны сервису (допустим, юристы требуют). В противном случае решение было бы слишком простым ツ</p>
+<h2 id=редизайн-личное-фото>Редизайн: личное фото</h2>
+<p>Непонятно, зачем на первом экране крестик, да ещё в левом верхнем углу. Если фото требуется для продолжения регистрации, какой смысл закрывать? Если это возврат к предыдущему шагу, то для него на Андроиде есть кнопка «назад».</p>
+<p>Сначала кажется, что инструкция предельно понятна: «загрузите личное фото». Полагаю, надо ткнуть на изображение камеры и сделать селфи. Но зачем тогда внизу кнопка «добавить фото»? Из текста под заголовком становится понятно, что можно загрузить уже готовое фото.</p>
+<p>Это плохо: мы сразу перегрузили экран и усложнили пользователю жизнь, поставив его перед выбором. Очевидно, что большинство пользователей не держат под рукой готовое фото. Поэтому лучше просто предложить сделать селфи, а уже на экране селфи дать возможность загрузить файл:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-5">
+<figure>
+<img alt="Сфотографируйте себя" src=signup-puzzle-1-1.png class=img-bordered-thin>
+<figcaption>Предлагаем сделать селфи…</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-5">
+<figure>
+<img alt=Селфи src=signup-puzzle-1-2.png class=img-bordered-thin>
+<figcaption>…и делаем его</figcaption>
+</figure>
+</div>
+</div>
+<p>В поясняющем тексте было много мусора. «Пожалуйста» лишнее, «для продолжения регистрации» — тоже. Требование загрузки в формате .jpg — просто абсурд. А поскольку мы убрали вариант с загрузкой, от пояснения удалось целиком избавиться.</p>
+<h2 id=редизайн-фото-паспорта>Редизайн: фото паспорта</h2>
+<p>Текст под заголовком повторяет очевидное — из заголовка и следующих двух блоков и так понятно, что надо сделать.</p>
+<p>Непонятно, зачем разноцветные блюры на фотографиях. Пока фото не сделано, лучше показывать схематичное изображение разворота паспорта. Когда сделано — его и показывать.</p>
+<p>Крестик удаления фото микроскопический — сложно будет попасть пальцем. Да и зачем удалять фотографию? Если получилась неудачная, можно просто переснять.</p>
+<p>Исправляем:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-5">
+<p><img alt="Сфотографируйте паспорт" src=signup-puzzle-2.png class=img-bordered-thin></p>
+</div>
+<div class="col-xs-12 col-sm-3">
+<p class=figcaption>Схематичные изображения страниц помогут открыть нужный разворот паспорта</p>
+</div>
+</div>
+<h2 id=альтернатива-отдельные-экраны>Альтернатива: отдельные экраны</h2>
+<p>С первым экраном (личное фото) есть проблема: он предлагает лишнее действие. Можно без потери смысла фотографировать сразу на нём. Тогда логично и фото паспорта разнести по отдельным экранам. Такой вариант предложил <a href=https://t.me/ademyanovskih>Алексей Демьяновских</a> (макеты участника с моими правками):</p>
+<div class=row>
+<div class="col-xs-12 col-sm-4">
+<figure>
+<img alt=Селфи src=signup-puzzle-3-1.jpg>
+<figcaption>Не предлагаем сделать фото, а сразу включаем фронтальную камеру</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure>
+<img alt="Паспорт — первый разворот" src=signup-puzzle-3-2.jpg>
+<figcaption>Рамки помогут правильно расположить паспорт</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure>
+<img alt="Паспорт — регистрация" src=signup-puzzle-3-3.jpg>
+<figcaption>Шагов много, не забываем показывать прогресс вверху</figcaption>
+</figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-4">
+<figure>
+<img alt="Все документы" src=signup-puzzle-4-1.jpg>
+<figcaption>Если какое-то фото не получилось, можно ткнуть на него и переснять</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure>
+<img alt="Заявка отправлена" src=signup-puzzle-4-2.jpg>
+<figcaption>Ура!</figcaption>
+</figure>
+</div>
+</div>
+<h2 id=альтернатива-длинный-экран>Альтернатива: длинный экран</h2>
+<p>Возможно, при регистрации помимо фотографий требуются и другие данные. Если приложение не умеет распознавать текст с фотографий, то придётся указывать и ФИО, и дату рождения, и номер-серию паспорта вручную. Это значит, что получается минимум три экрана: текстовые данные, личное фото, фото паспорта.</p>
+<p>Можно упаковать всё в один длинный экран. Чуть менее наглядно, но зато сразу видно всё, что требует приложение для регистрации. И легко вернуться к предыдущему шагу. Пример из приложения Belka Car:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-5">
+<figure>
+<img alt="Персональные данные" src=signup-puzzle-6-1.png class=img-bordered-thin>
+<figcaption>Вводим персональные данные…</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-5">
+<figure>
+<img alt=Документы src=signup-puzzle-6-2.png class=img-bordered-thin>
+<figcaption>…и делаем фото</figcaption>
+</figure>
+</div>
+</div>
+<p>Ну или хотя бы сделать общий экран с фотографиями. Макет прислал анонимный участник:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-5">
+<p><img alt="Фото на одном экране" src=signup-puzzle-7.png class=img-bordered-thin></p>
+</div>
+<div class="col-xs-12 col-sm-3">
+<p class=figcaption>Первым экраном могут быть текстовые данные, вторым — фото документов</p>
+</div>
+</div>
+<p>Если оставлять отдельные экраны, хорошо бы добавить индикатор прогресса («шаг 2 из 3»). На это указали многие участники, а <a href=http://antonlyutikov.webflow.io/>Антон Лютиков</a> отрисовал весь сценарий:</p>
+<figure>
+<img alt="Регистрация с индикатором прогресса" src=signup-puzzle-8.jpg>
+<figcaption>Приложение распознаёт текст с фото документов и предлагает исправить, если что-то не так</figcaption>
+</figure>
+<h2 id=альтернатива-чат>Альтернатива: чат</h2>
+<p><a href=https://t.me/uuhbuh>Олег Бухтияр</a> обратил внимание на вариант с «чат-ботом», который использует Яндекс.Драйв:</p>
+<figure>
+<img alt="Регистрация через бота" src=signup-puzzle-9.jpg class=img-bordered-thin>
+<figcaption>Бот пишет короткими простыми фразами, как это обычно делают люди в чатах</figcaption>
+</figure>
+<p>Это, пожалуй, самый естественный по нынешним временам вариант. Бот пишет конкретные короткие указания, пользователь выполняет. Ошибиться почти невозможно. Отсюда и минусы:</p>
+<ul>
+<li>невозможно вернуться к предыдущему шагу,</li>
+<li>непонятно, сколько ещё шагов впереди.</li>
+</ul>
+<h2 id=бизнес-логика-пропустить-шаги>Бизнес-логика: пропустить шаги</h2>
+<p>Слава Соколов справедливо заметил:</p>
+<blockquote>
+<p>Должна быть возможность пропустить шаги с добавлением фотографий. Человек сможет пользоваться приложением, просто не все функции будут доступны. Актуально, если, например, паспорта под рукой нет.</p>
+</blockquote>
+<p>Если разработчики не готовы «пустить» человека в приложение до проверки паспорта, стоит хотя бы сохранять уже введённые данные — и не требовать их, когда пользователь через два дня вернётся с паспортом.</p>
+<p class=text-centered>⌘ ⌘ ⌘</p>
+<p>Было ещё несколько предложений, которые не кажутся мне удачными:</p>
+<ul>
+<li><em>Брать личное фото из паспорта</em>. Паспорт действует 25 лет и больше, люди на фото мало похожи на себя нынешних. Да и фото там так себе. Если брать откуда-то готовое фото, я бы скорее предложил соцсети (заодно и ФИО получаешь автоматом).</li>
+<li><em>Регистрация через Госуслуги (ЕСИА)</em>. Вообще, идея богатая. Коммерческие компании действительно могут использовать «Единую систему», чтобы идентифицировать пользователей (причём это юридически значимая идентификация). Но пока на Госуслугах зарегистрировано только 50% взрослого населения (в 2018 собираются довести до 70%). Так что регистрация через Госуслуги как единственный вариант не подойдёт.</li>
+</ul>
+<p>Ещё раз спасибо всем участникам! Мы продолжим ツ</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Решайте задачки на канале <span class=nowrap><i class="fa fa-star-o color-sin"></i> «<a href=https://t.me/dangry>Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2018-04-16 08:06:09 +0000 UTC">16.04.2018</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+<a href=https://antonz.ru/tags/puzzle/>задачка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/boring-apps/>Оживляж для скучного приложения</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/socks/>Как сделать собственный прокси для Телеграма</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/os-update-puzzle/>Задачка: приглашение обновить ОС</a></p>
+<p><a href=/telegram-puzzle/>Задачка: бардак в телеграме</a></p>
+<p><a href=/yandex-music-puzzle/>Задачка: Яндекс-музыка и медленный интернет</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

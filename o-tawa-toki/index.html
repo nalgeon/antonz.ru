@@ -1,0 +1,198 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Горелый и его последний дизайн-линч</title>
+<meta name=description content="Смерть стартапа: как мы с Горелым линчевали интерфейсы и что из этого вышло">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/o-tawa-toki/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Горелый и его последний дизайн-линч">
+<meta property="og:description" content="Смерть стартапа: как мы с Горелым линчевали интерфейсы и что из этого вышло">
+<meta property="og:url" content="https://antonz.ru/o-tawa-toki/">
+<meta property="og:image" content="https://antonz.ru/o-tawa-toki/cover.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Горелый и его последний дизайн-линч">
+<meta name=twitter:description content="Смерть стартапа: как мы с Горелым линчевали интерфейсы и что из этого вышло">
+<meta name=twitter:url content="https://antonz.ru/o-tawa-toki/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/o-tawa-toki/cover.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Горелый и его последний дизайн-линч</h1>
+</header>
+<p>В апреле 2015 года я запустил <a href=http://dangry.ru>Дизайн-линчер</a> — аудит юзабилити сайта от обычного посетителя и профессионального дизайнера. Сегодня закрываю услугу аудита и пишу об уроках, которые для себя вынес.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8">
+<figure class=image>
+<a href=http://dangry.ru/toki class=img-inline>
+<img class=img-bordered alt="Промо дизайн-линчера" src=toki-promo.png>
+</a>
+<figcaption>— Один из лучших кейсов в маркетинге, что я видел<br><em>&nbsp;&nbsp;&nbsp;&nbsp;из отзыва заказчика</em></figcaption>
+</figure>
+</div>
+</div>
+<h2 id=урок-первый-минимальный-прототип-работает>Урок первый: «минимальный прототип» работает</h2>
+<p>Сервис аудита состоял из трех частей:</p>
+<ul>
+<li>витрина: сайт и форма приема заявок;</li>
+<li>админка для управления заявками;</li>
+<li>мини-биржа для координации рецензентов.</li>
+</ul>
+<p>Если реально все это разрабатывать — займет месяцы и стоить будет сотни тысяч рублей. Поэтому я сделал так:</p>
+<ol>
+<li>Сверстал статичный сайт с формой заявки.</li>
+<li>Приделал оплату через <a href=https://money.yandex.ru/get/>Яндекс-деньги</a> в сто строчек на джаваскрипте.</li>
+<li>Взял готовую бесплатную админку у <a href=http://parse.com/>Парса</a>.</li>
+<li>Для взаимодействия с рецензентами завел секретную группу в Фейсбуке.</li>
+</ol>
+<figure class=image>
+<img class=img-bordered alt="Три составляющие аудита" src=toki-insa.jpg>
+<figcaption>Заявка + админка + рецензенты = сервис аудита</figcaption>
+</figure>
+<p>Все. Система оказалась настолько удачной, что мне не пришлось менять ее до самого конца. А благодаря минимальным затратам на разработку сервис сразу вышел в плюс.</p>
+<h2 id=урок-второй-никто-неценит-бесплатный-труд>Урок второй: никто не ценит бесплатный труд</h2>
+<p>Первые месяцы сервис был полностью бесплатным — я проверял, как работает идея. Рецензенты трудились на голом энтузиазме (святые люди!).</p>
+<p>Типичный отзыв заказчика того периода:</p>
+<blockquote class=big>— Спасибо! Все понравилось) Успехов вам! <del>Счастья, здоровья, держитесь там</del>
+</blockquote>
+<p>На первый взгляд, дело шло отлично — куча заявок и дым коромыслом. Но по отзывам клиентов я понял, что люди не ценят «бесплатные» результаты. Энтузиазм рецензентов тоже быстро затухал. Поэтому я перешел на платную модель, и все стало хорошо.</p>
+<h2 id=урок-третий-правдоруб-матершинник-решает>Урок третий: правдоруб-матершинник решает</h2>
+<p>Сервисов UX-аудита много. Дизайн-линчер особенный: у него был Горелый. Это такой посетитель, который беспощаден к сайту и не стесняется в выражениях. Если честно, ради него я все и начинал <span class=nowrap>(ノಠ益ಠ)ノ</span></p>
+<div class=row>
+<div class="col-xs-12 col-md-10">
+<div class=boxed>
+<h3>Случайные цитаты из Горелого</h3>
+<p>«Компактный размер — гигантские возможности». Наверно, это сайт психологической помощи мужчинам с маленьким х♥ем. А нет. «IP-ТЕЛЕФОНИЯ ДЛЯ ВАШЕГО БИЗНЕСА ПОД КЛЮЧ ОТ 19 000 РУБ». Гигантские возможности понятно — можно ЗВОНИТЬ (вау). А у чего компактный размер?</p>
+<p>«индивидуальность отождествляет качество». Эээ. И чо? Во-первых, ни·уя подобного: индивидуальность качество не отождествляет. Во-вторых, что мне с этим высказыванием делать? Распечатать и в рамку на стену повесить?</p>
+<p>Ладно. Заполнил, нажал на «заказать». И знаете что? Кнопка пропала, бл·дь такая. Ну юмористы, сссука, такого еще не встречал ٩◔̯◔۶</p>
+<p>Наберите воздуха побольше и длинно, разнообразно, с чувством выматеритесь. Сделали? Вот это и есть моя рецензия.</p>
+</div>
+</div>
+</div>
+<p>Так вот, Горелый стал неистово популярен: половина заказчиков выбирали его вместо обычного посетителя. Пришлось поднять цену втрое, а то бедняга не справлялся.</p>
+<p>Горелый так пришелся всем по душе, что благодаря ему о Дизайн-линчере даже <a href=https://biz360.ru/materials/vypuskay-gorelogo-kak-protestirovat-svoy-sayt-na-vmenyaemost/>в журнале</a> написали.</p>
+<h2 id=урок-четвертый-без-толковых-рецензентов-никуда>Урок четвертый: без толковых рецензентов никуда</h2>
+<p>Сервис аудита сайтов хорош настолько, насколько хороши рецензенты, которые пишут отзывы. У Дизайн-линчера подобралась небольшая, но сильная команда:</p>
+<img class=img-bordered alt="Рецензенты, вы лучше всех" src=toki-who.jpg>
+<div class="row margin-bottom">
+<div class="col-xs-12 col-sm-10 col-md-offset-1 col-md-7">
+<div class=figcaption>— Рецензия отличная: согласны с 95% замечаний, а 80% мы в силу своей неопытности просто не видели. Сайт на комплексной поддержке — встречаемся с исполнителями и устраиваем разбор полетов.<br><em>из отзыва заказчика</em></div>
+</div>
+</div>
+<p>Ребята, спасибо вам огромное! Без вас бы ничего и не было. Я сам пару раз заказывал аудит: рецензии открывают глаза на серьезные проблемы, которые до этого не замечал.</p>
+<p>Заказчики почти всегда оставались довольны: на 300 рецензий был один возврат денег. И люди присылали на удивление много отзывов.</p>
+<h2 id=почему-язакрыл-дизайн-линчера>Почему я закрыл «Дизайн-линчера»</h2>
+<p>Логичное развитие для сервиса аудитов — больше рецензентов, больше заказов. Но я так и не смог на это пойти. Если даю клиенту рецензию, хочу лично отвечать за качество — значит, должен сам проверять каждый отзыв. Понятно, что так не масштабируешься.</p>
+<p>Второй путь — сделать биржу с взаимным контролем рецензентов, автоматической проверкой рецензий по эвристическим признакам, рейтингами — можно много чего накрутить, чтобы держать нормальное качество. Но я понял, что биржу делать мне просто не интересно. Все-таки я гик, и хочу делать более технологические штуки.</p>
+<p>Третий путь — остаться маленькими, но серьезно повысить ценник, до уровня полноценного UX-консалтинга. Но это противоречило моей исходной идее о доступном для всех UX-аудите.</p>
+<p>В итоге, получился чемодан без ручки — нести неудобно, бросить жалко. Я все же решил бросить.</p>
+<h2 id=горелого-нет-нотело-его-жует>Горелого нет, но тело его жует</h2>
+<p>Мы больше не рецензируем сайты. Но за полтора года «под зонтиком» сервиса вырос новый проект — <a href=https://t.me/dangry><strong>Интерфейсы без шелухи</strong></a>. Это заметки о продуктоводстве, здравом смысле и разработке софта. Без переводов, копипасты и унылых статей про «38 рекомендаций дизайнеру для создания потрясающего UX».</p>
+<p>Что-то кончается, что-то начинается, как говорил пан Сапковский. И начинается самое интересное ツ</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2016-08-24 09:27:59 +0000 UTC">24.08.2016</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+<a href=https://antonz.ru/tags/project/>проекты</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/design-portfolio/>Чеклист хорошего дизайн-портфолио</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/mike-ozornin/>Интерфейсы в энтерпрайзе и прокачка дизайнера</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/design-portfolio/>Чеклист хорошего дизайн-портфолио</a></p>
+<p><a href=/asylum-2/>«Психбольница» Купера 20 лет спустя: цели и сценарии</a></p>
+<p><a href=/asylum/>«Психбольница» Купера 20 лет спустя</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

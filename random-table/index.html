@@ -1,0 +1,262 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Как создать таблицу на 1М записей одним запросом</title>
+<meta name=description content="С помощью рекурсивного селекта WITH RECURSIVE.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/random-table/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Как создать таблицу на 1М записей одним запросом">
+<meta property="og:description" content="С помощью рекурсивного селекта WITH RECURSIVE.">
+<meta property="og:url" content="https://antonz.ru/random-table/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/sql.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Как создать таблицу на 1М записей одним запросом">
+<meta name=twitter:description content="С помощью рекурсивного селекта WITH RECURSIVE.">
+<meta name=twitter:url content="https://antonz.ru/random-table/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/sql.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Как создать таблицу на 1М записей одним запросом</h1>
+</header>
+<p>Допустим, вы хотите проверить, как поведет себя запрос на большой таблице — но такой таблицы под рукой нет. Если СУБД умеет в рекурсию, это не проблема: кучу данных можно нагенерить одним запросом. Поможет в этом конструкция <code>WITH RECURSIVE</code>.</p>
+<p>Я буду использовать SQLite, но похожие запросы сработают в PostgreSQL и других СУБД. <code>WITH RECURSIVE</code> поддерживается в MariaDB 10.2+, MySQL 8.0+, PostgreSQL 8.4+ и SQLite 3.8+. Oracle 11.2+ и SQL Server 2005+ поддерживают рекурсивные запросы, но без ключевого слова <code>RECURSIVE</code>.</p>
+<h2 id=случайные-числа>Случайные числа</h2>
+<p>Создадим таблицу на 1 млн случайных чисел:</p>
+<pre tabindex=0><code>create table random_data as
+with recursive tmp(x) as (
+    select random()
+    union all
+    select random() from tmp
+    limit 1000000
+)
+select * from tmp;
+</code></pre><p>Или, если ваша база поддерживает <code>generate_series()</code> (и не поддерживает <code>limit</code> в рекурсивных запросах, как PostgreSQL):</p>
+<pre tabindex=0><code>create table random_data as
+select random() as x
+from generate_series(1, 1000000);
+</code></pre><p>Проверим:</p>
+<pre tabindex=0><code>sqlite&gt; select count(*) from random_data;
+1000000
+
+sqlite&gt; select avg(x) from random_data;
+1.000501737529e+16
+</code></pre><h2 id=числовая-последовательность>Числовая последовательность</h2>
+<p>Вместо случайных чисел заполним таблицу числами от единицы до миллиона:</p>
+<pre tabindex=0><code>create table seq_data as
+with recursive tmp(x) as (
+    select 1
+    union all
+    select x+1 from tmp
+    limit 1000000
+)
+select * from tmp;
+</code></pre><p>Или через <code>generate_series()</code>:</p>
+<pre tabindex=0><code>create table seq_data as
+select value as x
+from generate_series(1, 1000000);
+</code></pre><p>Проверим:</p>
+<pre tabindex=0><code>sqlite&gt; select count(*) from seq_data;
+1000000
+
+sqlite&gt; select avg(x) from seq_data;
+500000.5
+
+sqlite&gt; select min(x) from seq_data;
+1
+
+sqlite&gt; select max(x) from seq_data;
+1000000
+</code></pre><h2 id=рандомизированные-данные>Рандомизированные данные</h2>
+<p>Числа — это хорошо, но что, если нужна большая табличка с данными о клиентах? Запросто!</p>
+<p>Договоримся о правилах:</p>
+<ul>
+<li>у клиента есть идентификатор, имя и возраст;</li>
+<li>идентификатор заполняем последовательно от 1 до 1000000;</li>
+<li>имя случайным образом выбираем из фиксированного списка;</li>
+<li>возраст берем случайный от 1 до 80.</li>
+</ul>
+<p>Создадим таблицу с именами:</p>
+<pre tabindex=0><code>create table names (
+    id integer primary key,
+    name text
+);
+
+insert into names(id, name)
+values
+(1, 'Анна'),
+(2, 'Борис'),
+(3, 'Вера'),
+(4, 'Галина'),
+(5, 'Денис');
+</code></pre><p>И нагенерим клиентов:</p>
+<pre tabindex=0><code>create table person_data as
+with recursive tmp(id, idx, name, age) as (
+    select 1, 1, 'Анна', 20
+    union all
+    select
+        tmp.id + 1 as id,
+        abs(random() % 5) + 1 as idx,
+        (select name from names where id = idx) as name,
+        abs(random() % 80) + 1 as age
+    from tmp
+    limit 1000000
+)
+select id, name, age from tmp;
+</code></pre><p>Или через <code>generate_series()</code>:</p>
+<pre tabindex=0><code>create table person_data as
+with tmp as (
+    select
+        value as id,
+        abs(random() % 5) + 1 as idx,
+        abs(random() % 80) + 1 as age
+    from generate_series(1, 1000000)
+)
+select
+    id,
+    (select name from names where id = idx) as name,
+    age
+from tmp;
+</code></pre><p>Здесь все по правилам:</p>
+<ul>
+<li>идентификатор рассчитывается как предыдущее значение + 1;</li>
+<li>поле <code>idx</code> содержит случайное число от 1 до 5;</li>
+<li>имя выбирается из таблицы <code>names</code> по значению <code>idx</code>;</li>
+<li>возраст рассчитывается как случайное число от 1 до 80.</li>
+</ul>
+<p>Проверим:</p>
+<pre tabindex=0><code>sqlite&gt; select count(*) from person_data;
+1000000
+
+sqlite&gt; select * from person_data limit 10;
+┌────┬───────┬─────┐
+│ id │ name  │ age │
+├────┼───────┼─────┤
+│ 1  │ Анна  │ 20  │
+│ 2  │ Анна  │ 76  │
+│ 3  │ Борис │ 25  │
+│ 4  │ Борис │ 19  │
+│ 5  │ Борис │ 11  │
+│ 6  │ Вера  │ 72  │
+│ 7  │ Анна  │ 41  │
+│ 8  │ Денис │ 9   │
+│ 9  │ Денис │ 38  │
+│ 10 │ Вера  │ 41  │
+└────┴───────┴─────┘
+</code></pre><p>Миллион клиентов одним запросом, неплохо! Вот бы в продажах так ツ</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Если хотите узнать больше о рекурсивных SQL-запросах, прикладном анализе данных и SQLite — записывайтесь на курс:</p>
+<p class=big>
+<a href=/sqlite-course/>SQLite для аналитики</a>
+</p>
+<p>Курс расскажет, как использовать SQLite для повседневной работы с данными. Без воды, куча примеров, применяйте в работе с первого дня.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-01-26 10:44:34 +0000 UTC">26.01.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/good-ui/>Дизайн интерфейсов для нормальных людей</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/search-as-a-service/>Как сделать нормальный поиск</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/sqlite-course/>SQLite для аналитики</a></p>
+<p><a href=/oracle-myth/>Миф о сложности Oracle Database</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

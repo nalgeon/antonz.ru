@@ -1,0 +1,180 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Уберите капчу при оплате</title>
+<meta name=description content="И вообще уберите.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/payment-captcha/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Уберите капчу при оплате">
+<meta property="og:description" content="И вообще уберите.">
+<meta property="og:url" content="https://antonz.ru/payment-captcha/">
+<meta property="og:image" content="https://antonz.ru/payment-captcha/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Уберите капчу при оплате">
+<meta name=twitter:description content="И вообще уберите.">
+<meta name=twitter:url content="https://antonz.ru/payment-captcha/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/payment-captcha/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Уберите капчу при оплате</h1>
+</header>
+<p>«Спасибо, кэп! Какой чудак будет ставить капчу на форму оплаты?». А таких много. В этой заметке я покажу примеры и выведу универсальное правило применения капчи.</p>
+<h2 id=капча-для-подписчика>Капча для подписчика</h2>
+<p>У газеты «Ведомости» есть платная подписка:</p>
+<figure>
+<img alt="Подписка на Ведомости" src=vedomosti.png class=img-bordered-thin>
+<figcaption>Указываешь номер телефона, получаешь код по СМС, подтверждаешь.</figcaption>
+</figure>
+<p>На втором шаге человека встречает капча. Она не решает ровным счётом ни одной задачи, кроме как убить конверсию:</p>
+<ol>
+<li>Ведомости <em>уже</em> потратились на отправку СМС, а значит отсеивать ботов несколько поздновато.</li>
+<li>Человек подтверждает свою человечность, вводя код из СМС. Капча проверяет непонято что.</li>
+</ol>
+<p>Представим теперь, что капчу убрали. И нашёлся такой умный бот, что получил СМС, и ввёл код, и подписался на Ведомости. Что плохого произойдёт для газеты? Ничего. Капча не нужна.</p>
+<div class=boxed>
+<p>Заметка на полях. Дорогие «Ведомости», по номеру телефона можно автоматически определить <a href=https://dangry.ru/ken/provider-by-phone/>мобильного оператора</a>. Даже если человек перешёл от одного оператора к другому с сохранением старого номера. Воспользуйтесь этим и не заставляйте подписчиков выполнять тупую работу за вас.</p>
+<p>А ещё кнопка «Подписаться» должна быть <em>под</em> текстовым полем с кодом активации, а не над ним.</p>
+</div>
+<h2 id=капча-при-оплате>Капча при оплате</h2>
+<p>Популярный пакет офисных программ LibreOffice принимает пожертвования на сайте:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Форма пожертвования LibreOffice" src=libre-1.png>
+<figcaption>Выглядит как обычная форма пожертвования</figcaption>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="С омерзительной капчей" src=libre-2.png>
+<figcaption>Но стоит нажать на кнопку...</figcaption>
+</figure>
+</div>
+</div>
+<p>Нажимаешь на Donate, получаешь в благодарность капчу. Если разгадал — так уж и быть, можешь заплатить. Не разгадал или бот — ха-ха, неудачник, не видать ЛибреОфису твоих денежек! Хм.</p>
+<p>Как и с «Ведомостями», капча ЛибреОфиса эффективно решает единственную задачу — собрать как можно меньше денег. Не думаю, что это достойная цель.</p>
+<p>Если убрать капчу, то бот отвалится на этапе ввода карточки или подтверждения платежа. Что плохого произойдёт для ЛибреОфиса? Ничего. Капча не нужна.</p>
+<h2 id=выводы-и-правила>Выводы и правила</h2>
+<p>Первое, консервативное правило капчи:</p>
+<blockquote class=big>
+Уберите капчу, если расходы на борьбу с ботами меньше упущенной прибыли от потерянных клиентов
+</blockquote>
+<p>Например, ваш сервис без капчи привлекает 100 клиентов в месяц и 500 ботов, а с капчей — 50 клиентов и 0 ботов. Пусть средний чек на клиента — 1000 ₽ в месяц.</p>
+<p>Значит, на капче вы теряете 50 * 1000 = 50 000 ₽ в месяц. А если убрать капчу, получите 500 ботов. Обойдутся ли эти боты вам дороже 50 000 ₽? Если да, ставьте капчу. Если нет — к чёрту её.</p>
+<p>Если последовательно применять консервативное правило капчи, рано или поздно придёте ко второму, радикальному:</p>
+<blockquote class=big>
+Не используйте капчу
+</blockquote>
+<p>Люди придумали много неинвазивных методов борьбы с ботами. Если ваши программисты утверждают, что капча — единственный вариант, дайте им по жопе и отправьте в гугл. Ну или у меня пусть спросят.</p>
+<p>Но если от радикального правила внутри всё бурлит и клокочет — консервативное всегда к вашим услугам.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для подписчиков <span class=nowrap><i class="far fa-star color-sin"></i> «<a href=https://t.me/dangry>Интерфейсов без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2018-08-17 10:58:08 +0000 UTC">17.08.2018</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/recursion/>Как понять рекурсию</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/alice/>Алиса, всё грустно</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/security-code/>О кодах подтверждения</a></p>
+<p><a href=/suggestions-vs-validation/>Автокомплит и проверка данных</a></p>
+<p><a href=/error-position/>Где расположить ошибку</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

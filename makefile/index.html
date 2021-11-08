@@ -1,0 +1,246 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Автоматизация задач в Python-проекте</title>
+<meta name=description content="Через мейкфайлы (да, они хороши).">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/makefile/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Автоматизация задач в Python-проекте">
+<meta property="og:description" content="Через мейкфайлы (да, они хороши).">
+<meta property="og:url" content="https://antonz.ru/makefile/">
+<meta property="og:image" content="https://antonz.ru/makefile/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Автоматизация задач в Python-проекте">
+<meta name=twitter:description content="Через мейкфайлы (да, они хороши).">
+<meta name=twitter:url content="https://antonz.ru/makefile/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/makefile/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Автоматизация задач в Python-проекте</h1>
+</header>
+<p>Когда разрабатываешь библиотеку или приложение, всегда найдутся задачи, которые выполняешь изо дня в день:</p>
+<ul>
+<li>проверить код линтерами,</li>
+<li>прогнать тесты с замером покрытия,</li>
+<li>запустить в докере,</li>
+<li>&mldr;</li>
+</ul>
+<p>JS-разработчикам повезло (ха): у них в <code>package.json</code> есть специальная секция <code>scripts</code> для таких штук:</p>
+<pre tabindex=0><code>{
+    ...
+    &quot;scripts&quot;: {
+        &quot;format&quot;: &quot;prettier --write \&quot;src/**/*.ts\&quot;&quot;,
+        &quot;lint&quot;: &quot;tslint -p tsconfig.json&quot;,
+        &quot;test&quot;: &quot;jest --coverage --config jestconfig.json&quot;,
+    },
+    ...
+}
+</code></pre><p>Для Питона ничего подобного не предусмотрено. Можно, конечно, сделать по sh-скрипту на каждую задачу, но это замусоривает каталог проекта, да и хотелось бы все такие задачи держать вместе. А ставить отдельный таск-раннер или использовать встроенный в IDE совсем уж странно.</p>
+<p>Хорошая новость: на линуксе и макоси уже есть отличное средство автоматизации задач для любых проектов — мейкфайлы (<code>Makefile</code>).</p>
+<h2 id=makefile-для-любых-задач>Makefile для любых задач</h2>
+<p>Возможно, вы, как и я, думали, что мейкфайлы — странная штука из 70-х годов прошлого века, которая нужна для сборки кода на <code>C</code>. Всё так ツ Но они прекрасно подходят для автоматизации вообще любых задач.</p>
+<p>Вот как это может выглядеть в питонячем проекте. Создаём файл с названием <code>Makefile</code>:</p>
+<pre tabindex=0><code>coverage:  ## Run tests with coverage
+	coverage erase
+	coverage run --include=dadata/* -m pytest -ra
+	coverage report -m
+
+deps:  ## Install dependencies
+	pip install black coverage flake8 mypy pylint pytest tox
+
+lint:  ## Lint and static-check
+	flake8 dadata
+	pylint dadata
+	mypy dadata
+
+push:  ## Push code with tags
+	git push &amp;&amp; git push --tags
+
+test:  ## Run tests
+	pytest -ra
+</code></pre><p>И запускаем, например, линтер с тестами:</p>
+<pre tabindex=0><code>$ make lint coverage
+
+flake8 dadata
+pylint dadata
+...
+mypy dadata
+...
+coverage erase
+coverage run —include=dadata/* -m pytest -ra
+...
+coverage report -m
+Name Stmts Miss Cover Missing
+--------------------------------------------------
+dadata/__init__.py 3 0 100%
+dadata/client.py 56 0 100%
+--------------------------------------------------
+TOTAL 59 0 100%
+</code></pre><h2 id=возможности>Возможности</h2>
+<h3 id=цепочки-действий>Цепочки действий</h3>
+<p>Задача может включать несколько действий, как <code>lint</code> в примере выше:</p>
+<pre tabindex=0><code>lint:
+	flake8 dadata
+	pylint dadata
+	mypy dadata
+</code></pre><p>Каждое действие выполняется в отдельном подпроцессе, так что если нужно выполнить связанную цепочку действий (например, <code>cd</code> и <code>git pull</code>) — объединяем их через <code>&&</code>:</p>
+<pre tabindex=0><code>schemas:
+	cd iuliia/schemas &amp;&amp; git pull &amp;&amp; cd ../..
+</code></pre><h3 id=зависимости-между-задачами>Зависимости между задачами</h3>
+<p>Допустим, задача <code>test</code> должна обязательно сначала выполнять линтинг, а потом уже запускать тесты. Указываем <code>lint</code> как зависимость для <code>test</code>, и готово:</p>
+<pre tabindex=0><code>test: lint
+	pytest -ra
+</code></pre><p>Можно указать несколько зависимостей — через пробел.</p>
+<p>Либо задачи могут явно вызывать друг друга:</p>
+<pre tabindex=0><code>lint:
+	flake8 dadata
+	pylint dadata
+	mypy dadata
+
+test:
+	pytest -ra
+
+prepare:
+	make lint
+	make test
+</code></pre><h3 id=параметры-задач>Параметры задач</h3>
+<p>Допустим, задача <code>serve</code> запускает статический сайт, а IP и порт хочется сделать настройкой. Нет проблем:</p>
+<pre tabindex=0><code>serve:
+	python -m http.server dist --bind $(bind) $(port)
+</code></pre><p>Запускаем с параметрами:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ make serve <span style=color:#000>bind</span><span style=color:#000>=</span>localhost <span style=color:#000>port</span><span style=color:#000>=</span><span style=color:#1c01ce>3000</span>
+</code></pre></div><p>Можно указать значения по умолчанию:</p>
+<pre tabindex=0><code>bind ?= localhost
+port ?= 3000
+serve:
+	python -m http.server dist --bind $(bind) $(port)
+</code></pre><p>Теперь при вызове <code>make</code> указывать их не обязательно:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ make serve <span style=color:#000>bind</span><span style=color:#000>=</span>192.168.0.1
+$ make serve <span style=color:#000>port</span><span style=color:#000>=</span><span style=color:#1c01ce>8000</span>
+$ make serve
+</code></pre></div><h3 id=и-ещё-много-чего>И ещё много чего</h3>
+<p>Если описанных возможностей недостаточно, смотрите замечательные руководства:</p>
+<ul>
+<li><a href=https://makefiletutorial.com>Learn Makefiles with the tastiest examples</a></li>
+<li><a href=https://swcarpentry.github.io/make-novice/reference.html>Automation and Make</a>.</li>
+</ul>
+<h2 id=вдикой-природе>В дикой природе</h2>
+<p>Пара примеров мейкфайлов из моих проектов:</p>
+<ul>
+<li><a href=https://github.com/nalgeon/dadata-py/blob/master/Makefile>dadata</a></li>
+<li><a href=https://github.com/nalgeon/iuliia-py/blob/master/Makefile>iuliia</a></li>
+</ul>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Мейкфайлы отлично подходят для автоматизации рутинных задач вне зависимости от языка, на котором вы пишете. Используйте их!</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=https://t.me/ohmypy>Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2020-05-05 15:16:48 +0000 UTC">05.05.2020</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/iuliia/>Юлия → Iuliia. Всё о транслитерации</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/simple-ui/>Что делает интерфейс простым</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/fast-language/>Быстрый язык ≠ быстрый код</a></p>
+<p><a href=/naming-consistency/>Чистый код. Единообразие в именах</a></p>
+<p><a href=/real-quick-ratio/>Чистый код. Похожие названия методов</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

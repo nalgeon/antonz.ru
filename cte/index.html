@@ -1,0 +1,248 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Табличные выражения SQL</title>
+<meta name=description content="Используйте их вместо подзапросов.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/cte/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Табличные выражения SQL">
+<meta property="og:description" content="Используйте их вместо подзапросов.">
+<meta property="og:url" content="https://antonz.ru/cte/">
+<meta property="og:image" content="https://antonz.ru/cte/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Табличные выражения SQL">
+<meta name=twitter:description content="Используйте их вместо подзапросов.">
+<meta name=twitter:url content="https://antonz.ru/cte/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/cte/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Табличные выражения SQL</h1>
+</header>
+<p>Прием № 1, чтобы писать хорошие читаемые SQL-запросы — это <em>табличные выражения</em> (CTE). Люди их боятся, а зря. Давайте разберемся за три минуты, читать увесистую книгу по SQL или проходить курсы не придется.</p>
+<h2 id=проблема>Проблема</h2>
+<p>Допустим, у нас есть таблица продаж по месяцам за два года:</p>
+<pre tabindex=0><code>┌──────┬───────┬───────┬──────────┬─────────┐
+│ year │ month │ price │ quantity │ revenue │
+├──────┼───────┼───────┼──────────┼─────────┤
+│ 2019 │ 1     │ 60    │ 200      │ 12000   │
+│ 2019 │ 2     │ 60    │ 660      │ 39600   │
+│ 2019 │ 3     │ 60    │ 400      │ 24000   │
+│ 2019 │ 4     │ 60    │ 300      │ 18000   │
+│ 2019 │ 5     │ 60    │ 440      │ 26400   │
+│ 2019 │ 6     │ 60    │ 540      │ 32400   │
+│ 2019 │ 7     │ 60    │ 440      │ 26400   │
+│ 2019 │ 8     │ 60    │ 440      │ 26400   │
+│ 2019 │ 9     │ 60    │ 250      │ 15000   │
+│ 2019 │ 10    │ 60    │ 420      │ 25200   │
+│ ...  │ ...   │ ...   │ ...      │ ...     │
+└──────┴───────┴───────┴──────────┴─────────┘
+</code></pre><p><a href=https://sqlime.org/#gist:858c409b81ae3a676580cba6745d68ea>песочница</a></p>
+<p>Мы хотим выбрать только те месяцы, выручка за которые превысила среднемесячную за год.</p>
+<p>Для начала посчитаем среднемесячную выручку по годам:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#a90d91>year</span>,
+  <span style=color:#a90d91>avg</span>(<span style=color:#000>revenue</span>) <span style=color:#a90d91>as</span> <span style=color:#000>avg_rev</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>sales</span>
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬─────────┐
+│ year │ avg_rev │
+├──────┼─────────┤
+│ 2019 │ 25125.0 │
+│ 2020 │ 48625.0 │
+└──────┴─────────┘
+</code></pre><p>Теперь можно выбрать только те записи, <code>revenue</code> в которых не уступает <code>avg_rev</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>sales</span>.<span style=color:#a90d91>year</span>,
+  <span style=color:#000>sales</span>.<span style=color:#a90d91>month</span>,
+  <span style=color:#000>sales</span>.<span style=color:#000>revenue</span>,
+  <span style=color:#000>round</span>(<span style=color:#000>totals</span>.<span style=color:#000>avg_rev</span>) <span style=color:#a90d91>as</span> <span style=color:#000>avg_rev</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>sales</span>
+  <span style=color:#a90d91>join</span> (
+    <span style=color:#a90d91>select</span>
+      <span style=color:#a90d91>year</span>,
+      <span style=color:#a90d91>avg</span>(<span style=color:#000>revenue</span>) <span style=color:#a90d91>as</span> <span style=color:#000>avg_rev</span>
+    <span style=color:#a90d91>from</span> <span style=color:#000>sales</span>
+    <span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>
+  ) <span style=color:#a90d91>as</span> <span style=color:#000>totals</span>
+  <span style=color:#a90d91>on</span> <span style=color:#000>sales</span>.<span style=color:#a90d91>year</span> <span style=color:#000>=</span> <span style=color:#000>totals</span>.<span style=color:#a90d91>year</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>sales</span>.<span style=color:#000>revenue</span> <span style=color:#000>&gt;=</span> <span style=color:#000>totals</span>.<span style=color:#000>avg_rev</span>;
+</code></pre></div><pre tabindex=0><code>┌──────┬───────┬─────────┬─────────┐
+│ year │ month │ revenue │ avg_rev │
+├──────┼───────┼─────────┼─────────┤
+│ 2019 │ 2     │ 39600   │ 25125.0 │
+│ 2019 │ 5     │ 26400   │ 25125.0 │
+│ 2019 │ 6     │ 32400   │ 25125.0 │
+│ 2019 │ 7     │ 26400   │ 25125.0 │
+│ ...  │ ...   │ ...     │ ...     │
+└──────┴───────┴─────────┴─────────┘
+</code></pre><p>Решили с помощью подзапроса:</p>
+<ul>
+<li>внутренний запрос считает среднемесячную выручку;</li>
+<li>внешний соединяется с ним и фильтрует результаты.</li>
+</ul>
+<p>Запрос в целом получился сложноват. Если вернетесь к нему спустя месяц — наверняка потратите какое-то время на «распутывание». Проблема в том, что такие вложенные запросы приходится читать наоборот:</p>
+<ul>
+<li>найти самый внутренний запрос, осознать;</li>
+<li>мысленно присоединить к более внешнему;</li>
+<li>присоединить к следующему внешнему, и так далее.</li>
+</ul>
+<p>Хорошо, когда вложенных уровня два, как в нашем примере. На практике же я часто встречаю трех- и четырехуровневые подзапросы. Форменное издевательство над читателем.</p>
+<h2 id=решение>Решение</h2>
+<p>Вместо подзапроса можно использовать <em>табличное выражение</em> (common table expression, CTE). Любой подзапрос <code>X</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>a</span>, <span style=color:#000>b</span>, <span style=color:#a90d91>c</span>
+<span style=color:#a90d91>from</span> (<span style=color:#000>X</span>)
+<span style=color:#a90d91>where</span> <span style=color:#000>e</span> <span style=color:#000>=</span> <span style=color:#000>f</span>
+</code></pre></div><p>Механически превращается в CTE:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>with</span> <span style=color:#000>cte</span> <span style=color:#a90d91>as</span> (<span style=color:#000>X</span>)
+<span style=color:#a90d91>select</span> <span style=color:#000>a</span>, <span style=color:#000>b</span>, <span style=color:#a90d91>c</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>cte</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>e</span> <span style=color:#000>=</span> <span style=color:#000>f</span>
+</code></pre></div><p>В нашем примере:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>with</span> <span style=color:#000>totals</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>select</span>
+    <span style=color:#a90d91>year</span>,
+    <span style=color:#a90d91>avg</span>(<span style=color:#000>revenue</span>) <span style=color:#a90d91>as</span> <span style=color:#000>avg_rev</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>sales</span>
+  <span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> <span style=color:#a90d91>year</span>
+)
+
+<span style=color:#a90d91>select</span>
+  <span style=color:#000>sales</span>.<span style=color:#a90d91>year</span>,
+  <span style=color:#000>sales</span>.<span style=color:#a90d91>month</span>,
+  <span style=color:#000>sales</span>.<span style=color:#000>revenue</span>,
+  <span style=color:#000>round</span>(<span style=color:#000>totals</span>.<span style=color:#000>avg_rev</span>) <span style=color:#a90d91>as</span> <span style=color:#000>avg_rev</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>sales</span> 
+  <span style=color:#a90d91>join</span> <span style=color:#000>totals</span> <span style=color:#a90d91>on</span> <span style=color:#000>totals</span>.<span style=color:#a90d91>year</span> <span style=color:#000>=</span> <span style=color:#000>sales</span>.<span style=color:#a90d91>year</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>sales</span>.<span style=color:#000>revenue</span> <span style=color:#000>&gt;=</span> <span style=color:#000>totals</span>.<span style=color:#000>avg_rev</span>;
+</code></pre></div><p>С табличным выражением запрос становится одноуровневым — так воспринимать его намного проще. Кроме того, табличное выражение можно переиспользовать в пределах запроса, как будто это обычная таблица:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>with</span> <span style=color:#000>totals</span> <span style=color:#a90d91>as</span> (...)
+<span style=color:#a90d91>select</span> ... <span style=color:#a90d91>from</span> <span style=color:#000>sales_ru</span> <span style=color:#a90d91>join</span> <span style=color:#000>totals</span> ...
+<span style=color:#a90d91>union</span> <span style=color:#a90d91>all</span>
+<span style=color:#a90d91>select</span> ... <span style=color:#a90d91>from</span> <span style=color:#000>sales_us</span> <span style=color:#a90d91>join</span> <span style=color:#000>totals</span> ...
+</code></pre></div><p>Табличные выражения SQL чем-то похожи на функции в обычном языке программирования — они уменьшают общую сложность:</p>
+<ul>
+<li>Можно написать нечитаемую простыню кода, а можно разбить код на понятные отдельные функции и составить программу из них.</li>
+<li>Можно возвести башню из пяти этажей подзапросов, а можно вынести подзапросы в CTE и составить общий запрос из них.</li>
+</ul>
+<h2 id=cte-против-подзапроса>CTE против подзапроса</h2>
+<p>Существует миф, что «CTE медленные». Он пришел из старых версий PostgreSQL (11 и раньше), которые всегда <em>материализовали</em> CTE — вычисляли полный результат табличного выражения и запоминали до конца запроса.</p>
+<p>Обычно это хорошо: один раз вычислил результат, и дальше используешь его несколько раз по ходу основного запроса. Но иногда материализация мешала движку оптимизировать запрос:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>with</span> <span style=color:#000>cte</span> <span style=color:#a90d91>as</span> (<span style=color:#a90d91>select</span> <span style=color:#000>*</span> <span style=color:#a90d91>from</span> <span style=color:#000>foo</span>)
+<span style=color:#a90d91>select</span> <span style=color:#000>*</span> <span style=color:#a90d91>from</span> <span style=color:#000>cte</span> <span style=color:#a90d91>where</span> <span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#1c01ce>500000</span>;
+</code></pre></div><p>Здесь выбирается ровно одна запись по идентификатору, но материализация создает в памяти копию <em>всей таблицы</em> — из-за этого запрос отработает очень медленно.</p>
+<p>PostgreSQL 12+ и другие современные СУБД поумнели и больше так не делают. Материализация применяется, когда от нее больше пользы, чем вреда. Плюс, многие СУБД позволяют явно управлять этим поведением через инструкции <code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code>.</p>
+<p>Так что CTE не медленнее подзапросов. А если сомневаетесь, всегда можно сделать два варианта — подзапрос и табличное выражение — и сравнить план и время выполнения.</p>
+<p>Как понять, когда использовать подзапрос, а когда CTE? Я вывел для себя простое правило, которое пока ни разу не подвело:</p>
+<blockquote class=big>
+<p>Всегда использовать CTE</p>
+</blockquote>
+<p>Чего и вам желаю.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-11-05 11:14:51 +0000 UTC">05.11.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/fias/>Справочник адресов России</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/sql-groups/>Найти группы похожих объектов с помощью SQL</a></p>
+<p><a href=/window-rolling/>Оконные функции: скользящие агрегаты</a></p>
+<p><a href=/window-aggregate/>Оконные функции: агрегация</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

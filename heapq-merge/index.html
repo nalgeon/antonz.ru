@@ -1,0 +1,171 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Python. Объединить отсортированные списки в один</title>
+<meta name=description content="С помощью heapq.merge()">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/heapq-merge/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python. Объединить отсортированные списки в один">
+<meta property="og:description" content="С помощью heapq.merge()">
+<meta property="og:url" content="https://antonz.ru/heapq-merge/">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Python. Объединить отсортированные списки в один">
+<meta name=twitter:description content="С помощью heapq.merge()">
+<meta name=twitter:url content="https://antonz.ru/heapq-merge/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Python. Объединить отсортированные списки в один</h1>
+</header>
+<p>Предположим, вы решили провести чемпионат мира по оглаживанию собак. Кто погладит больше всех шерстяных волчар за день, тот и победил. Участники не смогли собраться вместе, поэтому каждый город провёл независимое состязание и прислал результат:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>washington</span> <span style=color:#000>=</span> [
+    (<span style=color:#1c01ce>99</span>, <span style=color:#c41a16>&#34;Френк&#34;</span>),
+    (<span style=color:#1c01ce>80</span>, <span style=color:#c41a16>&#34;Клер&#34;</span>),
+    (<span style=color:#1c01ce>73</span>, <span style=color:#c41a16>&#34;Зоя&#34;</span>)
+]
+
+<span style=color:#000>moscow</span> <span style=color:#000>=</span> [
+    (<span style=color:#1c01ce>90</span>, <span style=color:#c41a16>&#34;Валера&#34;</span>),
+    (<span style=color:#1c01ce>88</span>, <span style=color:#c41a16>&#34;Мария&#34;</span>),
+    (<span style=color:#1c01ce>50</span>, <span style=color:#c41a16>&#34;Анатолий&#34;</span>)
+]
+
+<span style=color:#000>beijing</span> <span style=color:#000>=</span> [
+    (<span style=color:#1c01ce>123</span>, <span style=color:#c41a16>&#34;Чан&#34;</span>),
+    (<span style=color:#1c01ce>109</span>, <span style=color:#c41a16>&#34;Пинг&#34;</span>),
+    (<span style=color:#1c01ce>70</span>,  <span style=color:#c41a16>&#34;Ки&#34;</span>),
+]
+</code></pre></div><p>Теперь ваша задача — выбрать трёх призёров. Я знаю как минимум один простой способ:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>all</span> <span style=color:#000>=</span> <span style=color:#a90d91>sorted</span>(<span style=color:#000>washington</span> <span style=color:#000>+</span> <span style=color:#000>moscow</span> <span style=color:#000>+</span> <span style=color:#000>beijing</span>)
+<span style=color:#000>winners</span> <span style=color:#000>=</span> <span style=color:#a90d91>all</span>[<span style=color:#000>-</span><span style=color:#1c01ce>3</span>:]
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>winners</span>
+[(<span style=color:#1c01ce>99</span>, <span style=color:#c41a16>&#39;Френк&#39;</span>), (<span style=color:#1c01ce>109</span>, <span style=color:#c41a16>&#39;Пинг&#39;</span>), (<span style=color:#1c01ce>123</span>, <span style=color:#c41a16>&#39;Чан&#39;</span>)]
+</code></pre></div><p>Если всего <code>n</code> участников, такая реализация займёт <code>2n</code> памяти и потребует <code>O(n log n)</code> операций. Довольно расточительно.</p>
+<p>Можно сделать то же самое за константное время и память:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>heapq</span>
+
+<span style=color:#a90d91>all</span> <span style=color:#000>=</span> <span style=color:#000>heapq</span><span style=color:#000>.</span><span style=color:#000>merge</span>(<span style=color:#000>washington</span>, <span style=color:#000>moscow</span>, <span style=color:#000>beijing</span>, <span style=color:#000>reverse</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>next</span>(<span style=color:#a90d91>all</span>)
+(<span style=color:#1c01ce>123</span>, <span style=color:#c41a16>&#39;Чан&#39;</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>next</span>(<span style=color:#a90d91>all</span>)
+(<span style=color:#1c01ce>109</span>, <span style=color:#c41a16>&#39;Пинг&#39;</span>)
+
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>next</span>(<span style=color:#a90d91>all</span>)
+(<span style=color:#1c01ce>99</span>, <span style=color:#c41a16>&#39;Френк&#39;</span>)
+</code></pre></div><p><code>heapq.merge()</code> возвращает генератор, который работает поверх исходных коллекций — поэтому не расходует лишнюю память. И он учитывает, что исходные списки уже отсортированы — поэтому не выполняет лишних действий.</p>
+<p>P.S. Френк, всего лишь третье место. Не ожидал от тебя.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=https://t.me/ohmypy>Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2019-02-04 10:26:00 +0000 UTC">04.02.2019</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/namedtuple/>Python. Кортеж здорового человека</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/heapq-nlargest/>Python. Выбрать топ-k элементов списка</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/namedtuple/>Python. Кортеж здорового человека</a></p>
+<p><a href=/float-as-integer-ratio/>Python. Из десятичной дроби — в обычную</a></p>
+<p><a href=/deque-maxlen/>Python. Хранить последние N объектов</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

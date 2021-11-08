@@ -1,0 +1,183 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>О кодах подтверждения</title>
+<meta name=description content="Всё, что вы хотели знать: удобство vs безопасность, шансы и злодеи, повторы в цифрах.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/security-code/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="О кодах подтверждения">
+<meta property="og:description" content="Всё, что вы хотели знать: удобство vs безопасность, шансы и злодеи, повторы в цифрах.">
+<meta property="og:url" content="https://antonz.ru/security-code/">
+<meta property="og:image" content="https://antonz.ru/security-code/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="О кодах подтверждения">
+<meta name=twitter:description content="Всё, что вы хотели знать: удобство vs безопасность, шансы и злодеи, повторы в цифрах.">
+<meta name=twitter:url content="https://antonz.ru/security-code/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/security-code/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>О кодах подтверждения</h1>
+</header>
+<p>Банки и другие сервисы используют коды подтверждения для защиты от мошенников. Обычно код выглядит как число из 4–6 цифр, которое приходит по СМС или пуш-оповещением.</p>
+<p>В этой заметке я расскажу об удобстве и безопасности разных вариантов.</p>
+<h2 id=какие-бывают-коды>Какие бывают коды</h2>
+<p>Дизайн кода подтверждения — классическая проблема, когда кажется, что безопасность конфликтует с удобством использования. Безопасники хотят сделать код как можно длиннее, чтобы злодей не смог его подобрать. А продуктовые ребята наоборот, хотят коды покороче, чтобы человеку было проще запомнить.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<figure>
+<img alt="Код подтверждения" src=code-google.png>
+<figcaption>Коды подтверждения помогают удостоверить личность и авторизовать действия с деньгами</figcaption>
+</figure>
+</div>
+</div>
+<p>Я попросил участников чата «Интерфейсов без шелухи» прислать примеры кодов подтверждения от разных сервисов. Всего в выборку попало 30 сервисов, вот статистика:</p>
+<ul>
+<li>45% сервисов используют коды из 6 цифр</li>
+<li>41% используют 4 цифры</li>
+<li>14% используют 5 цифр</li>
+</ul>
+<h2 id=какой-длины-кода-достаточно>Какой длины кода достаточно</h2>
+<p>Если у вас в компании есть безопасник — наверняка он ответит «шесть цифр и никак не меньше». 6 цифр — это 1 миллион комбинаций. Если дать злодею возможность беспрепятственно вводить коды каждую секунду, ему потребуется 11 дней, чтобы угадать.</p>
+<p>Понятно, что беспрепятственно вводить коды никто не даст: сервисы ограничивают количество ошибочных попыток (а ещё время жизни кода и как часто можно генерить новые коды). Поэтому 6 цифр — это неоправданно много.</p>
+<p>Код из 4 цифр даёт 10 тысяч комбинаций. Если разрешить 3 попытки ввода, шанс угадать составит 0,03%. Другими словами, злоумышленнику придётся попытать счастья с 3300 человек, прежде чем у него что-то получится. Не слишком интересный расклад для злодея ツ</p>
+<h2 id=правдали-что-цифры-вкоде-повторяются>Правда ли, что цифры в коде повторяются</h2>
+<p>Это довольно распространённая точка зрения. Хочется думать: родной банк так заботится о твоём удобстве, что генерит коды с повторяющимися цифрами — чтобы легче было запомнить:</p>
+<ul>
+<li><span class=text-red>1</span>3457<span class=text-red>1</span></li>
+<li>8<span class=text-red>5</span>6<span class=text-red>5</span>1</li>
+<li>64<span class=text-red>11</span></li>
+</ul>
+<p>В большинстве случаев это заблуждение. Чем длинее код, тем больше вероятность, что цифры в нём повторятся сами собой, без всяких усилий сервиса. Например, для кода из 4 цифр вероятность повторения хотя бы одной цифры — 50%. А для кода из 6 цифр — уже 85%.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10">
+<figure>
+<img alt="Код с повтором" src=code-tinkoff.png>
+<figcaption>Теория вероятности играет за вас! Шанс получить код с повтором весьма велик</figcaption>
+</figure>
+</div>
+</div>
+<p>Ради интереса я взял сервисы, по которым собрал больше всего данных, и проверил, какова доля кодов с повторами в цифрах. У большинства распределение получилось несмещённое, то есть специально они одинаковые цифры не генерят.</p>
+<p>Единственное исключение — «Тиньков»: у него 65% кодов с повторами против ожидаемых 50%.</p>
+<h2 id=что-если-всегда-генерить-код-сповторами>Что, если всегда генерить код с повторами</h2>
+<p>Допустим, наш супер-дружественный сервис решил генерить 4-значные коды, в которых хотя бы одна цифра повторяется. Это примерно 5000 комбинаций — всего в два раза меньше, чем на «обычном» 4-значном коде.</p>
+<p>Шанс угадать такой код на 3 попытках — 0,06% или 1650 бесплодных злодейских заходов. Как по мне, вполне надёжно. Хотя ваш безопасник будет против, конечно ツ</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Резюмирую:</p>
+<ul>
+<li>Никогда, никогда, никогда не делайте коды длиннее 6 цифр.</li>
+<li>4-значный код — хороший баланс между удобством и безопасностью.</li>
+<li>Попробуйте генерить коды с повторами, пользователям понравится.</li>
+</ul>
+<p>А ещё, пишите код <a href=/sms-password/>в начале сообщения</a>.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2018-08-08 14:43:35 +0000 UTC">08.08.2018</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/interface/>интерфейс</a>&nbsp;
+<a href=https://antonz.ru/tags/productology/>продуктоводство</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/speech-api/>Синтез и распознавание речи в 50 строк на JavaScript</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/recursion/>Как понять рекурсию</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/offboarding/>Прощание с пользователем</a></p>
+<p><a href=/abandoned-features/>Не надо заканчивать фичи</a></p>
+<p><a href=/suggestions-vs-validation/>Автокомплит и проверка данных</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>

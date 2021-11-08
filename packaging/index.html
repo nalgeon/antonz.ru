@@ -1,0 +1,435 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Как сделать классный Python-пакет</title>
+<meta name=description content="Такой, чтоб не стыдно было показать коллегам.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.c658ccb724387735273593a8ec31baa03f13356d0b639bb27a5e5fdfe448e3d7.css>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.15.3/css/all.css>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/packaging/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Как сделать классный Python-пакет">
+<meta property="og:description" content="Такой, чтоб не стыдно было показать коллегам.">
+<meta property="og:url" content="https://antonz.ru/packaging/">
+<meta property="og:image" content="https://antonz.ru/packaging/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Как сделать классный Python-пакет">
+<meta name=twitter:description content="Такой, чтоб не стыдно было показать коллегам.">
+<meta name=twitter:url content="https://antonz.ru/packaging/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/packaging/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article article--big">
+<header>
+<h1 class=post__title>Как сделать классный Python-пакет</h1>
+</header>
+<p><em>Версия от апреля 2021 года</em></p>
+<p>Бывает, напишешь какую-нибудь полезную утилиту на питоне, и хочется поделиться ей с коллегами. Лучший способ для этого — сделать пакет (package): он устанавливается одной командой и спасает от копипасты.</p>
+<p>Если вы, как и я раньше, думаете, что создание пакетов в питоне — большая головная боль, то знайте, что это не так. Чтобы не быть голословным, я сделал это пошаговое руководство. Три основных шага и несколько вспомогательных, со ссылками на гитхаб. Убедитесь сами:</p>
+<h2 id=1-заглушка>1. Заглушка</h2>
+<p>Будем делать <code>podsearch</code> — утилиту, которая ищет подкасты в айтюнсе. Создадим каталог и виртуальное окружение:</p>
+<pre tabindex=0><code>$ mkdir podsearch
+$ cd podsearch
+$ python3 -m venv env
+$ . env/bin/activate
+</code></pre><p>Создадим минимальную структуру пакета:</p>
+<pre tabindex=0><code>.
+├── .gitignore
+└── podsearch
+    └── __init__.py
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#c41a16>&#34;&#34;&#34;Let&#39;s find some podcasts!&#34;&#34;&#34;</span>
+
+ <span style=color:#000>__version__</span> <span style=color:#000>=</span> <span style=color:#c41a16>&#34;0.1.0&#34;</span>
+
+
+ <span style=color:#a90d91>def</span> <span style=color:#000>search</span>(<span style=color:#000>name</span>, <span style=color:#000>count</span><span style=color:#000>=</span><span style=color:#1c01ce>5</span>):
+     <span style=color:#c41a16>&#34;&#34;&#34;Search podcast by name.&#34;&#34;&#34;</span>
+     <span style=color:#a90d91>raise</span> <span style=color:#000>NotImplementedError</span>()
+</code></pre></div><h2 id=2-тестовый-пакет>2. Тестовый пакет</h2>
+<p>Исторически создание пакета в питоне — дело хлопотное. К счастью, есть отличная маленькая утилита <a href=https://flit.readthedocs.io/en/latest/>flit</a>, которая упрощает его до предела. Установим её:</p>
+<pre tabindex=0><code>pip install flit
+</code></pre><p>И создадим описание пакета:</p>
+<pre tabindex=0><code>$ flit init
+Module name [podsearch]: 
+Author [Anton Zhiyanov]: 
+Author email [m@antonz.org]: 
+Home page [https://github.com/nalgeon/podsearch-py]:                                     
+Choose a license (see http://choosealicense.com/ for more info)
+1. MIT - simple and permissive
+2. Apache - explicitly grants patent rights
+3. GPL - ensures that code based on this is shared with the same terms
+4. Skip - choose a license later
+Enter 1-4 [1]: 1
+
+Written pyproject.toml; edit that file to add optional extra info.
+</code></pre><p><a href=https://github.com/nalgeon/podsearch-py/blob/main/pyproject.toml>pyproject.toml</a></p>
+<p>Flit создал файл с метаданными проекта <code>pyproject.toml</code>. В нём уже есть всё необходимое для публикации пакета в публичном репозитории — PyPi.</p>
+<p>Зарегистрируемся на <a href=https://test.pypi.org/>TestPyPi</a> (тестовый репозиторий) и <a href=https://pypi.org/>PyPi</a> (основной). Они полностью независимы, так что потребуются две учётные записи.</p>
+<p>Настроим доступ к репозиториям в файле <code>~/.pypirc</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ini data-lang=ini><span style=color:#a90d91>[distutils]</span>
+<span style=color:#836c28>index-servers</span> <span style=color:#000>=</span><span style=color:#c41a16>
+</span><span style=color:#c41a16>  pypi
+</span><span style=color:#c41a16>  pypitest</span>
+
+<span style=color:#a90d91>[pypi]</span>
+<span style=color:#836c28>username: nalgeon  # replace with your PyPI username</span>
+
+<span style=color:#a90d91>[pypitest]</span>
+<span style=color:#836c28>repository: https://test.pypi.org/legacy/</span>
+<span style=color:#836c28>username: nalgeon  # replace with your TestPyPI username</span>
+</code></pre></div><p>И опубликуем наш пакет в тестовом репозитории:</p>
+<pre tabindex=0><code>$ flit publish --repository pypitest
+Found 4 files tracked in git
+...
+Package is at https://test.pypi.org/project/podsearch/
+</code></pre><p>Готово, пакет доступен на <a href=https://test.pypi.org/project/podsearch/>TestPyPi</a>.</p>
+<h2 id=3-публичный-пакет>3. Публичный пакет</h2>
+<p>Доработаем утилиту, чтобы она реально искала подкасты:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#177500># ...</span>
+
+<span style=color:#000>SEARCH_URL</span> <span style=color:#000>=</span> <span style=color:#c41a16>&#34;https://itunes.apple.com/search&#34;</span>
+
+<span style=color:#000>@dataclass</span>
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>Podcast</span>:
+    <span style=color:#c41a16>&#34;&#34;&#34;Podcast metadata.&#34;&#34;&#34;</span>
+
+    <span style=color:#a90d91>id</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>author</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>url</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>feed</span>: <span style=color:#000>Optional</span>[<span style=color:#a90d91>str</span>] <span style=color:#000>=</span> <span style=color:#a90d91>None</span>
+    <span style=color:#000>category</span>: <span style=color:#000>Optional</span>[<span style=color:#a90d91>str</span>] <span style=color:#000>=</span> <span style=color:#a90d91>None</span>
+    <span style=color:#000>image</span>: <span style=color:#000>Optional</span>[<span style=color:#a90d91>str</span>] <span style=color:#000>=</span> <span style=color:#a90d91>None</span>
+
+
+<span style=color:#a90d91>def</span> <span style=color:#000>search</span>(<span style=color:#000>name</span>: <span style=color:#a90d91>str</span>, <span style=color:#000>limit</span>: <span style=color:#a90d91>int</span> <span style=color:#000>=</span> <span style=color:#1c01ce>5</span>) <span style=color:#000>-&gt;</span> <span style=color:#000>List</span>[<span style=color:#000>Podcast</span>]:
+    <span style=color:#c41a16>&#34;&#34;&#34;Search podcast by name.&#34;&#34;&#34;</span>
+    <span style=color:#000>params</span> <span style=color:#000>=</span> {<span style=color:#c41a16>&#34;term&#34;</span>: <span style=color:#000>name</span>, <span style=color:#c41a16>&#34;limit&#34;</span>: <span style=color:#000>limit</span>, <span style=color:#c41a16>&#34;media&#34;</span>: <span style=color:#c41a16>&#34;podcast&#34;</span>}
+    <span style=color:#000>response</span> <span style=color:#000>=</span> <span style=color:#000>_get</span>(<span style=color:#000>url</span><span style=color:#000>=</span><span style=color:#000>SEARCH_URL</span>, <span style=color:#000>params</span><span style=color:#000>=</span><span style=color:#000>params</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>_parse</span>(<span style=color:#000>response</span>)
+</code></pre></div><p>И опубликуем в основном репозитории — PyPi. Выполняйте этот шаг только после того, как у вашего пакета готов рабочий код, который делает что-то полезное. Не стоит публиковать нерабочие пакеты и пакеты-заглушки.</p>
+<pre tabindex=0><code>flit publish
+</code></pre><p>Готово! Можно <a href=https://pypi.org/project/podsearch/>делиться с коллегами</a>.</p>
+<p>А чтобы пакетом было приятно пользоваться, рекомендую выполнить ещё несколько шагов.</p>
+<h2 id=а-ридми-иченжлог>А. Ридми и ченжлог</h2>
+<p>Никто не любит писать документацию. Но без неё вряд ли люди захотят устанавливать ваш пакет, так что добавим <code>README.md</code> и <code>CHANGELOG.md</code>.</p>
+<ul>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/README.md>README.md</a></li>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/CHANGELOG.md>CHANGELOG.md</a></li>
+</ul>
+<p>Заодно в <code>pyproject.toml</code> настроим, чтобы ридми показывался на странице пакета в PyPi:</p>
+<pre tabindex=0><code>description-file = &quot;README.md&quot;
+</code></pre><p>И укажем минимальную версию питона, с которой работает утилита:</p>
+<pre tabindex=0><code>requires-python = &quot;&gt;=3.7&quot;
+</code></pre><p>Обновим версию в <code>__init__.py</code> и опубликуем пакет через <code>flit publish</code>. Красота:</p>
+<figure>
+<img src=packaging-pypi.jpg>
+<figcaption class=text-centered>Страница пакета на PyPi</figcaption>
+</figure>
+<h2 id=б-линтеры-итесты>Б. Линтеры и тесты</h2>
+<p>Позаботимся о форматировании (<code>black</code>), тестовом покрытии (<code>coverage</code>), качестве кода (<code>flake8</code>, <code>pylint</code>, <code>mccabe</code>) и статическом анализе (<code>mypy</code>). Будем выполнять это всё через <code>tox</code>.</p>
+<pre tabindex=0><code>$ pip install black coverage flake8 mccabe mypy pylint pytest tox
+</code></pre><p>Создадим конфигурацию для <code>tox</code> в <code>tox.ini</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ini data-lang=ini><span style=color:#a90d91>[tox]</span>
+<span style=color:#836c28>isolated_build</span> <span style=color:#000>=</span> <span style=color:#c41a16>True</span>
+<span style=color:#836c28>envlist</span> <span style=color:#000>=</span> <span style=color:#c41a16>py37,py38,py39</span>
+
+<span style=color:#a90d91>[testenv]</span>
+<span style=color:#836c28>deps</span> <span style=color:#000>=</span><span style=color:#c41a16>
+</span><span style=color:#c41a16>    black
+</span><span style=color:#c41a16>    coverage
+</span><span style=color:#c41a16>    flake8
+</span><span style=color:#c41a16>    mccabe
+</span><span style=color:#c41a16>    mypy
+</span><span style=color:#c41a16>    pylint
+</span><span style=color:#c41a16>    pytest</span>
+<span style=color:#836c28>commands</span> <span style=color:#000>=</span><span style=color:#c41a16>
+</span><span style=color:#c41a16>    black podsearch
+</span><span style=color:#c41a16>    flake8 podsearch
+</span><span style=color:#c41a16>    pylint podsearch
+</span><span style=color:#c41a16>    mypy podsearch
+</span><span style=color:#c41a16>    coverage erase
+</span><span style=color:#c41a16>    coverage run --include=podsearch/* -m pytest -ra
+</span><span style=color:#c41a16>    coverage report -m</span>
+</code></pre></div><p><a href=https://github.com/nalgeon/podsearch-py/blob/main/tox.ini>tox.ini</a></p>
+<p>И выполним все проверки:</p>
+<pre tabindex=0><code>$ tox -e py39
+...
+py39 run-test: commands[0] | black podsearch
+All done! ✨ 🍰 ✨
+...
+py39 run-test: commands[2] | pylint podsearch
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+...
+py39 run-test: commands[6] | coverage report -m
+TOTAL 100%
+...
+py39: commands succeeded
+congratulations :)
+</code></pre><p>Красота! Линтеры довольны, тесты прошли, покрытие 100%.</p>
+<h2 id=в-сборка-воблаке>В. Сборка в облаке</h2>
+<p>Уважающие себя opensource-проекты прогоняют тесты в «облаке» после каждого коммита. К тому же это позволяет развесить красивые бирки в ридми ツ</p>
+<p>Будем собирать через <a href=https://github.com/features/actions>GitHub Actions</a>, мерить покрытие через <a href=https://about.codecov.io/>Codecov</a>, а качество — через <a href=https://codeclimate.com/>Code Climate</a>.</p>
+<p>В Codecov и Code Climate придётся зарегистрироваться (работает вход через гитахаб) и включить в настройках гитхаб-репозиторий, в котором живёт код библиотеки.</p>
+<p>После этого добавим конфиг для GitHub Actions в <code>.github/workflows/build.yml</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>jobs</span>:
+    <span style=color:#000>build</span>:
+        <span style=color:#000>runs-on</span>: <span style=color:#1c01ce>ubuntu-latest</span>
+        <span style=color:#000>strategy</span>:
+            <span style=color:#000>matrix</span>:
+                <span style=color:#000>python-version</span>: [<span style=color:#1c01ce>3.7</span>, <span style=color:#1c01ce>3.8</span>, <span style=color:#1c01ce>3.9</span>]
+        
+        <span style=color:#000>env</span>:
+            <span style=color:#000>USING_COVERAGE</span>: <span style=color:#c41a16>&#34;3.9&#34;</span>
+
+        <span style=color:#000>steps</span>:
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Checkout sources</span>
+              <span style=color:#000>uses</span>: <span style=color:#1c01ce>actions/checkout@v2</span>
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Set up Python</span>
+              <span style=color:#000>uses</span>: <span style=color:#1c01ce>actions/setup-python@v2</span>
+              <span style=color:#000>with</span>:
+                  <span style=color:#000>python-version</span>: <span style=color:#1c01ce>${{ matrix.python-version }}</span>
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Install dependencies</span>
+              <span style=color:#000>run</span>: |<span style=color:#c41a16>
+</span><span style=color:#c41a16>                  python -m pip install --upgrade pip
+</span><span style=color:#c41a16>                  python -m pip install black coverage flake8 flit mccabe mypy pylint pytest tox tox-gh-actions</span>                  
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Run tox</span>
+              <span style=color:#000>run</span>: |<span style=color:#c41a16>
+</span><span style=color:#c41a16>                  </span>                  <span style=color:#1c01ce>python -m tox</span>
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Upload coverage to Codecov</span>
+              <span style=color:#000>uses</span>: <span style=color:#1c01ce>codecov/codecov-action@v1</span>
+              <span style=color:#000>if</span>: <span style=color:#1c01ce>contains(env.USING_COVERAGE, matrix.python-version)</span>
+              <span style=color:#000>with</span>:
+                  <span style=color:#000>fail_ci_if_error</span>: <span style=color:#a90d91>true</span>
+
+</code></pre></div><p><a href=https://github.com/nalgeon/podsearch-py/blob/main/.github/workflows/build.yml>build.yml</a></p>
+<p>Тесты на гитхабе гоняются как и локально — через <code>tox</code>. Пакет <code>tox-gh-actions</code> и настройка <code>USING_COVERAGE</code> запускают <code>tox</code> на той версии Python, которая указана в матрице сборки (<code>strategy.matrix</code>).</p>
+<p>Последний шаг отправляет тестовое покрытие в Codecov. А для Code Climate отдельный шаг не нужен — он сам отслеживает изменения на гитхабе.</p>
+<p>Теперь коммитим, пушим, и через минуту наслаждаемся результатом. А чтобы насладились все, добавим бирки в <code>README.md</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>[![PyPI Version][pypi-image]][pypi-url]
+[![Build Status][build-image]][build-url]
+[![Code Coverage][coverage-image]][coverage-url]
+[![Code Quality][quality-image]][quality-url]
+
+...
+
+<span style=color:#177500>&lt;!-- Badges --&gt;</span>
+
+[pypi-image]: https://img.shields.io/pypi/v/podsearch
+[pypi-url]: https://pypi.org/project/podsearch/
+[build-image]: https://github.com/nalgeon/podsearch-py/actions/workflows/build.yml/badge.svg
+[build-url]: https://github.com/nalgeon/podsearch-py/actions/workflows/build.yml
+[coverage-image]: https://codecov.io/gh/nalgeon/podsearch-py/branch/main/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/nalgeon/podsearch-py
+[quality-image]: https://api.codeclimate.com/v1/badges/3130fa0ba3b7993fbf0a/maintainability
+[quality-url]: https://codeclimate.com/github/nalgeon/podsearch-py
+</code></pre></div><p>Смотрите, как хорошо:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-8">
+<figure>
+<img alt="Бирки в описании проекта" src=packaging-badges.png class=img-bordered>
+<figcaption>С бирками на ридми приятно посмотреть</figcaption>
+</figure>
+</div>
+</div>
+<h2 id=г-автоматизация-задач>Г. Автоматизация задач</h2>
+<p>Всё хорошо, но неудобно во время разработки гонять линтеры и мерить покрытие. Постоянно запускать <code>tox</code> слишком долго, а писать каждый раз в консоли <code>pylint</code>, <code>coverage</code>, и тому подобное — утомительно.</p>
+<p>Сделаем задачи для частых действий. В этом нам поможет <a href=/makefile/>мейкфайл</a>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Makefile data-lang=Makefile><span style=color:#000>.DEFAULT_GOAL</span> <span style=color:#000>:=</span> <span style=color:#a90d91>help</span>
+<span style=color:#000>.PHONY</span><span style=color:#000>:</span> <span style=color:#000>coverage</span> <span style=color:#000>deps</span> <span style=color:#000>help</span> <span style=color:#000>lint</span> <span style=color:#000>push</span> <span style=color:#000>test</span>
+
+<span style=color:#000>coverage</span><span style=color:#000>:</span>  <span style=color:#177500>## Run tests with coverage
+</span><span style=color:#177500></span>	coverage erase
+	coverage run --include<span style=color:#000>=</span>podsearch/* -m pytest -ra
+	coverage report -m
+
+<span style=color:#000>deps</span><span style=color:#000>:</span>  <span style=color:#177500>## Install dependencies
+</span><span style=color:#177500></span>	pip install black coverage flake8 mccabe mypy pylint pytest tox
+
+<span style=color:#000>lint</span><span style=color:#000>:</span>  <span style=color:#177500>## Lint and static-check
+</span><span style=color:#177500></span>	flake8 podsearch
+	pylint podsearch
+	mypy podsearch
+
+<span style=color:#000>push</span><span style=color:#000>:</span>  <span style=color:#177500>## Push code with tags
+</span><span style=color:#177500></span>	git push <span style=color:#000>&amp;&amp;</span> git push --tags
+
+<span style=color:#000>test</span><span style=color:#000>:</span>  <span style=color:#177500>## Run tests
+</span><span style=color:#177500></span>	pytest -ra
+</code></pre></div><p><a href=https://github.com/nalgeon/podsearch-py/blob/main/Makefile>Makefile</a></p>
+<p>Список наших задач:</p>
+<pre tabindex=0><code>$ make help
+Usage: make [task]
+
+task                 help
+------               ----
+coverage             Run tests with coverage
+deps                 Install dependencies
+lint                 Lint and static-check
+push                 Push code with tags
+test                 Run tests
+help                 Show help message
+</code></pre><p>Шаги в <code>build.yml</code> заменим на вызов <code>make</code>, чтобы не дублировать код:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- <span style=color:#000>name</span>: <span style=color:#1c01ce>Install dependencies</span>
+  <span style=color:#000>run</span>: |<span style=color:#c41a16>
+</span><span style=color:#c41a16>      </span>      <span style=color:#1c01ce>make deps</span>
+
+- <span style=color:#000>name</span>: <span style=color:#1c01ce>Run tox</span>
+  <span style=color:#000>run</span>: |<span style=color:#c41a16>
+</span><span style=color:#c41a16>      </span>      <span style=color:#1c01ce>make tox</span>
+</code></pre></div><h2 id=д-публикация-пакета>Д. Публикация пакета</h2>
+<p>Чтобы не публиковать пакет вручную через вызов <code>flit publish</code>, поручим это Гитхабу. Создадим отдельный сценарий:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>name</span>: <span style=color:#1c01ce>publish</span>
+
+<span style=color:#000>on</span>:
+    <span style=color:#000>release</span>:
+        <span style=color:#000>types</span>: [<span style=color:#1c01ce>created]</span>
+
+<span style=color:#000>jobs</span>:
+    <span style=color:#000>publish</span>:
+        <span style=color:#000>runs-on</span>: <span style=color:#1c01ce>ubuntu-latest</span>
+        <span style=color:#000>steps</span>:
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Checkout sources</span>
+              <span style=color:#000>uses</span>: <span style=color:#1c01ce>actions/checkout@v2</span>
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Set up Python</span>
+              <span style=color:#000>uses</span>: <span style=color:#1c01ce>actions/setup-python@v2</span>
+              <span style=color:#000>with</span>:
+                  <span style=color:#000>python-version</span>: <span style=color:#c41a16>&#34;3.9&#34;</span>
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Install dependencies</span>
+              <span style=color:#000>run</span>: |<span style=color:#c41a16>
+</span><span style=color:#c41a16>                  </span>                  <span style=color:#1c01ce>make deps</span>
+
+            - <span style=color:#000>name</span>: <span style=color:#1c01ce>Publish to PyPi</span>
+              <span style=color:#000>env</span>:
+                  <span style=color:#000>FLIT_USERNAME</span>: <span style=color:#1c01ce>${{ secrets.PYPI_USERNAME }}</span>
+                  <span style=color:#000>FLIT_PASSWORD</span>: <span style=color:#1c01ce>${{ secrets.PYPI_PASSWORD }}</span>
+              <span style=color:#000>run</span>: |<span style=color:#c41a16>
+</span><span style=color:#c41a16>                  </span>                  <span style=color:#1c01ce>make publish</span>
+
+</code></pre></div><p><a href=https://github.com/nalgeon/podsearch-py/blob/main/.github/workflows/publish.yml>publish.yml</a></p>
+<p><code>PYPI_USERNAME</code> и <code>PYPI_PASSWORD</code> задаются в настройках репозитория (Settings > Secrets > New repository secret). В качестве значений можно указать логин и пароль на PyPi, а еще лучше — <a href=https://pypi.org/manage/account/token/>API-ключ</a>.</p>
+<p>Теперь гитхаб автоматически опубликует пакет, как только вы выпустите новый релиз. Удобно!</p>
+<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Ваш идеальный пакет готов! У него есть всё: чистый код, понятная документация, тесты и автосборка. Самое время рассказать коллегам и единомышленникам.</p>
+<p>Все настройки:</p>
+<ul>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/pyproject.toml>pyproject.toml</a></li>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/tox.ini>tox.ini</a></li>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/Makefile>Makefile</a></li>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/.github/workflows/build.yml>build.yml</a></li>
+<li><a href=https://github.com/nalgeon/podsearch-py/blob/main/.github/workflows/publish.yml>publish.yml</a></li>
+</ul>
+<br>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2020-05-15 07:58:16 +0000 UTC">15.05.2020</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/simple-ui/>Что делает интерфейс простым</a></p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p><a href=https://antonz.ru/telegram-links/>Ссылки на телеграм в вебе</a>&nbsp;&rarr;</p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/makefile/>Автоматизация задач в Python-проекте</a></p>
+<p><a href=/fast-language/>Быстрый язык ≠ быстрый код</a></p>
+<p><a href=/naming-consistency/>Чистый код. Единообразие в именах</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer></body>
+</html>
