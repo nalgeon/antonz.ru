@@ -3,6 +3,8 @@ languageCode = "ru-ru"
 title = "Антон Жиянов"
 theme = "antonz"
 
+enableRobotsTXT = true
+
 [permalinks]
 posts = "/:slug"
 years = "/:year"
