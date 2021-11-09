@@ -1,86 +1,84 @@
-<section id="blog">
+<section id="blog" class="home__block">
     <div class="container">
         <h2 class="storey__header">Лучшее из <a href="/all/">блога</a></h2>
         <div class="row">
             <div class="col-xs-12 col-sm-10">
-                <div class="posts">
-                    <small class="text-secondary">свежая статья</small>
-                    {{- range (where site.RegularPages "Section" "posts").ByDate.Reverse | first 1 }}
-                    <div class="post-stub">
-                        <a class="post-stub__title" href="{{ .Permalink }}">
-                            {{ .Title }}
-                        </a>
-                        {{- if .Param "featured" }}
-                        <i class="far fa-star post-stub__star"></i>
-                        {{- end }}
-                    </div>
-                    {{- end}}
+                <small class="color-gray">свежая статья</small>
+                {{- range (where site.RegularPages "Section" "posts").ByDate.Reverse | first 1 }}
+                <div class="post-stub">
+                    <a class="post-stub__title" href="{{ .Permalink }}">
+                        {{ .Title }}
+                    </a>
+                    {{- if .Param "featured" }}
+                    <i class="far fa-star post-stub__star"></i>
+                    {{- end }}
                 </div>
+                {{- end}}
             </div>
         </div>
     </div>
 </section>
 
-<section class="storey storey--notop article blog-map">
+<section class="storey storey--notop home__block">
     <div class="container">
-        <div class="row blog-map__row">
+        <div class="row home__row">
             <div class="col-xs-12 col-sm-4">
-                <small class="text-secondary"><a href="/tags/development/">разработка</a></small>
+                <small class="color-gray"><a href="/tags/development/">разработка</a></small>
                 <p><a href="/iuliia/">Всё о транслитерации</a></p>
                 <p><a href="/packaging/">Как сделать классный <span class="nowrap">Python-пакет</span></a></p>
                 <p><a href="/good-code/">Хороший код</a></p>
             </div>
             <div class="col-xs-12 col-sm-4 hidden-mobile">
-                <small class="text-secondary"> </small>
+                <small class="color-gray"> </small>
                 <p><a href="/github-actions-scraping/">GitHub Actions + открытые данные = ❤️</a></p>
                 <p><a href="/simple-made-easy/">Простое против легкого</a></p>
                 <p><a href="/makefile/">Makefile-автоматизация</a></p>
             </div>
             <div class="col-xs-12 col-sm-4">
-                <small class="text-secondary"><a href="/tags/productology/">продуктоводство</a></small>
+                <small class="color-gray"><a href="/tags/productology/">продуктоводство</a></small>
                 <p><a href="/simplify-users-life/">Упростить человеку жизнь</a></p>
                 <p><a href="/pricing-contact-us/">Свяжитесь с нами</a></p>
                 <p><a href="/productology/">О продуктоводстве</a></p>
             </div>
         </div>
 
-        <div class="row blog-map__row">
+        <div class="row home__row">
             <div class="col-xs-12 col-sm-4">
-                <small class="text-secondary"><a href="/tags/data/">SQL и данные</a></small>
+                <small class="color-gray"><a href="/tags/data/">SQL и данные</a></small>
                 <p><a href="/window-functions/">Оконные функции в картинках</a></p>
                 <p><a href="/sqlite-course/">SQLite для аналитики</a></p>
                 <p><a href="/lets-sql/">Всем SQL ✨</a></p>
             </div>
             <div class="col-xs-12 col-sm-4 hidden-mobile">
-                <small class="text-secondary"> </small>
+                <small class="color-gray"> </small>
                 <p><a href="/median/">Медиана вместо среднего</a></p>
                 <p><a href="/random-table/">1М записей одним запросом</a></p>
                 <p><a href="/sql-groups/">Ищем группы на SQL</a></p>
             </div>
             <div class="col-xs-12 col-sm-4">
-                <small class="text-secondary"><a href="/tags/writing/">текст и редактура</a></small>
+                <small class="color-gray"><a href="/tags/writing/">текст и редактура</a></small>
                 <p><a href="/ux-writing/">Объяснять, что происходит</a></p>
                 <p><a href="/metro-voice-interface/">Голосовой интерфейс метро</a></p>
                 <p><a href="/longread/">Как не написать простыню</a></p>
             </div>
         </div>
 
-        <div class="row blog-map__row">
+        <div class="row home__row">
             <div class="col-xs-12 col-sm-4">
-                <small class="text-secondary"><a href="/tags/interface/">интерфейсы</a></small>
+                <small class="color-gray"><a href="/tags/interface/">интерфейсы</a></small>
                 <p><a href="/common-sense-design/">Дизайн — это здравый смысл</a></p>
                 <p><a href="/suggestions-vs-validation/">Автокомплит и проверка данных</a></p>
                 <p><a href="/laws/">Три закона</a></p>
             </div>
             <div class="col-xs-12 col-sm-4 hidden-mobile">
-                <small class="text-secondary"> </small>
+                <small class="color-gray"> </small>
                 <p><a href="/human-factor/">Человеческого фактора нет</a></p>
                 <p><a href="/no-more-latch/">Хватит сортировать по алфавиту</a></p>
                 <p><a href="/choice/">Как выбирать 🤔</a></p>
             </div>
         </div>
 
-        <div class="row blog-map__row">
+        <div class="row home__row">
             <div class="col-xs-12">
                 <br>
                 <p>а ещё заметки  <a href="/tags/life/">👽 o жизни</a>

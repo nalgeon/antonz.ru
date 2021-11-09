@@ -1,5 +1,5 @@
 .footer {
-    color: #555;
+    color: var(--color-gray);
     padding-top: 1em;
     padding-bottom: 1em;
 }

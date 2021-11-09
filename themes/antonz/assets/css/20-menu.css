@@ -15,7 +15,7 @@
 }
 .menu__link span,
 .menu__link:visited span {
-    color: #008bf5;
+    color: var(--color-blue);
     border-bottom: 1px solid rgba(0, 139, 245, 0.2);
 }
 .menu__link:active span,

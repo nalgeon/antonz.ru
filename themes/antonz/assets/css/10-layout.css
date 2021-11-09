@@ -1,9 +1,5 @@
 body {
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
     min-height: 100vh;
 }
@@ -16,9 +12,9 @@ body {
     padding-top: 0;
 }
 .storey__header {
-    font-size: 1.8em;
+    font-size: 1.5em;
     font-weight: 600;
-    margin: 0 0 0.7em;
+    margin: 0 0 0.75em 0;
 }
 
 .flex {

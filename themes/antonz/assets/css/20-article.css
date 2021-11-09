@@ -1,45 +1,47 @@
+.article {
+    font-size: var(--font-size-large);
+}
 @media only screen and (min-width: 62em) {
     .article {
-        font-size: 1.2em;
+        font-size: 1.35rem;
+    }
+    pre {
+        font-size: var(--font-size-large);
     }
 }
 
-.article--with-posts {
-    margin-bottom: 1.5em;
+.article h1 {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin: 0 0 0.5em;
 }
 
 .article h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    line-height: 1.35em;
-    margin: 1.5em auto 0.7em;
+    font-size: 1.4em;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 1em 0 0.5em;
 }
 .article h2:first-child {
     margin-top: 0;
 }
 
 .article h3 {
-    font-weight: bold;
-    margin-bottom: 0.4em;
+    font-size: 1em;
+    font-weight: 600;
+    margin: 1em 0 0.5em;
 }
-
-.article p {
-    margin: 0 0 0.8em 0;
-}
-.article p:last-child {
-    margin-bottom: 0;
+.article h3:first-child {
+    margin-top: 0;
 }
 
 .article ul,
 .article ol {
     padding-left: 2.5em;
     padding-right: 2.5em;
-    margin: 0 0 1em;
+    margin: 0 0 0.8em 0;
 }
-.article p + ul,
-.article p + ol {
-    margin-top: -0.4em;
-}
+
 .article ul li {
     list-style: none;
 }
@@ -50,153 +52,88 @@
     margin: 0 0 0.4em 0;
 }
 
-.article img {
-    display: block;
-    height: auto;
-    max-width: 100%;
-    width: auto;
-}
-.article img.bordered {
-    border: 0.2em solid #eaeaea;
-}
-
-.article figure,
-.article table {
+.article figure {
     margin: 0 0 0.8em 0;
 }
 .article figcaption,
 .article .figcaption {
-    color: #555;
-    font-size: 0.9em;
-    padding-top: 0.2em;
+    color: var(--color-gray);
+    font-size: 90%;
+    margin-top: 0.2em;
 }
 .article figcaption a,
 .article .figcaption a {
-    color: #555;
-    border-color: #555;
-}
-.article figcaption.text-centered {
-    text-align: center;
+    color: var(--color-gray);
+    border-color: var(--color-gray);
 }
 
 .article blockquote {
     border-left: 0.3em solid #eaeaea;
-    color: #555;
-    margin-left: 2em;
+    color: var(--color-gray);
+    margin-left: 1em;
     margin-bottom: 0.8em;
     padding: 0 0 0 1em;
 }
-.article blockquote.bq-padded {
-    border: none;
-    margin-left: 0;
-    margin-bottom: 1em;
-    padding: 2em;
-}
-.article blockquote.big {
-    border: none;
-    color: rgba(0, 0, 0, 0.6);
-    font-family: var(--font-serif);
-    font-style: italic;
-    margin-left: 0;
-    padding: 0 2em;
-}
 @media only screen and (min-width: 48em) {
-    .article blockquote.big {
-        padding: 0 4em;
+    .article blockquote {
+        margin-left: 2em;
     }
 }
 
 .article .big {
-    font-size: 1.6em;
+    font-size: 1.5em;
     margin: 0 0 0.8em 0;
 }
-
-.article details {
-    margin: 0 0 0.8em 0;
+.article blockquote.big {
+    border: none;
+    color: var(--color-gray);
+    font-family: var(--font-serif);
+    font-style: italic;
+    margin-left: 0;
+    padding: 0 1.5em;
 }
-.article details[open] {
-    border: 0.25em solid #eaeaea;
-    padding: 2em;
-}
-.article details[open] p,
-.article details[open] li {
-    color: #555;
-    font-size: 1em;
-}
-.article details[open] > p:last-child {
-    margin-bottom: 0;
-}
-.article summary {
-    display: inline-block;
-    border-bottom: 1px dashed;
-    cursor: pointer;
-    outline: none;
-}
-.article summary::-webkit-details-marker {
-    display: none;
-}
-
-.article .padded {
-    padding-left: 3em;
-    padding-right: 3em;
+@media only screen and (min-width: 48em) {
+    .article blockquote.big {
+        padding: 0 3em;
+    }
 }
 
 .article .boxed {
     border: 0.25em solid #eaeaea;
     margin-bottom: 0.8em;
-    padding: 2em;
+    padding: 1.5em;
 }
 .article .boxed p,
 .article .boxed li,
 .article .boxed h3 {
-    color: #555;
-    font-size: 1em;
+    color: var(--color-gray);
 }
 .article .boxed > p:last-child {
     margin-bottom: 0;
 }
-
-.article .lead {
-    font-size: 1em !important;
-}
-
-.article--big h3 {
-    font-size: 1em;
-}
-
-.article--big p,
-.article--big li,
-.article--big table {
-    font-size: 1.15em;
-}
-/* Ghost markdown inserts p inside li */
-.article--big li p,
-.article--big li li {
-    font-size: 1em;
+@media only screen and (min-width: 48em) {
+    .article .boxed {
+        padding: 2em;
+    }
 }
 
 .article table {
     display: inline-block;
-    border: 1px solid #e5e5e5;
+    max-width: 100%;
+    margin: 0 0 0.8em 0;
+    overflow-x: auto;
+    vertical-align: top;
+    border: 1px solid #eaeaea;
     border-spacing: 0;
     border-collapse: collapse;
-    overflow-x: auto;
-    max-width: 100%;
     text-align: left;
-    vertical-align: top;
-}
-.article table caption {
-    font-size: 0.9em;
 }
 .article table td,
 .article table th {
-    padding: 0.35em 0.75em;
+    padding: 0.4em 0.4em;
     vertical-align: top;
-    font-size: 0.9em;
-    border-bottom: 1px solid #e5e5e5;
-}
-.article table th {
-    line-height: 1.2;
+    font-size: 90%;
+    border-bottom: 1px solid #eaeaea;
 }
 .article table tr:last-child td {
     border-bottom: none;
@@ -204,8 +141,4 @@
 
 .highlight pre {
     background: #f5f5f5 !important;
-}
-
-.footnotes-sep {
-    display: none;
 }

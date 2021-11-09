@@ -1,6 +1,6 @@
 {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
 {{- if and (gt (len $pages) 1) (in $pages . ) }}
-<div class="article">
+<div class="post__nav article">
     <div class="row">
         {{- with $pages.Prev . }}
         <div class="col-xs-12 col-sm-6">

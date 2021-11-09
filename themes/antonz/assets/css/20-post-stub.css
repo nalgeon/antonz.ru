@@ -8,13 +8,13 @@
 }
 
 .post-stub__star {
-    color: #fdd000;
+    color: var(--color-yellow);
     display: inline-block;
     width: 1.2em;
 }
 
 .post-stub__date {
-    color: rgba(0, 0, 0, 0.54);
+    color: var(--color-gray);
     padding-left: 0.5rem;
     font-size: 0.8em;
 }

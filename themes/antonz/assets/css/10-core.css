@@ -7,6 +7,14 @@
     /* Github */
     --font-monospace: "SFMono-Regular", "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;
+
+    --color-blue: #008bf5;
+    --color-gray: rgba(0, 0, 0, 0.6);
+    --color-red: #ed7647;
+    --color-yellow: #fdd000;
+
+    --font-size-large: 1.2rem;
+    --font-size-x-large: 1.2rem;
 }
 
 html {
@@ -62,7 +70,7 @@ h2 {
 }
 
 a {
-    color: #008bf5;
+    color: var(--color-blue);
     border-bottom: 1px solid rgba(0, 139, 245, 0.2);
     text-decoration: none;
     transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
@@ -81,9 +89,7 @@ a:visited {
 a[href^="#"] {
     border-bottom-style: dashed;
 }
-.footnote-ref a[href^="#"] {
-    border-bottom-style: none;
-}
+
 blockquote {
     margin: 0;
     padding: 0;
@@ -107,7 +113,21 @@ li > code,
 td > code {
     background: #f5f5f5;
     font-size: 80%;
-    padding: 0.1rem 0.2rem;
+    padding: 0.125em 0.25em;
+}
+
+p {
+    margin: 0 0 0.8em 0;
+}
+p:last-child {
+    margin-bottom: 0;
+}
+
+img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: auto;
 }
 
 form input[type="email"],
@@ -117,7 +137,7 @@ form input[type="url"],
 form select,
 form textarea {
     border: 0;
-    border-radius: 2px;
+    border-radius: 0.125em;
     border: solid 1px #ddd;
     cursor: text;
     display: block;
@@ -128,7 +148,7 @@ form textarea {
 form input.error,
 form select.error,
 form textarea.error {
-    border-color: #ed7647;
+    border-color: var(--color-red);
 }
 
 .button,
@@ -136,15 +156,15 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-    background: #008bf5;
+    background: var(--color-blue);
     border: 0;
-    border-radius: 2px;
+    border-radius: 0.125em;
     color: #fff;
     cursor: pointer;
     display: inline-block;
     outline: 0;
     overflow: hidden;
-    padding: 0.5em 0.75em;
+    padding: 0.5em 1em;
     position: relative;
     text-decoration: none;
     text-align: center;
