@@ -95,7 +95,7 @@
 .article blockquote.big {
     border: none;
     color: rgba(0, 0, 0, 0.6);
-    font-family: "PT Serif", Georgia, serif;
+    font-family: var(--font-serif);
     font-style: italic;
     margin-left: 0;
     padding: 0 2em;
