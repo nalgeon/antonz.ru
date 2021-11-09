@@ -28,13 +28,6 @@
 {{- $stylesheet := $stylesheet | fingerprint }}
 <link rel="stylesheet" type="text/css" href="{{ $stylesheet.RelPermalink }}">
 
-{{/*- $script := (resources.Match "js/*.js") | resources.Concat "assets/css/site.js" */}}
-{{/*- $script := $script | minify | fingerprint */}}
-{{/* <script defer src="{{ $script.RelPermalink }}"></script> */}}
-{{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
-<script async src="//gc.zgo.at/count.js" data-goatcounter="https://antonzru.goatcounter.com/count"></script>
-{{- end }}
-
 <!-- Favicons -->
 <link rel="icon" href="/assets/favicon/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
