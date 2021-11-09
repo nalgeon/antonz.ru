@@ -27,7 +27,6 @@
 {{- $stylesheet := (resources.Match "css/*.css") | resources.Concat "assets/css/style.css" }}
 {{- $stylesheet := $stylesheet | fingerprint }}
 <link rel="stylesheet" type="text/css" href="{{ $stylesheet.RelPermalink }}">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
 
 {{/*- $script := (resources.Match "js/*.js") | resources.Concat "assets/css/site.js" */}}
 {{/*- $script := $script | minify | fingerprint */}}
