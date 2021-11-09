@@ -4,6 +4,7 @@ title = "Антон Жиянов"
 theme = "antonz"
 
 enableRobotsTXT = true
+rssLimit = 10
 
 [permalinks]
 posts = "/:slug"
