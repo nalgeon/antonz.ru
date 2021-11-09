@@ -1090,6 +1090,9 @@
 .fa-facebook::before {
     content: "\f09a";
 }
+.fa-facebook-f::before {
+    content: "\f39e";
+}
 .fa-file::before {
     content: "\f15b";
 }
