@@ -188,7 +188,7 @@ title = "Что делает интерфейс простым"
 
 Цели и сценарии лучше прописать до начала проектирования интерфейса. Как это сделать — отдельная тема. Алан Купер посвятил ей целую книгу[^3].
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 ## Запомнить
 
@@ -214,7 +214,7 @@ title = "Что делает интерфейс простым"
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсов без шелухи</a>»</span></em></p></div>
 </div>
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Ссылки по тексту:
 

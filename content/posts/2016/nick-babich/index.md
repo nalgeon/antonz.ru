@@ -39,7 +39,7 @@ title = "Как совмещать дизайн и разработку"
 - сервис [рубашек на заказ](https://www.realthread.com/) — сейчас работаем над новой версией.
 
 <figure>
-    <img alt="Real Thread" class="bordered" src="nickbabich-realthread.jpg">
+    <img alt="Real Thread" class="img-bordered" src="nickbabich-realthread.jpg">
     <figcaption>Real Thread — «рубашка на заказ» во Флориде</figcaption>
 </figure>
 
@@ -58,7 +58,7 @@ title = "Как совмещать дизайн и разработку"
 Честно сказать — в начале я ничего не планировал. Просто хотел создать небольшой блог для дизайнеров и инженеров, которые стремятся делать продукты лучше. Когда начал публиковать первые статьи, был немного обескуражен — количество прочтений постоянно росло.
 
 <div class="row"><div class="col-xs-12 col-sm-8">
-<p><a class="img-link" href="https://uxplanet.org"><img alt="UX Planet" class="bordered" src="nickbabich-uxplanet.jpg"></a></p></div><div class="col-xs-12 col-sm-4"><div class="figcaption">«Небольшой блог» превратился в проект с 400 тысяч посещений в месяц</div></div>
+<p><a class="img-link" href="https://uxplanet.org"><img alt="UX Planet" class="img-bordered" src="nickbabich-uxplanet.jpg"></a></p></div><div class="col-xs-12 col-sm-4"><div class="figcaption">«Небольшой блог» превратился в проект с 400 тысяч посещений в месяц</div></div>
 </div>
 
 Сейчас в блоге 20 тысяч читателей, и для меня это показатель того, что люди очень заинтересованы в теме UX. Это вдохновляет! Отдельное спасибо всем, кто помогает делать UX Planet лучше — авторам публикаций и комментариев (в особенности друзьям из студий [Tubik](http://tubikstudio.com/blog/) и [icons8](https://icons8.com/blog/) — Марина и Саша — вы крутые!)

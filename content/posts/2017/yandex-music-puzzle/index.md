@@ -9,7 +9,7 @@ title = "Задачка: Яндекс-музыка и медленный инт
 
 На днях я предложил читателям телеграм-канала «<a href="https://t.me/dangry" class="nowrap">интерфейсов без шелухи</a>» такую задачку:
 
-<div class="boxed" style="margin-bottom: .8em;">
+<div class="boxed">
 <h3>Яндекс-музыка и медленный интернет</h3>
 <div class="row">
 <div class="col-xs-12 col-sm-8">
@@ -91,7 +91,7 @@ title = "Задачка: Яндекс-музыка и медленный инт
 
 Логично.
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 Ещё раз спасибо всем участникам! Продолжим через недельку ツ
 

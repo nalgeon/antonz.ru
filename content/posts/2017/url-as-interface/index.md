@@ -148,7 +148,7 @@ http://yasobe.ru/na/obed
 
 Так редко получается, но если видите возможность — не упустите.
 
-<div class="boxed" style="margin-bottom: .8em;">
+<div class="boxed">
 <h3>Красота и иерархичность</h3>
 <p>Важно, чтобы адрес оставался иерархичным: каждый кусочек от слэша до слэша не просто «создаёт красоту», а имеет самостоятельный смысл:</p>
 
@@ -176,11 +176,11 @@ antonz.ru/2016/04/12/laws/ → antonz.ru/laws/
 Единожды опубликованный урл должен жить вечно. Даже если страница по ссылке удалена, на её месте оставляют заглушку с пояснением:
 
 <figure>
-  <img alt="Покемон-радар" class="bordered img-grayscale" src="pokemon.png">
+  <img alt="Покемон-радар" class="img-bordered color-grayscale" src="pokemon.png">
   <figcaption>RIP, <a href="http://dadata.ru/pokemon">покемон-радар</a></figcaption>
 </figure>
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 Делать хорошие урлы нелегко, а оценит их мало кто. Но если у вас получится — знайте, я вами горжусь ツ
 

@@ -385,7 +385,7 @@ order by department, salary, id;
     </tbody>
 </table>
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 Мы разобрались, как считать фиксированные агрегаты в окнах. В <a href="/window-rolling/">следующей части</a> займемся скользящими агрегатами!
 

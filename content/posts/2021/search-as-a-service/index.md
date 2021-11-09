@@ -19,7 +19,7 @@ title = "Как сделать нормальный поиск"
 <div class="col-xs-12 col-sm-10">
 <figure>
   <img alt="Поиск на этом сайте" src="cloud-search.png">
-  <figcaption class="text-centered">Именно через «Яндекс» сделан поиск на моем сайте</figcaption>
+  <figcaption class="align-center">Именно через «Яндекс» сделан поиск на моем сайте</figcaption>
 </figure>
 </div>
 </div>

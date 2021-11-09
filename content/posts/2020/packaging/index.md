@@ -166,7 +166,7 @@ requires-python = ">=3.7"
 
 <figure>
   <img src="packaging-pypi.jpg">
-  <figcaption class="text-centered">Страница пакета на PyPi</figcaption>
+  <figcaption class="align-center">Страница пакета на PyPi</figcaption>
 </figure>
 
 ## Б. Линтеры и тесты
@@ -413,7 +413,7 @@ jobs:
 
 Теперь гитхаб автоматически опубликует пакет, как только вы выпустите новый релиз. Удобно!
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Ваш идеальный пакет готов! У него есть всё: чистый код, понятная документация, тесты и автосборка. Самое время рассказать коллегам и единомышленникам.
 

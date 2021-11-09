@@ -179,7 +179,7 @@ sqlite> select * from person_data limit 10;
 
 Миллион клиентов одним запросом, неплохо! Вот бы в продажах так ツ
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Если хотите узнать больше о рекурсивных SQL-запросах, прикладном анализе данных и SQLite — записывайтесь на курс:
 

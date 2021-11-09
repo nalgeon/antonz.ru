@@ -148,7 +148,7 @@ UPD: а вот [вариант 2019 года](https://vc.ru/flood/55198)
 
 [Adobe Creative Cloud](http://www.adobe.com/ru/creativecloud.html) — подписка на линейку продуктов Adobe для дизайнеров и художников. Photoshop, Lightroom, Illustrator, Adobe Premiere Pro, InDesign, Experience Design.
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Теперь вы знаете, что подарить коллеге-дизайнеру. Или чем себя любимого порадовать ツ
 

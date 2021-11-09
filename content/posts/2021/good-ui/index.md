@@ -6,7 +6,7 @@ slug = "good-ui"
 title = "Дизайн интерфейсов для нормальных людей"
 +++
 
-<div class="article article--big">
+<div class="article">
 <div class="row">
 <div class="col-xs-12 col-sm-10">
 

@@ -548,7 +548,7 @@ order by department, salary, id;
 
 Чтобы границы фрейма совпадали с границами секции (или всего окна, если секция одна) — используют конструкцию `rows between unbounded preceding and unbounded following` в определении окна.
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 Мы разобрались, как сравнивать строки с соседями и границами окна. В [следующей части](/window-aggregate/) займемся агрегацией данных!
 

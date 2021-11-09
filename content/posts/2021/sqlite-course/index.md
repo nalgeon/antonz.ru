@@ -77,14 +77,14 @@ title = "SQLite для аналитики"
 <div class="col-xs-12 col-sm-6">
 <figure>
   <a href="sqlite-lesson.png" class="img-link" target="_blank"><img alt="Чистим данные" src="sqlite-lesson.png"></a>
-  <figcaption class="text-centered">Учимся приводить данные в порядок</figcaption>
+  <figcaption class="align-center">Учимся приводить данные в порядок</figcaption>
 </figure>
 </div>
 
 <div class="col-xs-12 col-sm-6">
 <figure>
   <a href="sqlite-question.png" class="img-link" target="_blank"><img alt="Задачка" src="sqlite-question.png"></a>
-  <figcaption class="text-centered">Задачка на агрегацию данных</figcaption>
+  <figcaption class="align-center">Задачка на агрегацию данных</figcaption>
 </figure>
 </div>
 </div>
@@ -93,14 +93,14 @@ title = "SQLite для аналитики"
 <div class="col-xs-12 col-sm-6">
 <figure>
   <a href="sqlite-playground.png" class="img-link" target="_blank"><img alt="Песочница" src="sqlite-playground.png"></a>
-  <figcaption class="text-centered">Интерактивная песочница в браузере</figcaption>
+  <figcaption class="align-center">Интерактивная песочница в браузере</figcaption>
 </figure>
 </div>
     
 <div class="col-xs-12 col-sm-6">
 <figure>
   <a href="sqlite-types.png" class="img-link" target="_blank"><img alt="Типы данных" src="sqlite-types.png"></a>
-  <figcaption class="text-centered">Шпаргалка по типам данных</figcaption>
+  <figcaption class="align-center">Шпаргалка по типам данных</figcaption>
 </figure>
 </div>
 </div>
@@ -109,7 +109,7 @@ title = "SQLite для аналитики"
 <div class="col-xs-12 col-sm-6">
 <figure>
   <img alt="Связи в данных" src="sqlite-icons.png">
-  <figcaption class="text-centered">Уроки одного из модулей</figcaption>
+  <figcaption class="align-center">Уроки одного из модулей</figcaption>
 </figure>
 </div>
 </div>

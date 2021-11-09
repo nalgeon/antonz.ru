@@ -175,7 +175,7 @@ $ make serve
 - [dadata](https://github.com/nalgeon/dadata-py/blob/master/Makefile)
 - [iuliia](https://github.com/nalgeon/iuliia-py/blob/master/Makefile)
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Мейкфайлы отлично подходят для автоматизации рутинных задач вне зависимости от языка, на котором вы пишете. Используйте их!
 

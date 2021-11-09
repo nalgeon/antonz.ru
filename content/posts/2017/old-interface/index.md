@@ -14,7 +14,7 @@ title = "Люблю старые интерфейсы"
 <div class="row">
 <div class="col-xs-12 col-sm-10">
 <figure>
-  <img alt="Новый тормозной интерфейс" src="tinkoff.png" class="bordered">
+  <img alt="Новый тормозной интерфейс" src="tinkoff.png" class="img-bordered">
   <figcaption>Новый, глючный, тормозной интерфейс. Зато сделан на модном фронтенд-фреймворке.</figcaption>
 </figure>
 </div>

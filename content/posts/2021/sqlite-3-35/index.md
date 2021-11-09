@@ -140,7 +140,7 @@ select ... from history where ...
 ;
 ```
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 И все это в одном релизе! Невероятно ツ
 

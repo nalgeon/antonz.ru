@@ -67,7 +67,7 @@ True
 
 И при этом идеальное время выполнения операций: `len()`, `[idx]`, `in`, `.index()`, `.count()` — всё за *O(1)*.
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Кто-то на этом месте скажет «погодите, откуда *O(1)*? у списка ведь `in`, `.index()`, `.count()` выполняются за *O(n)*, почему у диапазона иначе?»
 
@@ -96,7 +96,7 @@ False
 - [range_index](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L562)
 - [range_count](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L544)
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Итого, получили структуру данных постоянного размера, с константным временем выполнения операций. Ну разве он не чудо, этот `range`?
 

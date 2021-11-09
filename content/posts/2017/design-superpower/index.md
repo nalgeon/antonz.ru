@@ -22,7 +22,7 @@ title = "Суперсила дизайнера"
 4. Результат отправляется клиенту.
 
 <figure>
-<img alt="Заявка на юзабилити-аудит" src="superpower-dangry.png" class="bordered">
+<img alt="Заявка на юзабилити-аудит" src="superpower-dangry.png" class="img-bordered">
 <figcaption>У каждой заявки до трёх рецензентов, которых надо как-то координировать</figcaption>
 </figure>
 

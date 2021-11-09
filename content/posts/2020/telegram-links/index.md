@@ -148,7 +148,7 @@ function share(qs) {
 
 <br>
     
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
     
 Идеального способа ставить ссылки на телеграм в России не существует:
     

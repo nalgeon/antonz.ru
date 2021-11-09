@@ -103,7 +103,7 @@ select id, name from city;
       sqlite3 -batch data/metro.db < json-to-csv.sql
 ```
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 Набор данных в трех форматах (JSON, CSV, SQLite) — готов! А теперь попробуйте на своем датасете ツ
 

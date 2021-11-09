@@ -52,7 +52,7 @@ title = "Приём «показать все»"
 </div>
 </div>
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 Теперь общее правило:
 

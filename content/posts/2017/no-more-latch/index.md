@@ -18,7 +18,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по алфавиту" src="alphabet.png" class="bordered"></p>
+<p><img alt="Организация по алфавиту" src="alphabet.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -36,7 +36,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по времени" src="time.png" class="bordered"></p>
+<p><img alt="Организация по времени" src="time.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -57,7 +57,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по положению" src="location.png" class="bordered"></p>
+<p><img alt="Организация по положению" src="location.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -77,7 +77,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по категориям" src="category-1.png" class="bordered"></p>
+<p><img alt="Организация по категориям" src="category-1.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -97,7 +97,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по количеству" src="count.png" class="bordered"></p>
+<p><img alt="Организация по количеству" src="count.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -122,7 +122,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по релевантности" src="relevance.png" class="bordered"></p>
+<p><img alt="Организация по релевантности" src="relevance.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -144,7 +144,7 @@ title = "Хватит сортировать по алфавиту"
 
 <div class="row">
 <div class="col-xs-12 col-sm-10">
-<p><img alt="Организация по связям" src="relations-1.png" class="bordered"></p>
+<p><img alt="Организация по связям" src="relations-1.png" class="img-bordered"></p>
 </div>
 </div>
 
@@ -160,7 +160,7 @@ title = "Хватит сортировать по алфавиту"
 
 Такой способ редко полезен. Но иногда случается: например, перемешать варианты ответов в тесте, чтобы сложнее было списать.
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 ### Как это использовать
 

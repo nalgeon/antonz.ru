@@ -29,7 +29,7 @@ title = "Регистрация и оплата как необходимое з
 <div class="col-xs-12 col-sm-8 col-md-6">
 <p><em>Хорошая</em></p>
 <figure>
-  <img class="bordered img-grayscale" alt="Подписка на рассылку у «Интерфейсов без шелухи»" src="signup-good.png">
+  <img class="img-bordered color-grayscale" alt="Подписка на рассылку у «Интерфейсов без шелухи»" src="signup-good.png">
   <figcaption>Удивительно, но емейла вполне достаточно. Надо бы тоже добавить страну проживания и группу крови</figcaption>
 </figure>
 </div>
@@ -40,7 +40,7 @@ title = "Регистрация и оплата как необходимое з
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8">
 <figure>
-  <img class="img-grayscale" alt="Оплата Яндекс-деньгами" src="pay-good.png">
+  <img class="color-grayscale" alt="Оплата Яндекс-деньгами" src="pay-good.png">
   <figcaption>Например, фамилия и имя при оплате картой не нужны</figcaption>
 </figure>
     </div>
@@ -92,7 +92,7 @@ title = "Регистрация и оплата как необходимое з
 
 Правило: вернуть человека туда, где он остановился, чтобы побыстрее закончить начатое.
 
-<p class="text-centered">⌘ ⌘ ⌘</p>
+<p class="align-center">⌘ ⌘ ⌘</p>
 
 «Необходимое зло» — не только регистрация и оплата. Бывает, не хватает данных, и приходится запрашивать их у человека. Бывает, надо подождать завершения другой операции. Бывает, требуется подтверждение третьей стороны.
 

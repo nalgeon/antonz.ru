@@ -268,7 +268,7 @@ Wall time: 29.1 s
 
 [Ноутбук](https://gist.github.com/nalgeon/199c30f8a0298c6da9c79559ca848ddc)
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Итого: чистая победа «сортировать в конце» над «держать отсортированным» с большим отрывом.
 

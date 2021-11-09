@@ -13,7 +13,7 @@ title = "Тарифный план «свяжитесь с нами»"
 <div class="row">
 <div class="col-xs-12 col-sm-10">
 <figure>
-  <img alt="Тарифы Интеркома" src="pricing-intercom.png" class="img-grayscale img-bordered-thin">
+  <img alt="Тарифы Интеркома" src="pricing-intercom.png" class="color-grayscale img-bordered-thin">
   <figcaption>Вот «Интерком» предлагает «chat with us»</figcaption>
 </figure>
 </div>
@@ -22,7 +22,7 @@ title = "Тарифный план «свяжитесь с нами»"
 <div class="row">
 <div class="col-xs-12 col-sm-10">
 <figure>
-  <img alt="Тарифы Airtable" src="pricing-airtable.png" class="img-grayscale img-bordered-thin">
+  <img alt="Тарифы Airtable" src="pricing-airtable.png" class="color-grayscale img-bordered-thin">
   <figcaption>А вот Airtable рисует звёздочки вместо ценника</figcaption>
 </figure>
 </div>
@@ -32,7 +32,7 @@ title = "Тарифный план «свяжитесь с нами»"
 У «[Дадаты](https://dadata.ru)» тоже так было:
 
 <figure>
-  <img alt="Тарифы Дадаты" src="pricing-dadata.png" class="img-grayscale">
+  <img alt="Тарифы Дадаты" src="pricing-dadata.png" class="color-grayscale">
   <figcaption>Свяжитесь с нами, чтобы узнать, сколько стоит получить все-все фичи</figcaption>
 </figure>
 
@@ -62,11 +62,11 @@ title = "Тарифный план «свяжитесь с нами»"
 
 Вопросы о цене почти полностью прекратились, а покупать меньше не стали.
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Затем мы взялись за «коробку». Коробка — это версия «Дадаты», которую можно поставить на свой сервер. Почти у всех известных мне сервисов стоимость «коробки» на сайте не разглашают. Так было и у «Дадаты»:
 
-<p><img alt="Коробка — запросить стоимость" src="box-was.png" class="img-grayscale img-bordered-thin"></p>
+<p><img alt="Коробка — запросить стоимость" src="box-was.png" class="color-grayscale img-bordered-thin"></p>
 
 Поток любопытствующих о цене коробки был нескончаемым. Каждый второй веб-мастер с виртуальным хостингом непременно хотел себе коробочную версию — пока не узнавал стоимость.
 
@@ -81,7 +81,7 @@ title = "Тарифный план «свяжитесь с нами»"
 За год после нововведения мы стали тратить меньше времени на ответы о цене, а «коробок» продали больше, чем прежде.
 
 
-<p class="text-centered">⌘&nbsp;⌘&nbsp;⌘</p>
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Конечно, это не универсальный рецепт. Если у вашего продукта расчёт цены требует специально обученного человека, а удержать все нюансы ценообразования в голове невозможно, то кнопка «свяжитесь с нами» — единственный рабочий вариант.
 
