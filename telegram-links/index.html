@@ -6,7 +6,7 @@
 <title>Ссылки на телеграм в вебе</title>
 <meta name=description content="Без рекламы и Росогорода.">
 <meta name=robots content="index, follow">
-<link rel=stylesheet type=text/css href=/assets/css/style.b44777dd8a870d9f3f5d105965ff2625338c8e2929ef9698ee5c54343d85d790.css>
+<link rel=stylesheet type=text/css href=/assets/css/style.67f43febd5c60d7010da0cc947743f2774bbbe4c6d9233df29cd694711a1eb61.css>
 <link rel=icon href=/assets/favicon/favicon.ico>
 <link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
 <link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
@@ -69,9 +69,9 @@
 <div class=container>
 <article class=post>
 <div class=row>
-<div class="col-xs-12 col-sm-10 article article--big">
+<div class="col-xs-12 col-sm-10 article">
 <header>
-<h1 class=post__title>Ссылки на телеграм в вебе</h1>
+<h1>Ссылки на телеграм в вебе</h1>
 </header>
 <p><em>Телеграм разблокировали в июне 2020 года, так что теперь можно ставить обычные ссылки и не заморачиваться. Но если что — вы знаете, что делать.</em></p>
 <p>В рунете заблокирован домен t.me, через который работают ссылки на телеграм. Сервисы-заменители (t-do.ru и прочие) напичканы рекламой и в любой момент могут перестать работать. Используйте лучше нативные ссылки — они гарантированно работают на любом устройстве, где установлен телеграм. И никакой Роскомнадзор ничего с этим не сделает.</p>
@@ -114,7 +114,7 @@
 </div>
 <script>var txtSource=document.getElementById("source"),lnkNative=document.getElementById("native"),re;txtSource.addEventListener("change",onSourceChange),re=/(?:(?:https?:\/\/)?t(?:elegram)?\.me\/)?(.+)/;function onSourceChange(b){var c=b.target.value,a=telefy(c);lnkNative.innerHTML=a,lnkNative.setAttribute("href",a)}function telefy(d){var c=re.exec(d),a,b;if(c.length<2)return"";switch(a=c[1].split("/"),b="",a[0]){case"joinchat":b=joinchat(a[1]);break;case"addstickers":b=addstickers(a[1]);break;case"share":b=share(a[1]);break;default:b=resolve(a[0],a[1])}return"tg://"+b}function resolve(a,b){return b?"resolve?domain="+a+"&post="+b:"resolve?domain="+a}function joinchat(a){return"join?invite="+a}function addstickers(a){return"addstickers?set="+a}function share(a){return a=a.split("?")[1],"msg_url?"+a}</script>
 <br>
-<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p class=align-center>⌘&nbsp;⌘&nbsp;⌘</p>
 <p>Идеального способа ставить ссылки на телеграм в России не существует:</p>
 <ul>
 <li>ссылки через t.me не откроются без VPN,</li>
@@ -137,7 +137,7 @@
 </div>
 </footer></article>
 <aside class=post__related>
-<div class=article>
+<div class="post__nav article">
 <div class=row>
 <div class="col-xs-12 col-sm-6">
 <p>&larr;&nbsp;<a href=https://antonz.ru/packaging/>Как сделать классный Python-пакет</a></p>

@@ -6,7 +6,7 @@
 <title>Как создать таблицу на 1М записей одним запросом</title>
 <meta name=description content="С помощью рекурсивного селекта WITH RECURSIVE.">
 <meta name=robots content="index, follow">
-<link rel=stylesheet type=text/css href=/assets/css/style.b44777dd8a870d9f3f5d105965ff2625338c8e2929ef9698ee5c54343d85d790.css>
+<link rel=stylesheet type=text/css href=/assets/css/style.67f43febd5c60d7010da0cc947743f2774bbbe4c6d9233df29cd694711a1eb61.css>
 <link rel=icon href=/assets/favicon/favicon.ico>
 <link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
 <link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
@@ -69,9 +69,9 @@
 <div class=container>
 <article class=post>
 <div class=row>
-<div class="col-xs-12 col-sm-10 article article--big">
+<div class="col-xs-12 col-sm-10 article">
 <header>
-<h1 class=post__title>Как создать таблицу на 1М записей одним запросом</h1>
+<h1>Как создать таблицу на 1М записей одним запросом</h1>
 </header>
 <p>Допустим, вы хотите проверить, как поведет себя запрос на большой таблице — но такой таблицы под рукой нет. Если СУБД умеет в рекурсию, это не проблема: кучу данных можно нагенерить одним запросом. Поможет в этом конструкция <code>WITH RECURSIVE</code>.</p>
 <p>Я буду использовать SQLite, но похожие запросы сработают в PostgreSQL и других СУБД. <code>WITH RECURSIVE</code> поддерживается в MariaDB 10.2+, MySQL 8.0+, PostgreSQL 8.4+ и SQLite 3.8+. Oracle 11.2+ и SQL Server 2005+ поддерживают рекурсивные запросы, но без ключевого слова <code>RECURSIVE</code>.</p>
@@ -198,7 +198,7 @@ sqlite&gt; select * from person_data limit 10;
 │ 10 │ Вера  │ 41  │
 └────┴───────┴─────┘
 </code></pre><p>Миллион клиентов одним запросом, неплохо! Вот бы в продажах так ツ</p>
-<p class=text-centered>⌘&nbsp;⌘&nbsp;⌘</p>
+<p class=align-center>⌘&nbsp;⌘&nbsp;⌘</p>
 <p>Если хотите узнать больше о рекурсивных SQL-запросах, прикладном анализе данных и SQLite — записывайтесь на курс:</p>
 <p class=big>
 <a href=/sqlite-course/>SQLite для аналитики</a>
@@ -222,7 +222,7 @@ sqlite&gt; select * from person_data limit 10;
 </div>
 </footer></article>
 <aside class=post__related>
-<div class=article>
+<div class="post__nav article">
 <div class=row>
 <div class="col-xs-12 col-sm-6">
 <p>&larr;&nbsp;<a href=https://antonz.ru/good-ui/>Дизайн интерфейсов для нормальных людей</a></p>
