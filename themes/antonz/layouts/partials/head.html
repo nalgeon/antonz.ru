@@ -9,9 +9,8 @@
 {{- $twtype := "summary_large_image" }}
 {{- $description := .Description }}
 {{- if .IsHome }}
-{{- $title = .Site.Title }}
 {{- $ogtype = "website" }}
-{{- $twtype := "summary" }}
+{{- $twtype = "summary" }}
 {{- end }}
 
 <title>{{ $title }}</title>
