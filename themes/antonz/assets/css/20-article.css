@@ -1,5 +1,10 @@
 .article {
-    font-size: var(--font-size-large);
+    font-size: 1.1rem;
+}
+@media only screen and (min-width: 48em) {
+    .article {
+        font-size: var(--font-size-large);
+    }
 }
 @media only screen and (min-width: 62em) {
     .article {
