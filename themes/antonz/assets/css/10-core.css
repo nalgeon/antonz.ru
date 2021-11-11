@@ -99,12 +99,17 @@ pre {
     font-family: var(--font-monospace);
 }
 pre {
+    margin: 0 0 0.8em 0;
     background: #f5f5f5;
     padding: 1em 1.5em;
     overflow-x: auto;
     white-space: pre;
     line-height: 1;
 }
+pre:last-child {
+    margin-bottom: 0;
+}
+
 pre > code {
     font-size: 80%;
 }
