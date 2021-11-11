@@ -109,11 +109,6 @@
     padding: 1.5em;
     font-size: 90%;
 }
-.article .boxed p,
-.article .boxed li,
-.article .boxed h3 {
-    color: var(--color-gray);
-}
 .article .boxed > p:last-child {
     margin-bottom: 0;
 }
