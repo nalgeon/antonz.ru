@@ -6,7 +6,18 @@
     <description>Recent content in Все записи блога on Антон Жиянов</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru-ru</language>
-    <lastBuildDate>Fri, 05 Nov 2021 11:14:51 +0000</lastBuildDate><atom:link href="https://antonz.ru/posts/rss" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Nov 2021 16:18:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/posts/rss" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Как на самом деле устроен список в Python</title>
+      <link>https://antonz.ru/list-internals/</link>
+      <pubDate>Thu, 11 Nov 2021 16:18:00 +0000</pubDate>
+      
+      <guid>https://antonz.ru/list-internals/</guid>
+      <description>Эта заметка посвящена структуре данных номер один в мире — массивам. Если вы еще не гуру алгоритмов и структур данных — гарантирую, что лучше поймете списки в питоне, их преимущества и ограничения. А если и так все знаете — освежите ключевые моменты.
+Все знают, как работать со списком в питоне:
+&amp;gt;&amp;gt;&amp;gt; guests = [&amp;#34;Френк&amp;#34;, &amp;#34;Клер&amp;#34;, &amp;#34;Зоя&amp;#34;] &amp;gt;&amp;gt;&amp;gt; guests[1] &amp;#39;Клер&amp;#39; Наверняка вы знаете, что выборка элемента по индексу — guests[idx] — отработает очень быстро даже на списке из миллиона элементов.</description>
+    </item>
+    
     <item>
       <title>Табличные выражения SQL</title>
       <link>https://antonz.ru/cte/</link>
@@ -107,17 +118,6 @@
       <guid>https://antonz.ru/bad-blood/</guid>
       <description>Прочитал бестселлер о компании Theranos, которая обещала делать сотни анализов по одной капле крови из пальца, а на деле построила масштабнейшую мистификацию, равную которой современная экономика высоких технологий еще не видела.
 До этого я читал немало увлекательных биографий людей и компаний, но «Дурная кровь» — нечто особенное. Это натуральный блокбастер, невозможно оторваться. И там чистый голливуд, как будто нарочно придумали захватывающую историю — вот только все это было на самом деле.</description>
-    </item>
-    
-    <item>
-      <title>Разбор текста по шаблону на Python</title>
-      <link>https://antonz.ru/parse/</link>
-      <pubDate>Sat, 19 Jun 2021 17:24:59 +0000</pubDate>
-      
-      <guid>https://antonz.ru/parse/</guid>
-      <description>Все знают, как в питоне форматировать текст по шаблону:
-import datetime as dt date = dt.date(2020, 11, 20) who = &amp;#34;Френк&amp;#34; count = 42 tmpl = &amp;#34;{:%Y-%m-%d}: {}и его {:d}друга вылетели в Копенгаген&amp;#34; &amp;gt;&amp;gt;&amp;gt; tmpl.format(date, who, count) &amp;#39;2020-11-20: Френк и его 42 друга вылетели в Копенгаген&amp;#39; А благодаря библиотеке parse от Ричарда Джонса, с такой же легкостью можно разбирать текст обратно по переменным:
-import parse tmpl = &amp;#34;{:ti}: {}и его {:d}друга вылетели в Копенгаген&amp;#34; txt = &amp;#34;2020-11-20: Френк и его 42 друга вылетели в Копенгаген&amp;#34; &amp;gt;&amp;gt;&amp;gt; date, who, count = parse.</description>
     </item>
     
   </channel>

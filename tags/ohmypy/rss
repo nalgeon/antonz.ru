@@ -6,7 +6,18 @@
     <description>Recent content in ohmypy on Антон Жиянов</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru-ru</language>
-    <lastBuildDate>Sat, 19 Jun 2021 17:24:59 +0000</lastBuildDate><atom:link href="https://antonz.ru/tags/ohmypy/rss" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Nov 2021 16:18:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/tags/ohmypy/rss" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Как на самом деле устроен список в Python</title>
+      <link>https://antonz.ru/list-internals/</link>
+      <pubDate>Thu, 11 Nov 2021 16:18:00 +0000</pubDate>
+      
+      <guid>https://antonz.ru/list-internals/</guid>
+      <description>Эта заметка посвящена структуре данных номер один в мире — массивам. Если вы еще не гуру алгоритмов и структур данных — гарантирую, что лучше поймете списки в питоне, их преимущества и ограничения. А если и так все знаете — освежите ключевые моменты.
+Все знают, как работать со списком в питоне:
+&amp;gt;&amp;gt;&amp;gt; guests = [&amp;#34;Френк&amp;#34;, &amp;#34;Клер&amp;#34;, &amp;#34;Зоя&amp;#34;] &amp;gt;&amp;gt;&amp;gt; guests[1] &amp;#39;Клер&amp;#39; Наверняка вы знаете, что выборка элемента по индексу — guests[idx] — отработает очень быстро даже на списке из миллиона элементов.</description>
+    </item>
+    
     <item>
       <title>Разбор текста по шаблону на Python</title>
       <link>https://antonz.ru/parse/</link>
@@ -110,16 +121,6 @@ data = [ &amp;#34;4 - Дуглас&amp;#34;, &amp;#34;2 - Клер&amp;#34;, &am
       <guid>https://antonz.ru/python-plus-one/</guid>
       <description>Если вы давно и хорошо знаете питон, некоторые моменты в нем могут напрягать. Например, необходимость начинать каждый новый проект с создания виртуального окружения и установки пачки тулов вроде black, pylint и pytest. Или отсутствующий рефакторинг и частые ошибки из-за динамической типизации. Или убоговатая асинхронность и костыль в виде GIL.
 Если у вас так — возможно, пора освоить второй язык. Логично выбрать вариант без питонячих недостатков: статически типизированный, с готовым тулингом, продуманной асинхронностью и параллелизмом.</description>
-    </item>
-    
-    <item>
-      <title>Простое против легкого</title>
-      <link>https://antonz.ru/simple-made-easy/</link>
-      <pubDate>Fri, 26 Feb 2021 12:55:15 +0000</pubDate>
-      
-      <guid>https://antonz.ru/simple-made-easy/</guid>
-      <description>9 лет назад в докладе «Simple Made Easy» Рич Хикки рассказал о разнице между простым (simple) и легким (easy) в разработке софта. Стремление к простым программам (в противоположность легким) — самый важный, наверное, принцип разработки. И при этом совершенно непопулярный.
- Simple — это о внутреннем устройстве программы, ее архитектуре. У простых программ мало внутренних зависимостей, движущихся частей, настроек. Антипод простой программы — сложная. Простая программа или сложная — это объективная характеристика.</description>
     </item>
     
   </channel>

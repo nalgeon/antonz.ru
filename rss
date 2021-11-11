@@ -11,7 +11,173 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru-ru</language>
-    <lastBuildDate>Fri, 05 Nov 2021 11:14:51 +0000</lastBuildDate><atom:link href="https://antonz.ru/rss" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Nov 2021 16:18:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/rss" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Как на самом деле устроен список в Python</title>
+      <link>https://antonz.ru/list-internals/</link>
+      <pubDate>Thu, 11 Nov 2021 16:18:00 +0000</pubDate>
+      
+      <guid>https://antonz.ru/list-internals/</guid>
+      <description>И где у него константное время, а где линейное.</description>
+      <content:encoded><![CDATA[<p><em>Эта заметка посвящена структуре данных номер один в мире — массивам. Если вы еще не гуру алгоритмов и структур данных — гарантирую, что лучше поймете списки в питоне, их преимущества и ограничения. А если и так все знаете — освежите ключевые моменты.</em></p>
+<p>Все знают, как работать со списком в питоне:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">guests</span> <span style="color:#000">=</span> [<span style="color:#c41a16">&#34;Френк&#34;</span>, <span style="color:#c41a16">&#34;Клер&#34;</span>, <span style="color:#c41a16">&#34;Зоя&#34;</span>]
+<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">guests</span>[<span style="color:#1c01ce">1</span>]
+<span style="color:#c41a16">&#39;Клер&#39;</span>
+</code></pre></div><p>Наверняка вы знаете, что выборка элемента по индексу — <code>guests[idx]</code> — отработает очень быстро даже на списке из миллиона элементов. Более точно, выборка по индексу работает за константное время O(1) — то есть не зависит от количества элементов в списке.</p>
+<p>А знаете, за счет чего так быстро работает? Если да — вы в меньшинстве:</p>
+<div class="row">
+<div class="col-xs-12 col-sm-6">
+<figure>
+  <img alt="Опрос" src="survey.png">
+</figure>
+</div>
+</div>
+<p>Давайте разбираться.</p>
+<h2 id="список--массив">Список = массив?</h2>
+<p>В основе списка лежит массив. Массив — это набор элементов ① одинакового размера и ② расположенных в памяти подряд друг за другом, без пропусков.</p>
+<p>Раз элементы одинаковые и идут подряд, получить элемент массива по индексу несложно — достаточно знать адрес самого первого элемента («головы» массива).</p>
+<p>Допустим, голова находится по адресу <code>0×00001234</code>, а каждый элемент занимает 8 байт. Тогда элемент с индексом <code>idx</code> находится по адресу <code>0×00001234 + idx*8</code>:</p>
+<div class="row">
+<div class="col-xs-12 col-sm-6">
+<figure>
+  <img alt="Список — массив" src="array-1.png" class="img-bordered-thin">
+</figure>
+</div>
+</div>
+<p>Поскольку операция «получить значение по адресу» выполняется за константное время, то и выборка из массива по индексу выполняется за O(1).</p>
+<p>Грубо говоря, список в питоне именно так и устроен. Он хранит указатель на голову массива и количество элементов в массиве. Количество хранится отдельно, чтобы функция <code>len()</code> тоже отрабатывала за O(1), а не считала каждый раз фактическое количество элементов списка.</p>
+<p>Все хорошо, но есть пара проблем:</p>
+<ul>
+<li>все элементы массива одного размера, а список умеет хранить разные (true/false, числа, строки разной длины);</li>
+<li>массив имеет фиксированную длину, а в список можно добавить сколько угодно элементов.</li>
+</ul>
+<p>Чуть позже посмотрим, как их решить.</p>
+<h2 id="ну-очень-примитивный-список">Ну очень примитивный список</h2>
+<p>Лучший способ освоить структуру данных — реализовать ее с нуля. К сожалению, питон плохо подходит для таких низкоуровненых структур как массив, потому что не дает явно работать с указателями (адресами в памяти).</p>
+<p>Но кое-что можно сделать:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a90d91">class</span> <span style="color:#3f6e75">OhMyList</span>:
+    <span style="color:#a90d91">def</span> <span style="color:#000">__init__</span>(<span style="color:#5b269a">self</span>):
+        <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span> <span style="color:#000">=</span> <span style="color:#1c01ce">0</span>
+        <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">capacity</span> <span style="color:#000">=</span> <span style="color:#1c01ce">8</span>
+        <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span> <span style="color:#000">=</span> (<span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">capacity</span> <span style="color:#000">*</span> <span style="color:#000">ctypes</span><span style="color:#000">.</span><span style="color:#000">py_object</span>)()
+
+    <span style="color:#a90d91">def</span> <span style="color:#000">append</span>(<span style="color:#5b269a">self</span>, <span style="color:#000">item</span>):
+        <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span>[<span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span>] <span style="color:#000">=</span> <span style="color:#000">item</span>
+        <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span> <span style="color:#000">+=</span> <span style="color:#1c01ce">1</span>
+
+    <span style="color:#a90d91">def</span> <span style="color:#000">__len__</span>(<span style="color:#5b269a">self</span>):
+        <span style="color:#a90d91">return</span> <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span>
+
+    <span style="color:#a90d91">def</span> <span style="color:#000">__getitem__</span>(<span style="color:#5b269a">self</span>, <span style="color:#000">idx</span>):
+        <span style="color:#a90d91">return</span> <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span>[<span style="color:#000">idx</span>]
+</code></pre></div><p>Наш самописный список имеет фиксированную вместимость (<code>capacity</code> = 8 элементов) и хранит элементы в массиве <code>array</code>.</p>
+<p>Модуль <code>ctypes</code> дает доступ к сишным структурам, на которых построена стандартная библиотека. В даннам случае мы используем его, чтобы создать массив размером в <code>capacity</code> элементов.</p>
+<h2 id="список--массив-указателей">Список = массив указателей</h2>
+<p>Список моментально выбирает элемент по индексу, потому что внутри у него массив. А массив такой быстрый, потому что все элементы у него одинакового размера.</p>
+<p>Но при этом в списке элементы могут быть очень разные:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#000">guests</span> <span style="color:#000">=</span> [<span style="color:#c41a16">&#34;Френк&#34;</span>, <span style="color:#c41a16">&#34;Клер&#34;</span>, <span style="color:#c41a16">&#34;Зоя&#34;</span>, <span style="color:#a90d91">True</span>, <span style="color:#1c01ce">42</span>]
+</code></pre></div><p>Чтобы решить эту задачку, придумали хранить в массиве не сами значения, а указатели на них. Элемент массива — адрес в памяти, а если обратиться по адресу — получишь настоящее значение:</p>
+<div class="row">
+<div class="col-xs-12 col-sm-10">
+<figure>
+  <img alt="Список — массив указателей" src="array-2.png" class="img-bordered-thin">
+  <figcaption>Элементы массива расположены подряд, а сами значения, на которые они ссылаются, могут быть вперемешку где угодно в памяти.</figcaption>
+</figure>
+</div>
+</div>
+<p>Поскольку указатели фиксированного размера (8 байт на современных 64-битных процессорах), то все прекрасно работает. Да, получается, что вместо одной операции (получить значение из элемента массива) мы делаем две:</p>
+<ol>
+<li>Получить адрес из элемента массива.</li>
+<li>Получить значение по адресу.</li>
+</ol>
+<p>Но это все еще константное время O(1).</p>
+<h2 id="список--динамический-массив">Список = динамический массив</h2>
+<p>Если в массиве под списком остались свободные места, то метод <code>.append(item)</code> выполнится за константное время — достаточно записать новое значение в свободную ячейку и увеличить счетчик элементов на 1:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a90d91">def</span> <span style="color:#000">append</span>(<span style="color:#5b269a">self</span>, <span style="color:#000">item</span>):
+    <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span>[<span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span>] <span style="color:#000">=</span> <span style="color:#000">item</span>
+    <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span> <span style="color:#000">+=</span> <span style="color:#1c01ce">1</span>
+</code></pre></div><p>Но что делать, если массив уже заполнен?</p>
+<p>Приходится выделять память под новый массив, побольше, и копировать все элементы старого массива в новый:</p>
+<div class="row">
+<div class="col-xs-12 col-sm-6">
+<figure>
+  <img alt="Список — динамический массив" src="array-3.png" class="img-bordered-thin">
+  <figcaption>Когда место в старом массиве заканчивается, приходится создавать новый.</figcaption>
+</figure>
+</div>
+</div>
+<p>Примерно так:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a90d91">def</span> <span style="color:#000">append</span>(<span style="color:#5b269a">self</span>, <span style="color:#000">item</span>):
+    <span style="color:#a90d91">if</span> <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span> <span style="color:#000">==</span> <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">capacity</span>:
+        <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">_resize</span>(<span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">capacity</span><span style="color:#000">*</span><span style="color:#1c01ce">2</span>)
+    <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span>[<span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span>] <span style="color:#000">=</span> <span style="color:#000">item</span>
+    <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span> <span style="color:#000">+=</span> <span style="color:#1c01ce">1</span>
+
+<span style="color:#a90d91">def</span> <span style="color:#000">_resize</span>(<span style="color:#5b269a">self</span>, <span style="color:#000">new_cap</span>):
+    <span style="color:#000">new_arr</span> <span style="color:#000">=</span> (<span style="color:#000">new_cap</span> <span style="color:#000">*</span> <span style="color:#000">ctypes</span><span style="color:#000">.</span><span style="color:#000">py_object</span>)()
+    <span style="color:#a90d91">for</span> <span style="color:#000">idx</span> <span style="color:#000">in</span> <span style="color:#a90d91">range</span>(<span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">length</span>):
+        <span style="color:#000">new_arr</span>[<span style="color:#000">idx</span>] <span style="color:#000">=</span> <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span>[<span style="color:#000">idx</span>]
+    <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">array</span> <span style="color:#000">=</span> <span style="color:#000">new_arr</span>
+    <span style="color:#5b269a">self</span><span style="color:#000">.</span><span style="color:#000">capacity</span> <span style="color:#000">=</span> <span style="color:#000">new_cap</span>
+</code></pre></div><p><code>._resize()</code> — затратная операция, так что новый массив создают с запасом. В примере выше новый массив в два раза больше старого, а в питоне используют более скромный коэффициент — примерно 1.12.</p>
+<p>Если удалить из списка больше половины элементов через <code>.pop()</code>, то питон его скукожит — выделит новый массив поменьше и перенесет элементы в него.</p>
+<p>Таким образом, список все время жонглирует массивами, чтобы это не приходилось делать нам ツ</p>
+<h2 id="добавление-элемента-в-конец-списка">Добавление элемента в конец списка</h2>
+<p>Выборка из списка по индексу работает за O(1) — с этим разобрались. Метод <code>.append(item)</code> тоже отрабатывает за O(1), пока не приходится расширять массив под списком. Но любое расширение массива — это операция O(n). Так за сколько же в итоге отрабатывает <code>.append()</code>?</p>
+<p>Оценивать отдельную операцию вставки было бы неправильно — как мы выяснили, она иногда выполняется за O(1), а иногда и за O(n). Поэтому используют амортизационный анализ — оценивают общее время, которое займет последовательность из K операций, затем делят его на K и получают амортизированное время одной операции.</p>
+<p>Так вот. Не вдаваясь в подробности скажу, что амортизированное время для <code>.append(item)</code> получается константным — O(1). Так что вставка в конец списка работает очень быстро.</p>
+<div class="boxed">
+<h3>Почему амортизированное время — O(1)</h3>
+<p>Допустим, список пуст и мы хотим добавить в него <code>n</code> элементов. Для простоты будем использовать фактор расширения 2. Посчитаем количество атомарных операций:</p>
+<ul>
+  <li>первый элемент: 1 (копирование) + 1 (вставка)</li>
+  <li>ещё 2: 2 (копирование) + 2 (вставка)</li>
+  <li>ещё 4: 4 (копирование) + 4 (вставка)</li>
+  <li>ещё 8: 8 (копирование) + 8 (вставка)</li>
+  <li>...</li>
+</ul>
+<p>Итого на <code>n</code> элементов будет <code>n</code> операций вставки.</p>
+<p>А при копировании будет</p>
+<pre><code>1 + 2 + 4 + ... log(n) = 
+= 2**log(n) * 2 - 1 =
+= 2n - 1</code></pre>
+<p>операций.</p>
+<p>Итого на <code>n</code> элементов получилось <code>3n - 1</code> атомарных операций.</p>
+<pre><code>O((3n - 1) / n) = O(1)</code></pre>
+</div>
+<p>Получается, у списка есть такие гарантированно быстрые операции:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#177500"># O(1)</span>
+<span style="color:#000">lst</span>[<span style="color:#000">idx</span>]
+
+<span style="color:#177500"># O(1)</span>
+<span style="color:#a90d91">len</span>(<span style="color:#000">lst</span>)
+
+<span style="color:#177500"># амортизированное O(1)</span>
+<span style="color:#000">lst</span><span style="color:#000">.</span><span style="color:#000">append</span>(<span style="color:#000">item</span>)
+<span style="color:#000">lst</span><span style="color:#000">.</span><span style="color:#000">pop</span>()
+</code></pre></div><h2 id="итоги">Итоги</h2>
+<p>Как мы выяснили, у списка работают за O(1):</p>
+<ul>
+<li>выборка по индексу <code>lst[idx]</code></li>
+<li>запрос длины <code>len(lst)</code></li>
+<li>добавление элемента в конец списка <code>.append(item)</code></li>
+<li>удаление элемента из конца списка <code>.pop()</code></li>
+</ul>
+<p>Остальные операции — «медленные»:</p>
+<ul>
+<li>Вставка и удаление из произвольной позиции — <code>.insert(idx, item)</code> и <code>.pop(idx)</code> — работают за линейное время O(n), потому что сдвигают все элементы после целевого.</li>
+<li>Поиск и удаление элемента по значению — <code>item in lst</code>, <code>.index(item)</code> и <code>.remove(item)</code> — работают за линейное время O(n), потому что перебирают все элементы.</li>
+<li>Выборка среза из <code>k</code> элементов — <code>lst[from:to]</code> — работает за O(k).</li>
+</ul>
+<p>Значит ли это, что «медленные» операции нельзя использовать? Конечно, нет. Если у вас список из 1000 элементов, разница между O(1) и O(n) для единичной операции незаметна.</p>
+<p>С другой стороны, если вы миллион раз выполняете «медленную» операцию на списке из 1000 элементов — это уже заметно. Или если список из миллиона элементов — тоже.</p>
+<p>Поэтому полезно знать, что у списка работает за константное время, а что за линейное — чтобы осознанно принимать решение в конкретной ситуации.</p>
+<div class="row">
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
+</div>]]></content:encoded>
+    </item>
+    
     <item>
       <title>Табличные выражения SQL</title>
       <link>https://antonz.ru/cte/</link>
@@ -600,45 +766,6 @@
 <p>У Холмс были отличные связи с высокопоставленными чиновниками, включая администрацию действующего президента. Акционерами компании выступали уважаемые и влиятельные люди.</p>
 <p>Когда читаешь это все, постепенно понимаешь, что дело должно закончиться трагедией с сотнями, если не тысячами жертв тераносовских «анализов». По счастливой случайности, один въедливый журналист раскопал историю раньше, чем Theranos развернулись совсем уж широко.</p>
 <p>Рекомендую.</p>
-]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Разбор текста по шаблону на Python</title>
-      <link>https://antonz.ru/parse/</link>
-      <pubDate>Sat, 19 Jun 2021 17:24:59 +0000</pubDate>
-      
-      <guid>https://antonz.ru/parse/</guid>
-      <description>С помощью parse</description>
-      <content:encoded><![CDATA[<p>Все знают, как в питоне форматировать текст по шаблону:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">import</span> <span style="color:#000">datetime</span> <span style="color:#a90d91">as</span> <span style="color:#000">dt</span>
-
-<span style="color:#000">date</span> <span style="color:#000">=</span> <span style="color:#000">dt</span><span style="color:#000">.</span><span style="color:#000">date</span>(<span style="color:#1c01ce">2020</span>, <span style="color:#1c01ce">11</span>, <span style="color:#1c01ce">20</span>)
-<span style="color:#000">who</span> <span style="color:#000">=</span> <span style="color:#c41a16">&#34;Френк&#34;</span>
-<span style="color:#000">count</span> <span style="color:#000">=</span> <span style="color:#1c01ce">42</span>
-
-<span style="color:#000">tmpl</span> <span style="color:#000">=</span> <span style="color:#c41a16">&#34;{:%Y-%m-</span><span style="color:#c41a16">%d</span><span style="color:#c41a16">}: </span><span style="color:#c41a16">{}</span><span style="color:#c41a16"> и его </span><span style="color:#c41a16">{:d}</span><span style="color:#c41a16"> друга вылетели в Копенгаген&#34;</span>
-
-<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">tmpl</span><span style="color:#000">.</span><span style="color:#000">format</span>(<span style="color:#000">date</span>, <span style="color:#000">who</span>, <span style="color:#000">count</span>)
-<span style="color:#c41a16">&#39;2020-11-20: Френк и его 42 друга вылетели в Копенгаген&#39;</span>
-</code></pre></div><p>А благодаря библиотеке <a href="https://github.com/r1chardj0n3s/parse"><strong>parse</strong></a> от Ричарда Джонса, с такой же легкостью можно разбирать текст обратно по переменным:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">import</span> <span style="color:#000">parse</span>
-
-<span style="color:#000">tmpl</span> <span style="color:#000">=</span> <span style="color:#c41a16">&#34;{:ti}: </span><span style="color:#c41a16">{}</span><span style="color:#c41a16"> и его </span><span style="color:#c41a16">{:d}</span><span style="color:#c41a16"> друга вылетели в Копенгаген&#34;</span>
-<span style="color:#000">txt</span> <span style="color:#000">=</span> <span style="color:#c41a16">&#34;2020-11-20: Френк и его 42 друга вылетели в Копенгаген&#34;</span>
-
-<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">date</span>, <span style="color:#000">who</span>, <span style="color:#000">count</span> <span style="color:#000">=</span> <span style="color:#000">parse</span><span style="color:#000">.</span><span style="color:#000">parse</span>(<span style="color:#000">tmpl</span>, <span style="color:#000">txt</span>)
-<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">date</span>
-<span style="color:#000">datetime</span><span style="color:#000">.</span><span style="color:#000">datetime</span>(<span style="color:#1c01ce">2020</span>, <span style="color:#1c01ce">11</span>, <span style="color:#1c01ce">20</span>, <span style="color:#1c01ce">0</span>, <span style="color:#1c01ce">0</span>)
-<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">who</span>
-<span style="color:#c41a16">&#39;Френк&#39;</span>
-<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">count</span>
-<span style="color:#1c01ce">42</span>
-</code></pre></div><p>parse по большей части поддерживает стандартный питонячий <a href="https://docs.python.org/3/library/string.html#format-specification-mini-language">мини-язык форматирования</a>, так что новый синтаксис учить не придется.</p>
-<p>Внутри работает на регулярках. Ноль зависимостей, питон 2 и 3.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
 ]]></content:encoded>
     </item>
     
