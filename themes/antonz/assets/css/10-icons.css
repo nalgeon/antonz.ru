@@ -65,6 +65,9 @@
 .fa-chalkboard-teacher::before {
     content: "\f51c";
 }
+.fa-cloud::before {
+    content: "\f0c2";
+}
 .fa-code::before {
     content: "\f121";
 }
