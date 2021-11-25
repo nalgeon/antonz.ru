@@ -1,7 +1,7 @@
 +++
 date = 2021-11-25T16:30:00Z
 title = "Скорость алгоритмов (на котиках)"
-description = "Как определить, насколько быстрый получился алгоритм? Разибраемся на шерстяных жопках."
+description = "Как определить, насколько быстрый получился алгоритм? Разбираемся на шерстяных жопках."
 image = "/big-o/cover.jpg"
 slug = "big-o"
 tags = ["development"]
@@ -27,7 +27,7 @@ tags = ["development"]
 </div>
 </div>
 
-## Логарифимическое время, O(log n)
+## Логарифмическое время, O(log n)
 
 На `N` котиках алгоритм отрабатывает за `log(N)` шагов. Это быстро! 1 000 000 котиков → всего 20 операций.
 
@@ -40,7 +40,7 @@ tags = ["development"]
 </div>
 <div class="col-xs-12 col-sm-6">
 <figure>
-  <img alt="Логарифимическое время" src="02-log.jpg" class="img-bordered-thin">
+  <img alt="Логарифмическое время" src="02-log.jpg" class="img-bordered-thin">
 </figure>
 </div>
 </div>
