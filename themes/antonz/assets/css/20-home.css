@@ -8,3 +8,9 @@
 .home__row > div {
     margin-bottom: 1.5em;
 }
+
+@media only screen and (min-width: 62em) {
+    .promo__description {
+        padding-top: 1em;
+    }
+}
