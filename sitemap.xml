@@ -2,22 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://antonz.ru/</loc>
+    <lastmod>2021-11-25T16:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://antonz.ru/posts/</loc>
+    <lastmod>2021-11-25T16:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://antonz.ru/big-o/</loc>
+    <lastmod>2021-11-25T16:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://antonz.ru/tags/</loc>
+    <lastmod>2021-11-25T16:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://antonz.ru/tags/development/</loc>
+    <lastmod>2021-11-25T16:30:00+00:00</lastmod>
+  </url><url>
     <loc>https://antonz.ru/tags/ohmypy/</loc>
     <lastmod>2021-11-11T16:18:00+00:00</lastmod>
   </url><url>
-    <loc>https://antonz.ru/</loc>
-    <lastmod>2021-11-11T16:18:00+00:00</lastmod>
-  </url><url>
-    <loc>https://antonz.ru/posts/</loc>
-    <lastmod>2021-11-11T16:18:00+00:00</lastmod>
-  </url><url>
     <loc>https://antonz.ru/list-internals/</loc>
-    <lastmod>2021-11-11T16:18:00+00:00</lastmod>
-  </url><url>
-    <loc>https://antonz.ru/tags/</loc>
-    <lastmod>2021-11-11T16:18:00+00:00</lastmod>
-  </url><url>
-    <loc>https://antonz.ru/tags/development/</loc>
     <lastmod>2021-11-11T16:18:00+00:00</lastmod>
   </url><url>
     <loc>https://antonz.ru/tags/sqlite/</loc>

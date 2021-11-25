@@ -1,0 +1,262 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Скорость алгоритмов (на котиках)</title>
+<meta name=description content="Как определить, насколько быстрый получился алгоритм? Разибраемся на шерстяных жопках.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.bb8394afa1980aab89fe39863ef19ef9006732ad955d634e1b0e3e9200aecf7f.css>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/big-o/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Скорость алгоритмов (на котиках)">
+<meta property="og:description" content="Как определить, насколько быстрый получился алгоритм? Разибраемся на шерстяных жопках.">
+<meta property="og:url" content="https://antonz.ru/big-o/">
+<meta property="og:image" content="https://antonz.ru/big-o/cover.jpg">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Скорость алгоритмов (на котиках)">
+<meta name=twitter:description content="Как определить, насколько быстрый получился алгоритм? Разибраемся на шерстяных жопках.">
+<meta name=twitter:url content="https://antonz.ru/big-o/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/big-o/cover.jpg"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=/#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article">
+<header>
+<h1>Скорость алгоритмов (на котиках)</h1>
+</header>
+<p>Давайте посмотрим, как программисты оценивают, быстро работает алгоритм или медленно. Поскольку тема максимально занудная, разбираться будем на дурацких примерах с котиками.</p>
+<h2 id=константное-время-o1>Константное время, O(1)</h2>
+<p>Самый лучший вариант, скорость алгоритма не зависит от количества котиков.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Вы — счастливый обладатель <code>N</code> котиков. Каждый котик знает, как его зовут. Если позвать «Клёпа!», то прибежит только он, а остальным <code>N-1</code> жопкам пофиг.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Константное время" src=01-constant.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<h2 id=логарифимическое-время-ologn>Логарифимическое время, O(log n)</h2>
+<p>На <code>N</code> котиках алгоритм отрабатывает за <code>log(N)</code> шагов. Это быстро! 1 000 000 котиков → всего 20 операций.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Мисочки у котиков расставлены по алфавиту. Когда у вас появляется новый котик, место для его мисочки находится за <code>log(N)</code> шагов.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Логарифимическое время" src=02-log.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<h2 id=линейное-время-on>Линейное время, O(n)</h2>
+<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N</code> шагов. Это значит, каждый раз приходится перебирать всех кошачьих. Ну такое.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Котики взбунтовались и перестали отзываться на клички. Теперь приходится обходить <code>N</code> шубок, чтобы найти нужного.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Линейное время" src=03-linear.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<h2 id=линейно-логарифмическое-время-onlogn>Линейно-логарифмическое время, O(n log n)</h2>
+<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N</code> × <code>log(N)</code> шагов. Это дольше, чем за линейное время, но ненамного (логарифм <code>N</code> всегда намного меньше <code>N</code>, помните?).</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>К приходу гостей вы решили рассадить котиков по размеру. Алгоритм quick sort справится с этим за <code>N</code> × <code>log(N)</code> шагов.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Линейно-логарифмическое время" src=04-log-linear.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<p>На очереди у нас неторопливые полиномиальные котики и улиточные суперполиномиальные.</p>
+<h2 id=квадратичное-время-on>Квадратичное время O(n²)</h2>
+<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N²</code> шагов. Ме-е-едленно.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Конкурент утверждает, что его <code>N</code> котиков более гладкие и довольные, чем ваши. Специальная комиссия попарно сравнит хвостатых, чтобы вынести справедливый вердикт. Понадобится ~ <code>N²</code> сравнений.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Квадратичное время" src=05-quadratic.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<h2 id=полиномиальное-время-onᵏ>Полиномиальное время, O(nᵏ)</h2>
+<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N³</code> шагов, <code>N⁴</code> шагов, <code>N⁵</code> шагов, или ещё дольше. Фу таким быть.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Фотосессия! Каждого из <code>N</code> котиков надо попарно отфоткать с другими, причем фотограф делает <code>N</code> снимков на каждую пару. <code>N</code> × <code>N</code> × <code>N</code> ≃ <code>N³</code> шагов.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Полиномиальное время" src=06-polinomial.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<p>Хоть полиномиальные алгоритмы и не славятся быстротой, по сравнению с суперполиномиальными они стремительны как Флеш. Из суперского у «суперполиномиальных» только название, увы. Сейчас покажу.</p>
+<h2 id=экспоненциальное-время-o2ⁿ>Экспоненциальное время, O(2ⁿ)</h2>
+<p>На <code>N</code> котиках алгоритм отрабатывает за <code>2ⁿ</code> шагов. Это долго, вы вряд ли дождетесь.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Котики отправляются на выставку. Каждого взвесили и оценили в звездах. Но перевозка рассчитана максимум на X килограмм. Как выбрать самый звездный состав? Ответ потребует <code>2ⁿ</code> шагов.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Экспоненциальное время" src=07-exponential.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<h2 id=факториальное-время-on>Факториальное время, O(n!)</h2>
+<p>На <code>N</code> котиках алгоритм отработает за <code>N</code> × <code>(N-1)</code> × <code>(N-2)</code> ×… × <code>1</code> шагов. Это жесть! Всего 20 котиков уже дадут нам пару квинтиллионов операций.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6 flex">
+<div class=boxed>
+<p><strong>🐾 Пример</strong></p>
+<p>Котики расселись по квартире. Вам хочется пожамкать каждого, но ходить лень. Какой кратчайший маршрут, чтобы обойти всех шерстяных жопок? Это ~ <code>N!</code> сравнений.</p>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img alt="Факториальное время" src=08-factorial.jpg class=img-bordered-thin>
+</figure>
+</div>
+</div>
+<h2 id=резюме>Резюме</h2>
+<p>Вот какие алгоритмы мы рассмотрели:</p>
+<ul>
+<li>Константные <code>O(1)</code></li>
+<li>Логарифмические <code>O(log n)</code></li>
+<li>Линейные <code>O(n)</code></li>
+<li>Линейно-логарифмические <code>O(n log n)</code></li>
+<li>Квадратичные <code>O(n²)</code></li>
+<li>Полиномиальные <code>O(nᵏ)</code></li>
+<li>Экспоненциальные <code>O(2ⁿ)</code></li>
+<li>Факториальные <code>O(n!)</code></li>
+</ul>
+<p>Константный алгоритм — всегда лучший вариант, а логарифмический — почти всегда. С линейными и полиномиальными сложнее — тут все зависит от задачи. Где-то стыдно выбирать <code>O(n)</code>, а где-то и <code>O(n²)</code> будет большим успехом.</p>
+<p><code>O(2ⁿ)</code> и <code>O(n!)</code> безумно медленные, поэтому на практике вместо них обычно используют неоптимальные, но быстрые алгоритмы.</p>
+<p><em>Всем котиков! И подписывайтесь на <a href=https://twitter.com/nalgeon>@nalgeon</a> в твитере, чтобы не пропустить новые заметки 🚀</em></p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-11-25 16:30:00 +0000 UTC">25.11.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class="post__nav article">
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/list-internals/>Как на самом деле устроен список в Python</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/list-internals/>Как на самом деле устроен список в Python</a></p>
+<p><a href=/browser-storage/>Как хранят данные в браузере</a></p>
+<p><a href=/good-code/>Главный критерий хорошего кода</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/rss class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script></body>
+</html>
