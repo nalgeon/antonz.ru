@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Thu, 25 Nov 2021 16:30:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Скорость алгоритмов и котики</title><link>https://antonz.ru/big-o/</link><pubDate>Thu, 25 Nov 2021 16:30:00 +0000</pubDate><guid>https://antonz.ru/big-o/</guid><description>Разбираем быстрые и медленные алгоритмы на шерстяных жопках.</description><content:encoded><![CDATA[<p>Давайте посмотрим, как программисты оценивают быстрые и медленные алгоритмы. Поскольку тема максимально занудная, разбираться будем на дурацких примерах с котиками.</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Sun, 28 Nov 2021 15:25:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Что нового в SQLite 3.37</title><link>https://antonz.ru/sqlite-3-37/</link><pubDate>Sun, 28 Nov 2021 15:25:00 +0000</pubDate><guid>https://antonz.ru/sqlite-3-37/</guid><description>Строгие таблицы, any-тип и новая прагма.</description><content:encoded><![CDATA[<p>В отличие от <a href="/sqlite-3-35">3.35</a>, релиз 3.37 принес не так много изменений. Но среди них — одно из важнейших за всю историю: «строгий» режим таблиц, в котором движок следит, чтобы данные в столбце соответствовали типу.</p>
+<p>Возможно, теперь SQLite перестанут называть «джаваскриптом в мире СУБД» ツ Но давайте по порядку.</p>
+<p><a href="https://habr.com/ru/news/t/592085/">подробности на Хабре</a></p>
+]]></content:encoded></item><item><title>Скорость алгоритмов и котики</title><link>https://antonz.ru/big-o/</link><pubDate>Thu, 25 Nov 2021 16:30:00 +0000</pubDate><guid>https://antonz.ru/big-o/</guid><description>Разбираем быстрые и медленные алгоритмы на шерстяных жопках.</description><content:encoded><![CDATA[<p>Давайте посмотрим, как программисты оценивают быстрые и медленные алгоритмы. Поскольку тема максимально занудная, разбираться будем на дурацких примерах с котиками.</p>
 <h2 id="константное-время-o1">Константное время, O(1)</h2>
 <p>Самый лучший вариант, скорость алгоритма не зависит от количества котиков.</p>
 <div class="row">
@@ -697,81 +700,6 @@
 <p class="big">
 <a href="https://dadata.ru/blog/basics/best-practises-address/">Подробности — в блоге «Дадаты»</a>
 </p>
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-]]></content:encoded></item><item><title>Что должно быть в письме о заказе</title><link>https://antonz.ru/order-confirmation/</link><pubDate>Thu, 15 Jul 2021 15:57:34 +0000</pubDate><guid>https://antonz.ru/order-confirmation/</guid><description>Номер, стоимость, время доставки.</description><content:encoded><![CDATA[<p>Если продаете товары с доставкой курьером — наверняка отправляете клиентам емейл или смс после того, как заказ оформлен. Все так делают.</p>
-<p>Но не у всех это письмо полезно клиенту.</p>
-<h2 id="плохо">Плохо</h2>
-<p>Например, «Деликатеска» присылает такую простыню:</p>
-<div class="row">
-<div class="col-xs-12 col-sm-10">
-<figure>
-  <img class="img-bordered-thin" alt="Деликатеска" src="order-confirmation-deli.png">
-  <figcaption>Здравствуйте, вам нужно больше читать, поэтому вот</figcaption>
-</figure>
-</div>
-</div>
-<p>Тут и правила всего на свете, и мое имя и телефон (спасибо, а то вечно забываю), и бесконечный список заказанных товаров (на скриншоте я его обрезал), и даже призыв защитить природу в финале. Все, кроме самого главного — когда я получу заказ. Формально дата и время в письме есть, но так затейливо спрятаны, что заметить их малореально.</p>
-<p>Или вот «Озон»:</p>
-<div class="row">
-<div class="col-xs-12 col-sm-10">
-<figure>
-  <img class="img-bordered-thin" alt="Озон" src="order-confirmation-ozon.png">
-  <figcaption>Все скажу, дату-время доставки не скажу</figcaption>
-</figure>
-</div>
-</div>
-<p>Тут получше — хотя бы нет правил поведения при пожаре. Но главный вопрос остается — когда я получу заказ?</p>
-<p>А вот «Яндекс-маркет». Почти хорошо, не считая вступления с кнопкой:</p>
-<div class="row">
-<div class="col-xs-12 col-sm-10">
-<figure>
-  <img class="img-bordered-thin" alt="Яндекс-маркет" src="order-confirmation-ym.png">
-  <figcaption>Нам платят, когда вы жмакаете на кнопку «перейти к заказам», поэтому она превыше всего</figcaption>
-</figure>
-</div>
-</div>
-<h2 id="лучше">Лучше</h2>
-<p>Если письмо бестолковое — человеку все равно придется идти в личный кабинет и искать информацию там. Не делайте так. Если хотите, чтобы письмо пригодилось, напишите вот что:</p>
-<blockquote>
-<p>Приняли заказ №12345, стоимость 5623 ₽, доставим в пятницу 16 июля с 10 до 14.</p>
-</blockquote>
-<p>Если ваши айти-системы в состоянии идентифицировать заказ без номера (по телефону, например) — можно номер не писать, станет еще лучше. Правда, может возникнуть путаница, если у клиента несколько заказов одним днем.</p>
-<blockquote>
-<p>Приняли заказ на 5623 ₽, доставим в пятницу 16 июля с 10 до 14.</p>
-</blockquote>
-<p>Добавьте телефон, чтобы человек не искал, как с вами связаться:</p>
-<blockquote>
-<p>Приняли заказ на 5623 ₽, доставим в пятницу 16 июля с 10 до 14. <u>8 800 223-23-23</u></p>
-</blockquote>
-<p>Если есть ограничения по оплате, тоже напишите:</p>
-<blockquote>
-<p>Оплата только наличными, у курьера нет сдачи.</p>
-</blockquote>
-<blockquote>
-<p>Заказ оплачен, вот <u>чек</u>.</p>
-</blockquote>
-<p>Такой формат одинаково подходит для емейла и смс. В смс достаточно этим и ограничиться. В емейле можно дать больше подробностей:</p>
-<ul>
-<li>список товаров;</li>
-<li>как изменить время или отменить заказ;</li>
-<li>особенности (курьер звонит за час, доставка до двери и тому подобное).</li>
-</ul>
-<p>Адрес доставки имеет смысл указывать, если у клиента их несколько. ФИО, телефон, адрес эл. почты — если заказ для другого человека.</p>
-<h2 id="итого">Итого</h2>
-<p>Укажите в сообщении о заказе:</p>
-<ul>
-<li>номер (если без него никак);</li>
-<li>стоимость,</li>
-<li>дату и время доставки,</li>
-<li>контактный телефон,</li>
-<li>важные ограничения.</li>
-</ul>
-<blockquote>
-<p>Приняли заказ № 12345, стоимость 5623 ₽, доставим в пятницу 16 июля с 10 до 14. Оплата только наличными. <u>8 800 223-23-23</u></p>
-</blockquote>
-<p>Такое сообщение действительно пригодится.</p>
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
 </div>
