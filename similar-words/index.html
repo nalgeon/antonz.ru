@@ -285,7 +285,7 @@ Run Time: real 0.014 user 0.000729 sys 0.003712
 дороаг
 </code></pre><p>Фонетический алгоритм посчитает такие слова разными (и будет прав):</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>caverphone</span>(<span style=color:#c41a16>&#34;doroga&#34;</span>) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;TRKA111111&#34;</span>
-<span style=color:#000>caverphone</span>(<span style=color:#c41a16>&#34;doroga&#34;</span>) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;TRK1111111&#34;</span>
+<span style=color:#000>caverphone</span>(<span style=color:#c41a16>&#34;doroag&#34;</span>) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;TRK1111111&#34;</span>
 </code></pre></div><p>В результате на нефонетических опечатках наш алгоритм будет работать плохо. Для <code>дороаг</code> вернет:</p>
 <pre tabindex=0><code>┌────────┬──────────┐
 │  word  │ distance │
