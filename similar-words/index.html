@@ -1,0 +1,424 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Быстрый поиск похожих слов на SQL</title>
+<meta name=description content="Фонетика, расстояния и никакого LIKE.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.e5485f3d9455cd273d18af061d88ebe20e91b4df8cb118745360b642b5dfbcbe.css>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/similar-words/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Быстрый поиск похожих слов на SQL">
+<meta property="og:description" content="Фонетика, расстояния и никакого LIKE.">
+<meta property="og:url" content="https://antonz.ru/similar-words/">
+<meta property="og:image" content="https://antonz.ru/similar-words/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Быстрый поиск похожих слов на SQL">
+<meta name=twitter:description content="Фонетика, расстояния и никакого LIKE.">
+<meta name=twitter:url content="https://antonz.ru/similar-words/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/similar-words/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=/#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article">
+<header>
+<h1>Быстрый поиск похожих слов на SQL</h1>
+</header>
+<p><em>В этой статье разберемся, как быстро найти похожее слово в огромном словаре. Сначала рассмотрим наивное решение, потом сконструируем быстрое, а в конце посмотрим на готовое.</em></p>
+<p>Предположим, мы хотим исправлять опечатки в поисковых запросах или сообщениях чата. Человек вводит «а<span class=color-red>б</span>р<span class=color-red>и</span>виатура», мы исправляем на «аббревиатура», «ра<span class=color-red>сс</span>чет» → «расчет», «доро<span class=color-red>аг</span>» → «дорога». Посмотрим, как решить такую задачу на SQL.</p>
+<p>Я буду использовать SQLite. Но аналогичный подход сработает с любой СУБД или языком программирования (если интересно — дайте знать, сделаю примеры на Python).</p>
+<h2 id=dictinary>1. Собираем словарь</h2>
+<p>Воспользуемся списком русских слов во всех морфологических формах из репозитория <a href=https://github.com/danakt/russian-words>russian-words</a>. Скачаем и сконвертируем в UTF-8:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ wget https://github.com/danakt/russian-words/raw/master/russian.txt
+$ iconv -f cp1251 russian.txt &gt; russian.utf.csv
+</code></pre></div><p>Загрузим в таблицу <code>words</code>:</p>
+<pre tabindex=0><code>$ sqlite3 dictionary.db
+sqlite&gt; create table words(word text);
+sqlite&gt; .mode csv
+sqlite&gt; .import russian.utf.csv words
+sqlite&gt; create unique index words_idx on words(word);
+sqlite&gt; select count(*) from words;
+1532629
+</code></pre><p>Словарь из 1.5 млн слов готов.</p>
+<p>Когда человек ввел какое-то слово («абривиатура») — несложно проверить, есть ли оно в словаре:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#1c01ce>1</span> <span style=color:#a90d91>from</span> <span style=color:#000>words</span> <span style=color:#a90d91>where</span> <span style=color:#000>word</span> <span style=color:#000>=</span> <span style=color:#c41a16>&#39;абривиатура&#39;</span>;
+<span style=color:#177500>-- &lt;пусто&gt;
+</span></code></pre></div><p>Раз варианта в словаре нет — в слове наверняка опечатка. Чтобы предложить исправление, придется найти максимальное похожее слово в <code>words</code>.</p>
+<h2 id=distance>2. Определяем похожесть слов</h2>
+<p>Человеку интуитивно понятно, что такое «похожее» или «непохожее» слово, но машине нужен формальный критерий.</p>
+<p>Идеально, если бы мы умели измерять <em>расстояние</em> между словами. Функция расстояния принимает на входе два слова и возвращает некоторое число <code>D</code>, которое характеризует похожесть:</p>
+<pre tabindex=0><code>distance(w1, w1) = x
+</code></pre><p>Чем меньше <code>D</code>, тем более похожи слова.</p>
+<p>Приятно, что специалисты по компьютерным наукам уже придумали великое множество таких функций. Наиболее известная из них — <em>расстояние Левенштейна</em>. Она измеряет, сколько букв надо удалить, добавить или заменить, чтобы перейти от слова <code>w1</code> к слову <code>w2</code>:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img class=img-bordered-thin alt="Расстояние Левенштейна" src=distance.jpg>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p class=figcaption>Расстояние Левенштейна считает количество элементарных замен, которыми можно превратить одно слово в другое.</p>
+</div>
+</div>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#177500># одна операция: удалить лишнюю С</span>
+<span style=color:#000>levenshtein</span>(<span style=color:#c41a16>&#34;рассчет&#34;</span>, <span style=color:#c41a16>&#34;расчет&#34;</span>) <span style=color:#000>=</span> <span style=color:#1c01ce>1</span>
+
+<span style=color:#177500># одна операция: добавить недостающую лишнюю Л</span>
+<span style=color:#000>levenshtein</span>(<span style=color:#c41a16>&#34;сонце&#34;</span>, <span style=color:#c41a16>&#34;солнце&#34;</span>) <span style=color:#000>=</span> <span style=color:#1c01ce>1</span>
+
+<span style=color:#177500># две операции: заменить А→Г, заменить Г→А</span>
+<span style=color:#000>levenshtein</span>(<span style=color:#c41a16>&#34;дороаг&#34;</span>, <span style=color:#c41a16>&#34;дорога&#34;</span>) <span style=color:#000>=</span> <span style=color:#1c01ce>2</span>
+</code></pre></div><p>Пример с «дороаг» → «дорога» может показаться странным: очевидно же, что достаточно переставить буквы местами. Перестановка — одна операция, и расстояние должно быть 1, а не 2. Алгоритм Левенштейна не учитывает такие случаи, поэтому создали улучшенную и дополненную версию — <em>расстояние Дамерау-Левенштейна</em>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>dlevenshtein</span>(<span style=color:#c41a16>&#34;дороаг&#34;</span>, <span style=color:#c41a16>&#34;дорога&#34;</span>) <span style=color:#000>=</span> <span style=color:#1c01ce>1</span>
+</code></pre></div><p>Его и будем использовать.</p>
+<div class=boxed>
+<h3>Считаем расстояние в SQLite</h3>
+<p>В стандартную поставку SQLite расстояния не входят. Поэтому будем использовать расширение <a href=https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md>fuzzy</a>, в котором есть все необходимое:</p>
+<pre><code>-- в консоли sqlite
+.load ./fuzzy<br>
+-- или через select
+select load_extension('./fuzzy');
+</code></pre>
+<p>Расширение умеет работать только с ASCII-строками (латиницей), так что русские слова придется предварительно транслитерировать (перевести в латиницу) функцией <code>translit</code>:</p>
+<pre><code>select translit('дорога');
+-- doroga<br>
+select translit('дороаг');
+-- doroag<br>
+select dlevenshtein(
+  translit('дорога'),
+  translit('дороаг')
+);
+-- 1</code></pre>
+</div>
+<h2 id=search-distance>3. Ищем похожее слово в словаре</h2>
+<p>Чтобы исправить опечатку в слове, достаточно посчитать расстояние от него до каждого слова в словаре и выбрать слово с минимальным расстоянием.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img class=img-bordered-thin alt="Поиск по расстоянию" src=search-distance.jpg>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p class=figcaption>Считаем расстояния между словом с опечаткой и остальными словами → получаем набор расстояний. Выбираем минимальное → получаем слово с исправленной опечаткой.</p>
+<p class=figcaption>Отличный был бы алгоритм, если бы не сортировал каждый раз полтора миллиона слов.</p>
+</div>
+</div>
+<p>На SQL:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span>
+  <span style=color:#000>word</span>,
+  <span style=color:#000>dlevenshtein</span>(
+    <span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;абривиатура&#39;</span>),
+    <span style=color:#000>translit</span>(<span style=color:#000>word</span>)
+  ) <span style=color:#a90d91>as</span> <span style=color:#000>distance</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>words</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>distance</span>
+<span style=color:#a90d91>limit</span> <span style=color:#1c01ce>1</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────────┬──────────┐
+│     word     │ distance │
+├──────────────┼──────────┤
+│ аббревиатура │ 2        │
+└──────────────┴──────────┘
+Run Time: real 8.145 user 8.055009 sys 0.051747
+</code></pre><p>Отлично работает! Одна проблема: расчет занимает 8 секунд. Для исправления опечаток в онлайне не подходит. Нам желательно уложиться в 50–200 мс, чтобы для человека выглядело мгновенным. Исправим это.</p>
+<h2 id=phonetics>4. Фонетическое кодирование</h2>
+<p>Проблема с расстоянием в том, что его нельзя посчитать заранее — мы же не знаем, какое слово введет человек. Здесь поможет <em>фонетическое кодирование</em>:</p>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img class=img-bordered-thin alt="Фонетический алгоритм" src=phonetics.jpg>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p class=figcaption>Фонетический алгоритм превращает произвольное слово (<code>солнце</code>) в <em>фонетический код</em> (<code>SNTK</code>). При этом созвучные слова получают одинаковые коды, а несозвучные — разные.</p>
+</div>
+</div>
+<p>Теперь мы можем обойтись без расстояния вообще:</p>
+<ol>
+<li>Заранее посчитать код для каждого слова в словаре.</li>
+<li>Посчитать код для слова с опечаткой, которое ввел человек.</li>
+<li>Найти слово в словаре по этому коду — это и будет правильный вариант.</li>
+</ol>
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<figure>
+<img class=img-bordered-thin alt="Поиск по фонетике" src=search-phonetics.jpg>
+</figure>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p class=figcaption>Работать должно моментально, потому что по столбцу с кодами можно построить индекс, и искать по нему.</p>
+</div>
+</div>
+<p>Попробуем использовать фонетическое кодирование для исправления опечаток.</p>
+<h2 id=search-phonetics>5. Ищем по фонетике</h2>
+<p>Фонетические алгоритмы придумывали для английского языка, и на русском они не работают. Нам придется прибегнуть к трюку с транслитерацией.</p>
+<p>У транслитерированных слов фонетика сильно отличается от «родной» английской, поэтому многие фонетические алгоритмы плохо работает с транслитом. Мы возьмем функцию <code>caverphone</code> — она на удивление недурна, несмотря на австралийское происхождение:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#34;рассчет&#34;</span>)) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;RSKT111111&#34;</span>
+<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#34;расчет&#34;</span>))  <span style=color:#000>=</span> <span style=color:#c41a16>&#34;RSKT111111&#34;</span>
+
+<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#34;сонце&#34;</span>))  <span style=color:#000>=</span> <span style=color:#c41a16>&#34;SNTK111111&#34;</span>
+<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#34;солнце&#34;</span>)) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;SNTK111111&#34;</span>
+
+<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#34;абривиатура&#34;</span>))  <span style=color:#000>=</span> <span style=color:#c41a16>&#34;APRFTRA111&#34;</span>
+<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#34;аббревиатура&#34;</span>)) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;APRFTRA111&#34;</span>
+</code></pre></div><p>Рассчитаем коды для слов из словаря и построим индекс:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>alter</span> <span style=color:#a90d91>table</span> <span style=color:#000>words</span> <span style=color:#a90d91>add</span> <span style=color:#a90d91>column</span> <span style=color:#000>hash</span> <span style=color:#a90d91>text</span>;
+<span style=color:#a90d91>update</span> <span style=color:#000>words</span> <span style=color:#a90d91>set</span> <span style=color:#000>hash</span> <span style=color:#000>=</span> <span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#000>word</span>));
+<span style=color:#a90d91>create</span> <span style=color:#a90d91>index</span> <span style=color:#000>words_hash_idx</span> <span style=color:#a90d91>on</span> <span style=color:#000>words</span>(<span style=color:#000>hash</span>);
+</code></pre></div><p>Исправим опечатку в слове <code>абривиатура</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>word</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>words</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>hash</span> <span style=color:#000>=</span> <span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;абривиатура&#39;</span>))
+<span style=color:#a90d91>limit</span> <span style=color:#1c01ce>3</span>;
+</code></pre></div><pre tabindex=0><code>┌───────────────┐
+│     word      │
+├───────────────┤
+│ аббревиатура  │
+│ аббревиатурой │
+│ аббревиатурою │
+└───────────────┘
+Run Time: real 0.002 user 0.000130 sys 0.000391
+</code></pre><p>Замечательно! Запрос выполнился мгновенно и вернул подходящие слова из словаря.</p>
+<h2 id=search-combined>6. Ищем по фонетике и расстоянию</h2>
+<p>Как удачно все получилось с «аббревиатурой». Проверим на «расчете»:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>word</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>words</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>hash</span> <span style=color:#000>=</span> <span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;рассчет&#39;</span>))
+<span style=color:#a90d91>limit</span> <span style=color:#1c01ce>3</span>;
+</code></pre></div><pre tabindex=0><code>┌────────────┐
+│    word    │
+├────────────┤
+│ разжигает  │
+│ разжигаете │
+│ разжигайте │
+└────────────┘
+</code></pre><p>Эээ. Совсем не то, чего мы ожидали. Проблема в том, что у «расчета» фонетически похожих слов довольно много:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#a90d91>count</span>(<span style=color:#000>*</span>)
+<span style=color:#a90d91>from</span> <span style=color:#000>words</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>hash</span> <span style=color:#000>=</span> <span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;рассчет&#39;</span>));
+<span style=color:#177500>-- 50
+</span></code></pre></div><p>Нам бы как-то найти среди этих пятидесяти самое похожее. Хорошо, что мы уже знаем как это сделать — с помощью расстояния Дамерау-Левенштейна! Будем выбирать слова-кандидаты по фонетическому коду, а наиболее подходящего из кандидатов — по расстоянию:</p>
+<figure>
+<img class=img-bordered-thin alt="Комбинированный поиск" src=search-combined.png>
+<figcaption>Транслитерируем слово, считаем фонетический код, затем ищем по нему кандидатов и выбираем ближайшего по расстоянияю.</figcaption>
+</figure>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#177500>-- кандидаты по фонетическому коду
+</span><span style=color:#177500></span><span style=color:#a90d91>with</span> <span style=color:#000>candidates</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>select</span> <span style=color:#000>word</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>words</span>
+  <span style=color:#a90d91>where</span> <span style=color:#000>hash</span> <span style=color:#000>=</span> <span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;рассчет&#39;</span>))
+)
+
+<span style=color:#177500>-- выбираем кандидата с минимальным расстоянием
+</span><span style=color:#177500></span><span style=color:#a90d91>select</span>
+  <span style=color:#000>word</span>,
+  <span style=color:#000>dlevenshtein</span>(
+    <span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;рассчет&#39;</span>),
+    <span style=color:#000>translit</span>(<span style=color:#000>word</span>)
+  ) <span style=color:#a90d91>as</span> <span style=color:#000>distance</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>candidates</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span>
+  <span style=color:#000>distance</span>,
+  <span style=color:#a90d91>abs</span>(<span style=color:#a90d91>length</span>(<span style=color:#000>word</span>) <span style=color:#000>-</span> <span style=color:#a90d91>length</span>(<span style=color:#c41a16>&#39;рассчет&#39;</span>)),
+  <span style=color:#a90d91>length</span>(<span style=color:#000>word</span>)
+<span style=color:#a90d91>limit</span> <span style=color:#1c01ce>3</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────┬──────────┐
+│   word   │ distance │
+├──────────┼──────────┤
+│ расчет   │ 1        │
+│ расчёт   │ 1        │
+│ рассечет │ 1        │
+└──────────┴──────────┘
+Run Time: real 0.014 user 0.000729 sys 0.003712
+</code></pre><p>То что надо! Поиск остался моментальным (благодаря выборке кандидатов по индексу), но стал точным (благодаря честному сравнению расстояния между кандидатами).</p>
+<h2 id=other-typos>7. Учитываем нефонетические опечатки</h2>
+<p>Все здорово в нашем походе. Кроме одного: не все опечатки фонетические. Если перепутать порядок букв в слове <code>дорога</code>, звучать слова будут совершенно по-разному:</p>
+<pre tabindex=0><code>дорога
+дороаг
+</code></pre><p>Фонетический алгоритм посчитает такие слова разными (и будет прав):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>caverphone</span>(<span style=color:#c41a16>&#34;doroga&#34;</span>) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;TRKA111111&#34;</span>
+<span style=color:#000>caverphone</span>(<span style=color:#c41a16>&#34;doroga&#34;</span>) <span style=color:#000>=</span> <span style=color:#c41a16>&#34;TRK1111111&#34;</span>
+</code></pre></div><p>В результате на нефонетических опечатках наш алгоритм будет работать плохо. Для <code>дороаг</code> вернет:</p>
+<pre tabindex=0><code>┌────────┬──────────┐
+│  word  │ distance │
+├────────┼──────────┤
+│ дорог  │ 1        │
+│ дороге │ 2        │
+│ драг   │ 2        │
+└────────┴──────────┘
+</code></pre><p>Часть нефонетических опечаток можно исправить. Например, выбирать не по строгому равенству фонетических кодов, а по префиксу (первые 3 символа в данном случае):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#177500>-- диапазон допустимых фонетических кодов
+</span><span style=color:#177500></span><span style=color:#a90d91>with</span> <span style=color:#000>bounds</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>select</span>
+    <span style=color:#000>substr</span>(<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;дороаг&#39;</span>)), <span style=color:#1c01ce>1</span>, <span style=color:#1c01ce>3</span>) <span style=color:#000>||</span> <span style=color:#c41a16>&#39;1&#39;</span> <span style=color:#a90d91>as</span> <span style=color:#a90d91>left</span>,
+    <span style=color:#000>substr</span>(<span style=color:#000>caverphone</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;дороаг&#39;</span>)), <span style=color:#1c01ce>1</span>, <span style=color:#1c01ce>3</span>) <span style=color:#000>||</span> <span style=color:#c41a16>&#39;Z&#39;</span> <span style=color:#a90d91>as</span> <span style=color:#a90d91>right</span>
+),
+
+<span style=color:#177500>-- кандидаты по фонетическому коду
+</span><span style=color:#177500>-- из числа допустимых
+</span><span style=color:#177500></span><span style=color:#000>candidates</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>select</span> <span style=color:#000>word</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>words</span>, <span style=color:#000>bounds</span>
+  <span style=color:#a90d91>where</span> <span style=color:#000>hash</span> <span style=color:#a90d91>between</span> <span style=color:#000>bounds</span>.<span style=color:#a90d91>left</span> <span style=color:#a90d91>and</span> <span style=color:#000>bounds</span>.<span style=color:#a90d91>right</span>
+)
+
+<span style=color:#177500>-- выбираем кандидата с минимальным расстоянием
+</span><span style=color:#177500></span><span style=color:#a90d91>select</span>
+  <span style=color:#000>word</span>,
+  <span style=color:#000>dlevenshtein</span>(<span style=color:#000>translit</span>(<span style=color:#c41a16>&#39;дороаг&#39;</span>), <span style=color:#000>translit</span>(<span style=color:#000>word</span>)) <span style=color:#a90d91>as</span> <span style=color:#000>distance</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>candidates</span>
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> <span style=color:#000>distance</span>, <span style=color:#a90d91>abs</span>(<span style=color:#a90d91>length</span>(<span style=color:#000>word</span>) <span style=color:#000>-</span> <span style=color:#a90d91>length</span>(<span style=color:#c41a16>&#39;дороаг&#39;</span>)), <span style=color:#a90d91>length</span>(<span style=color:#000>word</span>)
+<span style=color:#a90d91>limit</span> <span style=color:#1c01ce>3</span>;
+</code></pre></div><pre tabindex=0><code>┌────────┬──────────┐
+│  word  │ distance │
+├────────┼──────────┤
+│ дорога │ 1        │
+│ дорог  │ 1        │
+│ дороге │ 2        │
+└────────┴──────────┘
+Run Time: real 0.032 user 0.030312 sys 0.000339
+</code></pre><p>Такой запрос находит на порядки больше кандидатов (6633 вместо 81 для «дороги»). Из-за этого он намного медленнее работает (хотя 32 мс — все еще очень быстро с точки зрения человека).</p>
+<p>Префиксный подход не сработает, если опечатка в самом начале слова. Запрос по <code>одрога</code> не найдет слово <code>дорога</code>:</p>
+<pre tabindex=0><code>┌────────┬──────────┐
+│  word  │ distance │
+├────────┼──────────┤
+│ отрога │ 1        │
+│ отроге │ 2        │
+│ отроги │ 2        │
+└────────┴──────────┘
+</code></pre><p>Хоть мой айфон такую опечатку тоже не исправляет, так что может и ничего.</p>
+<h2 id=spellfix>8. Готовое решение для SQLite</h2>
+<p>Теперь вы знаете, как быстро искать похожие слова в стиле «сделай сам». Описанный алгоритм можно реализовать в любой СУБД, где есть фонетические функции и функции расстояний. Но даже если в вашей базе их нет — то же самое можно сделать на Python, JS или C#, для которых уж точно найдутся подходящие библиотеки.</p>
+<p>Если же работаете в SQLite — можно сэкономить время и воспользоваться готовым расширением <a href=https://github.com/nalgeon/sqlean/blob/main/docs/spellfix.md>spellfix</a>. Под капотом у него фонетика + расстояния, как мы обсуждали, но внешний интерфейс сильно проще:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql>.<span style=color:#a90d91>load</span> .<span style=color:#000>/</span><span style=color:#000>spellfix</span>
+
+<span style=color:#a90d91>create</span> <span style=color:#000>virtual</span> <span style=color:#a90d91>table</span> <span style=color:#a90d91>dictionary</span> <span style=color:#a90d91>using</span> <span style=color:#000>spellfix1</span>;
+
+<span style=color:#a90d91>insert</span> <span style=color:#a90d91>into</span> <span style=color:#a90d91>dictionary</span>(<span style=color:#000>word</span>)
+<span style=color:#a90d91>select</span> <span style=color:#000>word</span> <span style=color:#a90d91>from</span> <span style=color:#000>words</span>;
+
+<span style=color:#a90d91>select</span> <span style=color:#000>word</span> <span style=color:#a90d91>from</span> <span style=color:#a90d91>dictionary</span>
+<span style=color:#a90d91>where</span> <span style=color:#000>word</span> <span style=color:#a90d91>match</span> <span style=color:#c41a16>&#39;абривиатура&#39;</span>
+<span style=color:#a90d91>limit</span> <span style=color:#1c01ce>1</span>;
+</code></pre></div><pre tabindex=0><code>┌──────────────┐
+│     word     │
+├──────────────┤
+│ аббревиатура │
+└──────────────┘
+Run Time: real 0.182 user 0.112689 sys 0.014142
+</code></pre><p>Работает медленнее и местами хуже, чем наше DIY-решение, зато гибче настраивается. Можно добавлять синонимы слов и тюнить расстояние — см. разделы «Dealing With Unusual And Difficult Spellings» и «Configurable Edit Distance» <a href=https://sqlite.org/spellfix1.html>в документации</a>.</p>
+<h2 id=9-итоги>9. Итоги</h2>
+<p>Теперь вы умеете:</p>
+<ul>
+<li>Считать расстояние между словами, чтобы понять, насколько они отличаются.</li>
+<li>Использовать фонетические алгоритмы, чтобы искать созвучные слова.</li>
+<li>Сочетать фонетику и расстояние, чтобы моментально находить похожие слова в миллионном словаре.</li>
+</ul>
+<p>Конечно, есть и альтернативные подходы к исправлению опечаток. Например:</p>
+<ul>
+<li>Для каждого слова из словаря заранее сгенерить возможные варианты опечаток и сохранить их в отдельной таблице. Словарь увеличится в десятки, если не сотни раз — зато не нужны фонетика и расстояния.</li>
+<li>Обучить нейросеть предсказывать правильное слово по тому, что ввел человек. Заодно получится предиктивно предлагать варианты еще до того, как пользователь дописал слово — так работает ввод в айоси и андроиде.</li>
+</ul>
+<p>Но это уже совсем другая история ツ А фонетика и расстояния могут вам пригодиться.</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter>SQLite на практике</a>»</span></em></p></div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2021-12-02 13:30:00 +0000 UTC">02.12.2021</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+<a href=https://antonz.ru/tags/development/>разработка</a>&nbsp;
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class="post__nav article">
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/words-dataset/>Датасет слов английского языка</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/sqlite-3-37/>Что нового в SQLite 3.37</a></p>
+<p><a href=/cte/>Табличные выражения SQL</a></p>
+<p><a href=/browser-storage/>Как хранят данные в браузере</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/index.xml class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script></body>
+</html>
