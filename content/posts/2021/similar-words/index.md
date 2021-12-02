@@ -320,7 +320,7 @@ Run Time: real 0.014 user 0.000729 sys 0.003712
 
 ```python
 caverphone("doroga") = "TRKA111111"
-caverphone("doroga") = "TRK1111111"
+caverphone("doroag") = "TRK1111111"
 ```
 
 В результате на нефонетических опечатках наш алгоритм будет работать плохо. Для `дороаг` вернет:
