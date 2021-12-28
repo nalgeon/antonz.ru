@@ -337,7 +337,7 @@ Run Time: real 0.032 user 0.030312 sys 0.000339
 </code></pre><p>Хоть мой айфон такую опечатку тоже не исправляет, так что может и ничего.</p>
 <h2 id=spellfix>8. Готовое решение для SQLite</h2>
 <p>Теперь вы знаете, как быстро искать похожие слова в стиле «сделай сам». Описанный алгоритм можно реализовать в любой СУБД, где есть фонетические функции и функции расстояний. Но даже если в вашей базе их нет — то же самое можно сделать на Python, JS или C#, для которых уж точно найдутся подходящие библиотеки.</p>
-<p>Если же работаете в SQLite — можно сэкономить время и воспользоваться готовым расширением <a href=https://github.com/nalgeon/sqlean/blob/main/docs/spellfix.md>spellfix</a>. Под капотом у него фонетика + расстояния, как мы обсуждали, но внешний интерфейс сильно проще:</p>
+<p>Если же работаете в SQLite — можно сэкономить время и воспользоваться готовым расширением <a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002297477>spellfix</a>. Под капотом у него фонетика + расстояния, как мы обсуждали, но внешний интерфейс сильно проще:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql>.<span style=color:#a90d91>load</span> .<span style=color:#000>/</span><span style=color:#000>spellfix</span>
 
 <span style=color:#a90d91>create</span> <span style=color:#000>virtual</span> <span style=color:#a90d91>table</span> <span style=color:#a90d91>dictionary</span> <span style=color:#a90d91>using</span> <span style=color:#000>spellfix1</span>;
