@@ -1,0 +1,195 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Все расширения для SQLite</title>
+<meta name=description content="Регулярки, статистика, файлы и еще 100+ функций.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.e5485f3d9455cd273d18af061d88ebe20e91b4df8cb118745360b642b5dfbcbe.css>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/sqlean/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:site_name" content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Все расширения для SQLite">
+<meta property="og:description" content="Регулярки, статистика, файлы и еще 100+ функций.">
+<meta property="og:url" content="https://antonz.ru/sqlean/">
+<meta property="og:image" content="https://antonz.ru/sqlean/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Все расширения для SQLite">
+<meta name=twitter:description content="Регулярки, статистика, файлы и еще 100+ функций.">
+<meta name=twitter:url content="https://antonz.ru/sqlean/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/sqlean/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/antonz.jpg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=/#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article">
+<header>
+<h1>Все расширения для SQLite</h1>
+</header>
+<p>Мне очень нравится SQLite. Это миниатюрная встраиваемая база, которая отлично подходит как для исследовательского анализа данных, так и в качестве хранилища для небольших приложений (<a href=https://habr.com/ru/post/547448/>писал об этом</a>, не буду повторяться).</p>
+<p>Но есть у нее один недостаток: маловато встроенных функций по сравнению с PostgreSQL или Oracle. К счастью, авторы заложили в SQLite механизм расширений, на котором можно сделать почти все что угодно. В результате интернет заполнен обрывочными расширениями, которые добавляют функцию-другую.</p>
+<p>Мне хотелось большой системности. В результате появился проект <strong>sqlean</strong> — в нем я собираю вместе недостающие в SQLite функции, распределяю их по модулям, рефакторю код, пишу тесты и документацию. Получается что-то вроде стандартной библиотеки, как в Python или Go, только для SQLite.</p>
+<p>Я планирую подробно написать про каждый модуль в отдельной статье, а пока — вот краткий обзор.</p>
+<h2 id=основной-набор>Основной набор</h2>
+<p>Это самые популярные функции, которых не хватало в SQLite:</p>
+<ul>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md>crypto</a>: криптографические хеш-функции вроде MD5, SHA-1 и SHA-256.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/fileio.md>fileio</a>: работа с файловой системой — чтение и запись файлов, создание каталогов.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md>fuzzy</a>: нечеткое сравнение строк, фонетические алгоритмы, транслитерация.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/ipaddr.md>ipaddr</a>: манипуляция IP-адресами и подсетями.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/json1.md>json1</a>: работа с JSON.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/math.md>math</a>: математические функции.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/re.md>re</a>: регулярные выражения.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/stats.md>stats</a>: статистика — медиана, процентили, стандартное отклонение.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/text.md>text</a>: работа со строками.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/unicode.md>unicode</a>: поддержка юникода для функций <code>upper()</code>, <code>lower()</code> и <code>LIKE</code>.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/uuid.md>uuid</a>: генерация уникальных идентификаторов.</li>
+<li><a href=https://github.com/nalgeon/sqlean/blob/main/docs/vsv.md>vsv</a>: работа с CSV-файлами как с таблицами базы.</li>
+</ul>
+<p>Все расширения можно <a href=https://github.com/nalgeon/sqlean/releases/latest>скачать</a> для Windows, Linix и macOS.</p>
+<h2 id=инкубатор>Инкубатор</h2>
+<p>Функции, которые пока не вошли в основной набор. Эти расширения могут быть плохо структурированы, но я их постепенно рефакторю и переношу в основные.</p>
+<ul>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1004109889>array</a>: работа с массивами (почти как в постгресе).</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-999732640>besttype</a>: преобразует строку в подходящий числовой тип.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002267134>bloom</a>: быстрый вероятностный способ понять, есть значение в таблице или нет.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-996605444>cbrt</a>: кубический корень из числа.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1001239676>classifier</a>: бинарный классификатор на логистической регрессии.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1000937999>compress</a> и <a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1000938046>sqlar</a>: архивация и распаковка данных.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997427979>cron</a>: проверяет даты по cron-шаблонам.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1004347222>define</a>: динамически создает скалярные и табличные функции прямо из SQL.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997423609>envfuncs</a>: читает переменные среды.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-996432840>eval</a>: выполняет произвольные SQL-запросы.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997482625>fcmp</a>: сравнение и округление десятичных дробей.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-998138191>isodate</a>: дополнительные функции для работы с датами.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-999128539>math2</a>: больше математических функций и битовой арифметики.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997417836>pearson</a>: корреляция Пирсона между двумя наборами данных.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997052157>pivotvtab</a>: сводные таблицы.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-999732907>recsize</a>: считает размер записи в таблице.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002297477>spellfix</a>: быстрый поиск похожих слов в словаре.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1000902666>stats2</a> и <a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002703581>stats3</a>: еще больше матстатистики.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1003105288>text2</a>: еще больше функций для работы со строками.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1001232670>uint</a>: натуральная сортировка и сравнение строк, содержащих числа (natsort).</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997432989>unhex</a>: преобразует строку в бинарные данные (обратная операция для <code>hex()</code>).</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-997018486>xmltojson</a>: преобразует XML в JSON.</li>
+<li><a href=https://github.com/nalgeon/sqlean/issues/27#issuecomment-1001190336>zipfile</a>: читает и пишет zip-архивы.</li>
+</ul>
+<p><a href=https://github.com/nalgeon/sqlean/issues/27>Голосуйте</a> за расширения в инкубаторе! Чем популярнее расширение, тем быстрее оно попадет в основной набор.</p>
+<p>Инкубаторные расширения тоже можно <a href=https://github.com/nalgeon/sqlean/releases/tag/incubator>скачать</a>.</p>
+<h2 id=как-подключить-расширение>Как подключить расширение</h2>
+<p>Есть три способа. Если работаете с командной строкой SQLite (<code>sqlite.exe</code>):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000>sqlite</span><span style=color:#000>&gt;</span> .<span style=color:#a90d91>load</span> .<span style=color:#000>/</span><span style=color:#000>stats</span>
+<span style=color:#000>sqlite</span><span style=color:#000>&gt;</span> <span style=color:#a90d91>select</span> <span style=color:#000>median</span>(<span style=color:#000>value</span>) <span style=color:#a90d91>from</span> <span style=color:#000>generate_series</span>(<span style=color:#1c01ce>1</span>, <span style=color:#1c01ce>99</span>);
+</code></pre></div><p>Если используете инструмент вроде DB Browser for SQLite, SQLite Expert или DBeaver:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>load_extension</span>(<span style=color:#c41a16>&#39;c:\Users\anton\sqlite\stats.dll&#39;</span>);
+<span style=color:#a90d91>select</span> <span style=color:#000>median</span>(<span style=color:#000>value</span>) <span style=color:#a90d91>from</span> <span style=color:#000>generate_series</span>(<span style=color:#1c01ce>1</span>, <span style=color:#1c01ce>99</span>);
+</code></pre></div><p>Если работаете из Python (в других языках аналогично):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>sqlite3</span>
+
+<span style=color:#000>connection</span> <span style=color:#000>=</span> <span style=color:#000>sqlite3</span><span style=color:#000>.</span><span style=color:#000>connect</span>(<span style=color:#c41a16>&#34;:memory:&#34;</span>)
+<span style=color:#000>connection</span><span style=color:#000>.</span><span style=color:#000>enable_load_extension</span>(<span style=color:#a90d91>True</span>)
+<span style=color:#000>connection</span><span style=color:#000>.</span><span style=color:#000>load_extension</span>(<span style=color:#c41a16>&#34;./stats.so&#34;</span>)
+<span style=color:#000>connection</span><span style=color:#000>.</span><span style=color:#000>execute</span>(<span style=color:#c41a16>&#34;select median(value) from generate_series(1, 99)&#34;</span>)
+<span style=color:#000>connection</span><span style=color:#000>.</span><span style=color:#000>close</span>()
+</code></pre></div><h2 id=что-дальше>Что дальше</h2>
+<p>Если почувствуете, что в SQLite вам не хватает какой-то функции — приходите в репозиторий <a href=https://github.com/nalgeon/sqlean><strong>sqlean</strong></a>, там наверняка найдется.</p>
+<p>Я продолжаю добавлять новые расширения в инкубатор, а расширения из инкубатора рефакторю и переношу в основные. По каждому основному модулю планирую написать отдельную статью с примерами.</p>
+<p>А если захотите поучаствовать — присылайте <a href=https://github.com/nalgeon/sqlean/blob/incubator/docs/submit.md>свои</a> или <a href=https://github.com/nalgeon/sqlean/blob/incubator/docs/external.md>чужие</a> расширения.</p>
+<p>Всем SQLite!</p>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2022-01-04 11:30:00 +0000 UTC">04.01.2022</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+<a href=https://antonz.ru/tags/data/>данные</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class="post__nav article">
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/similar-words/>Быстрый поиск похожих слов на SQL</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/similar-words/>Быстрый поиск похожих слов на SQL</a></p>
+<p><a href=/sqlite-3-37/>Что нового в SQLite 3.37</a></p>
+<p><a href=/cte/>Табличные выражения SQL</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=https://www.facebook.com/nalgeon class=footer__social-link><i class="fab fa-facebook-f"></i><span>Фейсбук</span></a>
+<a href=/index.xml class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+<li class=footer__item>и приходите в
+<a class=footer__link href=https://career.hflabs.ru/>HFLabs</a>
+</li>
+</ul>
+</footer>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script></body>
+</html>
