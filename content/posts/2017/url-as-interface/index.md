@@ -76,7 +76,7 @@ https://medium.com/russian/o-celyah-proekta-i-drugih-ritoricheskih-voprosah-c6c1
 
 ```
 https://explainshell.com/?utm_source=twitter.com&utm_medium=social
-https://dangry.ru/sona/interface/
+https://sqlime.org/about.html
 https://antonz.ru/choice/
 ```
 
@@ -169,7 +169,7 @@ http://yasobe.ru/na/obed
 
 ```
 weather.yandex.ru → yandex.ru/pogoda
-designpreppy.ru/interface.html → dangry.ru/sona/interface/
+dangry.ru/iuliia/mosmetro/index.html → iuliia.ru/mosmetro/
 antonz.ru/2016/04/12/laws/ → antonz.ru/laws/
 ```
 

@@ -43,7 +43,7 @@ title = "Суперсила дизайнера"
 Простые решения срезают углы и игнорируют нюансы. Но в стартапе это даже хорошо: никто не знает, куда в итоге вывезет продукт, а простые решения переделывать легче, чем сложные.
 
 <div class="row">
-<div class="col-xs-12 col-sm-10"><p><em>Заметка из рассылки <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://dangry.ru/sin/">Интерфейсы без шелухи</a>»</em></span></p></div>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
 </div>
 
 <p class="figcaption">
