@@ -73,7 +73,7 @@
 <header>
 <h1>Юлия → Iuliia. Всё о транслитерации</h1>
 </header>
-<p>Транслитерация — это запись кириллических слов латиницей (<code>Анна → Anna</code>, <code>Самара → Samara</code>). Её используют в загранпаспортах, водительских удостоверениях, трансграничной доставке, библиотечных каталогах и множестве других международных процессов.</p>
+<p>Транслитерация — это запись кириллических слов латиницей (<code>Анна → Anna</code>, <code>Самара → Samara</code>). Её используют в загранпаспортах, водительских удостоверениях, трансграничной доставке, библиотечных каталогах и множестве других международных процессов.</p>
 <p>Так вышло, что я недавно окунулся в эту тему, а в Википедии она раскрыта слабо. Поэтому расскажу, что к чему (спойлер — если вы думаете, что с транслитерацией всё плохо, то на самом деле всё ещё хуже).</p>
 <h2 id=кто-виноват>Кто виноват</h2>
 <p>Транслит — это хрестоматийная ситуация «у нас 14 плохих стандартов, давайте придумаем ещё один». Весь 20 век солидные, уважаемые люди придумывали всё новые и новые стандарты транслитерации.</p>
@@ -102,9 +102,9 @@
 <p><strong>Если нужно обратимое преобразование (cyr ↔ lat)</strong>. Используйте <span class=nowrap>ГОСТ 7.79-2000</span>. Это международный стандарт ISO 9:1995. Громоздкая, зато абсолютно непробиваемая схема. Есть варианты с диакритикой и без.</p>
 <p><strong>Если визуальная красота превыше всего</strong>. Используйте схему Мосметро, она самая лаконичная и приятная на вид.</p>
 <p><strong>В остальных случаях</strong>. Используйте схему Википедии. Она лучше всех по фонетике и лишь немного уступает Мосметро визуально.</p>
-<p><a href=https://dangry.ru/iuliia/#main>Описание и примеры</a></p>
+<p><a href=https://iuliia.ru/>Описание и примеры</a></p>
 <h2 id=как-выбрать-схему-для-дотошных>Как выбрать схему (для дотошных)</h2>
-<p>Я сделал страницу <a href=https://dangry.ru/iuliia/>со всеми схемами</a>. Там и сценарии использования, и фильтры, и подробные описания, и примеры. Читайте, выбирайте, что больше нравится. Все схемы уже реализованы на языках <code>JavaScript</code> и <code>Python</code>, подключить библиотеку — минутное дело.</p>
+<p>Я сделал страницу <a href=https://iuliia.ru/>со всеми схемами</a>. Там и сценарии использования, и фильтры, и подробные описания, и примеры. Читайте, выбирайте, что больше нравится. Все схемы уже реализованы на языках <code>JavaScript</code> и <code>Python</code>, подключить библиотеку — минутное дело.</p>
 <h2 id=как-транслитерировать>Как транслитерировать</h2>
 <p>Не пишите логику транслитерации с нуля — велик шанс ошибиться и получить очередную (N+1) схему транслитерации, «спасибо» за которую вам не скажут.</p>
 <p>Не берите библиотеки с гитхаба без проверки. Все, что я смотрел — реализуют стандарт некорректно, если он чуть сложнее таблицы с однозначным соответствием.</p>
@@ -113,11 +113,11 @@
 <p><strong>Не изобретать свой стандарт</strong>. Я понимаю, что очень хочется. Мне тоже хочется взять схему Википедии, поправить в ней всякое и сказать что вот он, идеальный стандарт.</p>
 <p>Но просто не надо. Уже хватит.</p>
 <p><strong>Не связываться с обратной транслитерацией</strong>. «Обратная транслитерация» — это когда вы восстанавливаете справедливость и превращаете <code>Iuliia → Юлия</code>. Тут всё даже хуже, чем с транслитерацией прямой, потому что при записи латиницей никто никаких стандартов не соблюдает, и встречаются жуткие монстры.</p>
-<p>В обратной транслитерации куча технических нюансов, лучше использовать готовое решение. Попробуйте, например, «<a href=https://dadata.ru/api/clean/>Дадату</a>» — она транслитерирует в обратную сторону ФИО и адреса.</p>
+<p>В обратной транслитерации куча технических нюансов, лучше использовать готовое решение. Попробуйте, например, «<a href=https://dadata.ru/clean/>Дадату</a>» — она транслитерирует в обратную сторону ФИО и адреса.</p>
 <p class=align-center>⌘&nbsp;⌘&nbsp;⌘</p>
 <p>И если вам или коллеге когда-нибудь придётся столкнуться с транслитерацией по работе — не тратьте время на Википедию, потому что я его уже потратил и собрал всю нужную информацию:</p>
 <p class=big>
-<a href=https://dangry.ru/iuliia/>Юлия → Iuliia. Руководство по транслитерации</a>
+<a href=https://iuliia.ru/>Юлия → Iuliia. Руководство по транслитерации</a>
 </p>
 <div class=row>
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для подписчиков канала<span class=nowrap><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
@@ -128,28 +128,28 @@
 <hr>
 <ol>
 <li id=fn:1 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/icao-doc-9303/>ICAO Doc 9303</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/icao-doc-9303/>ICAO Doc 9303</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:2 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/gost-16876/>ГОСТ 16876-71</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/gost-16876/>ГОСТ 16876-71</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:3 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/gost-779/>ГОСТ 7.79-2000, он же ISO 9:1995</a>&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/gost-779/>ГОСТ 7.79-2000, он же ISO 9:1995</a>&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:4 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/wikipedia/>Схема Википедии</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/wikipedia/>Схема Википедии</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:5 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/yandex-money>Схема Яндекс.Денег</a>&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/yandex-money>Схема Яндекс.Денег</a>&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:6 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/yandex-maps>Схема Яндекс.Карт</a>&#160;<a href=#fnref:6 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/yandex-maps>Схема Яндекс.Карт</a>&#160;<a href=#fnref:6 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:7 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/mosmetro>Схема Мосметро</a>&#160;<a href=#fnref:7 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/mosmetro>Схема Мосметро</a>&#160;<a href=#fnref:7 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:8 role=doc-endnote>
-<p><a href=https://dangry.ru/iuliia/mvd-310>МВД 310</a>&#160;<a href=#fnref:8 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://iuliia.ru/mvd-310>МВД 310</a>&#160;<a href=#fnref:8 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
