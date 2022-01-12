@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Tue, 04 Jan 2022 11:30:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Все расширения для SQLite</title><link>https://antonz.ru/sqlean/</link><pubDate>Tue, 04 Jan 2022 11:30:00 +0000</pubDate><guid>https://antonz.ru/sqlean/</guid><description>Регулярки, статистика, файлы и еще 100+ функций.</description><content:encoded><![CDATA[<p>Мне очень нравится SQLite. Это миниатюрная встраиваемая база, которая отлично подходит как для исследовательского анализа данных, так и в качестве хранилища для небольших приложений (<a href="https://habr.com/ru/post/547448/">писал об этом</a>, не буду повторяться).</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Wed, 12 Jan 2022 15:15:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Гибкие типы данных в SQLite</title><link>https://antonz.ru/sqlite-types/</link><pubDate>Wed, 12 Jan 2022 15:15:00 +0000</pubDate><guid>https://antonz.ru/sqlite-types/</guid><description>Почему sqlite называют «джаваскриптом в мире баз данных».</description><content:encoded><![CDATA[<p>Люди часто не понимают, что за ерунда происходит в SQLite с типами данных. Давайте разберемся.</p>
+<p>SQLite использует пять типов:</p>
+<ul>
+<li><code>INTEGER</code> — целые числа,</li>
+<li><code>REAL</code> — действительные числа,</li>
+<li><code>TEXT</code> — строки,</li>
+<li><code>BLOB</code> — бинарные данные,</li>
+<li><code>NULL</code> — пустое значение.</li>
+</ul>
+<p>Пока ничего необычного (только типов маловато по сравнению с другими СУБД).</p>
+<p>А как вам такое:</p>
+<blockquote>
+<p>SQLite может хранить данные любого типа — вне зависимости от того, какой тип указан на столбце.</p>
+</blockquote>
+<p>Хотите записать число <code>3.14</code> в integer-поле? Пожалуйста (и никакого округления). Или, может быть, <code>'привет'</code> в поле типа real? Без проблем.</p>
+<p>Дело в том, что SQLite хранит тип не только на столбце, но и на каждом значении в таблице. Именно поэтому в одном столбце без проблем хранятся значения разных типов. Тип на столбце используется как рекомендация: при вставке SQLite пытается привести значение к рекомендуемому типу, но если не получилось — сохраняет «как есть».</p>
+<p>Это удобно для анализа данных — можно сначала все загрузить, а потом средствами SQL разбираться с проблемными значениями. Любая другая СУБД выдаст ошибку при импорте и заставит вас «шерстить» файл скриптами или вручную.</p>
+<p>С другой стороны, это неожиданное поведение, за которое многие недолюбливают SQLite и даже прозвали его «JavaScript в мире баз данных». Со временем разработчики SQLite прислушались и сделали альтернативный механизм «строгих» таблиц — но о нем в другой раз.</p>
+<div class="row">
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
+</div>
+]]></content:encoded></item><item><title>Все расширения для SQLite</title><link>https://antonz.ru/sqlean/</link><pubDate>Tue, 04 Jan 2022 11:30:00 +0000</pubDate><guid>https://antonz.ru/sqlean/</guid><description>Регулярки, статистика, файлы и еще 100+ функций.</description><content:encoded><![CDATA[<p>Мне очень нравится SQLite. Это миниатюрная встраиваемая база, которая отлично подходит как для исследовательского анализа данных, так и в качестве хранилища для небольших приложений (<a href="https://habr.com/ru/post/547448/">писал об этом</a>, не буду повторяться).</p>
 <p>Но есть у нее один недостаток: маловато встроенных функций по сравнению с PostgreSQL или Oracle. К счастью, авторы заложили в SQLite механизм расширений, на котором можно сделать почти все что угодно. В результате интернет заполнен обрывочными расширениями, которые добавляют функцию-другую.</p>
 <p>Мне хотелось большой системности. В результате появился проект <strong>sqlean</strong> — в нем я собираю вместе недостающие в SQLite функции, распределяю их по модулям, рефакторю код, пишу тесты и документацию. Получается что-то вроде стандартной библиотеки, как в Python или Go, только для SQLite.</p>
 <p>Я планирую подробно написать про каждый модуль в отдельной статье, а пока — вот краткий обзор.</p>
@@ -924,22 +945,4 @@ Run Time: real 0.182 user 0.112689 sys 0.014142
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
 </div>
-]]></content:encoded></item><item><title>SQLite-песочница в браузере</title><link>https://antonz.ru/sqlime/</link><pubDate>Tue, 28 Sep 2021 21:13:03 +0000</pubDate><guid>https://antonz.ru/sqlime/</guid><description>Для отладки и шаринга запросов.</description><content:encoded><![CDATA[<p>Чего мне всегда не хватало, так это аналога JSFiddle для SQLite. Онлайн-песочницы, в которой можно быстро проверить SQL-запрос и поделиться с другими.</p>
-<p><a href="https://sqlime.org/"><img src="sqlime.png" alt="SQLime"></a></p>
-<p>Вот чего хотелось:</p>
-<ul>
-<li>Возможность загрузить готовую базу, а не писать SQL для создания таблиц.</li>
-<li>Подключать как локальные базы, так и удаленные (по url).</li>
-<li>Сохранять базу и запросы в облаке.</li>
-<li>Бесплатно и без регистрации.</li>
-<li>Свежайшая версия SQLite.</li>
-<li>Минимализм.</li>
-</ul>
-<p>В итоге сделал такую песочницу сам:</p>
-<ul>
-<li><a href="https://sqlime.org/">демка</a> с пустой базой;</li>
-<li><a href="https://sqlime.org/#gist:e012594111ce51f91590c4737e41a046">пример</a> заполненной базы;</li>
-<li><a href="https://github.com/nalgeon/sqlime">исходники</a>.</li>
-</ul>
-<p><a href="https://habr.com/ru/post/580240/">подробности на Хабре</a></p>
 ]]></content:encoded></item></channel></rss>
