@@ -4,7 +4,7 @@ description = "Считаем суммарные показатели."
 image = "/window-aggregate/cover.png"
 slug = "window-aggregate"
 tags = ["data", "sqlite"]
-title = "Оконные функции: агрегация"
+title = "Оконные функции SQL: агрегация"
 +++
 
 _Это четвертая статья из серии [Оконные функции в картинках](/window-functions). Рекомендую не просто читать, а [проходить курс](https://stepik.org/z/95367) — с ним знания превратятся в навыки._
