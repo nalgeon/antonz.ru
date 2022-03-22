@@ -23,7 +23,7 @@ title = "Запас доверия"
 - В сложной ситуации подсказывает, как мне лучше действовать.
 - Автоматизирует то, что я привык делать вручную.
 
-А как у вас? Поделитесь, интересно. Пишите в [фейсбук](https://www.facebook.com/nalgeon/posts/1029905230444017) или [телеграм](https://t.me/nalgeon)
+А как у вас? Поделитесь, интересно. Пишите в [телеграм](https://t.me/nalgeon)
 
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
