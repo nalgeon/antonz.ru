@@ -21,13 +21,13 @@
 <meta property="og:title" content="Python. Кортеж здорового человека">
 <meta property="og:description" content="С помощью collections.namedtuple">
 <meta property="og:url" content="https://antonz.ru/namedtuple/">
-<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.jpg">
+<meta property="og:image" content="https://antonz.ru/assets/projects/ohmypy-2.png">
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:title content="Python. Кортеж здорового человека">
 <meta name=twitter:description content="С помощью collections.namedtuple">
 <meta name=twitter:url content="https://antonz.ru/namedtuple/">
 <meta name=twitter:site content="@nalgeon">
-<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.jpg"></head>
+<meta name=twitter:image content="https://antonz.ru/assets/projects/ohmypy-2.png"></head>
 <body>
 <div class=header>
 <div class=container>
@@ -177,7 +177,7 @@
 <p>Если вы давно работаете с питоном, то наверняка знаете: легковесный объект можно создать через дандер <code>__slots__</code>:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetSlots</span>:
     <span style=color:#000>__slots__</span> <span style=color:#000>=</span> (<span style=color:#c41a16>&#34;type&#34;</span>, <span style=color:#c41a16>&#34;name&#34;</span>, <span style=color:#c41a16>&#34;age&#34;</span>)
-  
+
     <span style=color:#a90d91>def</span> <span style=color:#000>__init__</span>(<span style=color:#5b269a>self</span>, <span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>):
         <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>type</span> <span style=color:#000>=</span> <span style=color:#a90d91>type</span>
         <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>name</span>
@@ -195,11 +195,11 @@
 </code></pre></div><p>Конструктор namedtuple применяет разную тёмную магию и генерит примерно такой класс (сильно упрощаю):</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>Pet</span>(<span style=color:#a90d91>tuple</span>):
     <span style=color:#000>__slots__</span> <span style=color:#000>=</span> ()
-  
+
     <span style=color:#a90d91>type</span> <span style=color:#000>=</span> <span style=color:#a90d91>property</span>(<span style=color:#000>operator</span><span style=color:#000>.</span><span style=color:#000>itemgetter</span>(<span style=color:#1c01ce>0</span>))
     <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#a90d91>property</span>(<span style=color:#000>operator</span><span style=color:#000>.</span><span style=color:#000>itemgetter</span>(<span style=color:#1c01ce>1</span>))
     <span style=color:#000>age</span> <span style=color:#000>=</span> <span style=color:#a90d91>property</span>(<span style=color:#000>operator</span><span style=color:#000>.</span><span style=color:#000>itemgetter</span>(<span style=color:#1c01ce>2</span>))
-  
+
     <span style=color:#a90d91>def</span> <span style=color:#000>__new__</span>(<span style=color:#5b269a>cls</span>, <span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>):
         <span style=color:#a90d91>return</span> <span style=color:#a90d91>tuple</span><span style=color:#000>.</span><span style=color:#000>__new__</span>(<span style=color:#5b269a>cls</span>, (<span style=color:#a90d91>type</span>, <span style=color:#000>name</span>, <span style=color:#000>age</span>))
 </code></pre></div><p>То есть наш Pet — это обычный <code>tuple</code>, к которому гвоздями приколотили три метода-свойства:</p>
@@ -255,7 +255,7 @@
 <li>именованный доступ к атрибутам,</li>
 <li>лёгкий и неизменяемый.</li>
 </ul>
-<p>И при этом реализован в 150 строк кода. Что ещё надо для счастья ツ</p>
+<p>И при этом реализован в 150 строк кода. Что ещё надо для счастья  ツ</p>
 <p><em>Если хотите узнать больше о стандартной библиотеке Python — подписывайтесь на канал <a href=https://t.me/ohmypy>@ohmypy</a></em></p>
 <p><em><a href=https://habr.com/ru/post/438162/#comments>33 комментария</a></em></p>
 </div>
