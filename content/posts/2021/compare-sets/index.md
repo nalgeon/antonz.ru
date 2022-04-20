@@ -1,7 +1,7 @@
 +++
 date = 2021-05-25T21:16:27Z
 description = "С помощью множества (set)."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "compare-sets"
 tags = ["ohmypy"]
 title = "Поэлементно сравнить коллекции в Python"
@@ -99,6 +99,3 @@ frozenset ({'b', 'd', 'e', 'c', 'a'})
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-
-
-

@@ -1,7 +1,7 @@
 +++
 date = 2019-01-09T13:17:14Z
 description = "С помощью collections.defaultdict или  collections.Counter"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "collections-counter"
 tags = ["ohmypy"]
 title = "Python. Посчитать количество объектов каждого типа"
@@ -64,4 +64,3 @@ dict(stats)
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

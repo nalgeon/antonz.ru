@@ -1,7 +1,7 @@
 +++
 date = 2019-01-21T11:49:29Z
 description = "«unsupported operand type(s) for +» — что происходит вообще?"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "sum-gotcha"
 tags = ["ohmypy"]
 title = "Python. Подвох в функции sum()"
@@ -63,8 +63,8 @@ TypeError: unsupported operand type(s) for +: 'int' and 'Counter'
 
 Оказывается, функция `sum()` принимает два аргумента:
 
-1) последовательность, которую суммируем
-2) первое слагаемое для итоговой суммы, по умолчанию — 0
+1. последовательность, которую суммируем
+2. первое слагаемое для итоговой суммы, по умолчанию — 0
 
 Например:
 
@@ -123,4 +123,3 @@ functools.reduce(operator.add, daily_stats)
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

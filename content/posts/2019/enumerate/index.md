@@ -1,7 +1,7 @@
 +++
 date = 2019-07-02T14:10:00Z
 description = "С помощью enumerate()"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "enumerate"
 tags = ["ohmypy"]
 title = "Python. Пронумеровать элементы коллекции"
@@ -63,4 +63,3 @@ deque(map(print, map(lambda item: f"{item[0]}: {item[1]}", enumerate(answers, st
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
 </div>
-

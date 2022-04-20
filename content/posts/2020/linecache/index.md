@@ -1,7 +1,7 @@
 +++
 date = 2020-06-17T12:57:43Z
 description = "С помощью linecache.getline()"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "linecache"
 tags = ["ohmypy"]
 title = "Python. Прочитать произвольную строку из файла"
@@ -43,6 +43,3 @@ def get_answer():
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-
-
-

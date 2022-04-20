@@ -1,7 +1,7 @@
 +++
 date = 2019-01-25T09:06:58Z
 description = "С помощью deque(maxlen)."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "deque-maxlen"
 tags = ["ohmypy"]
 title = "Python. Хранить последние N объектов"
@@ -67,4 +67,3 @@ deque(['Френк', 'Кен Чан', 'Гоу Чан'], maxlen=3)
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

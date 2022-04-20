@@ -1,7 +1,7 @@
 +++
 date = 2019-02-01T11:52:24Z
 description = "С помощью collections.namedtuple"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "namedtuple"
 tags = ["ohmypy"]
 title = "Python. Кортеж здорового человека"
@@ -44,7 +44,7 @@ frank = Pet(type="pigeon", name="Френк", age=3)
 Pet(type='pigeon', name='Френк', age=4)
 ```
 
-А если хотите сделать всю структуру изменяемой — <code>_asdict()</code>:
+А если хотите сделать всю структуру изменяемой — <code>\_asdict()</code>:
 
 ```python
 >>> frank._asdict()
@@ -175,7 +175,7 @@ AttributeError: 'Pet' object has no attribute '__dict__'
 ```python
 class PetSlots:
     __slots__ = ("type", "name", "age")
-  
+
     def __init__(self, type, name, age):
         self.type = type
         self.name = name
@@ -205,20 +205,20 @@ Pet = namedtuple("Pet", "type name age")
 ```python
 class Pet(tuple):
     __slots__ = ()
-  
+
     type = property(operator.itemgetter(0))
     name = property(operator.itemgetter(1))
     age = property(operator.itemgetter(2))
-  
+
     def __new__(cls, type, name, age):
         return tuple.__new__(cls, (type, name, age))
 ```
 
 То есть наш Pet — это обычный `tuple`, к которому гвоздями приколотили три метода-свойства:
 
-- `type` возвращает нулевой элемент кортежа
-- `name` — первый элемент кортежа
-- `age` — второй элемент кортежа
+-   `type` возвращает нулевой элемент кортежа
+-   `name` — первый элемент кортежа
+-   `age` — второй элемент кортежа
 
 А `__slots__` нужен только для того, чтобы объекты получились лёгкими. В результате Pet и занимает мало места, и может использоваться как обычный кортеж:
 
@@ -284,14 +284,13 @@ frank_frozen = PetFrozen(type="pigeon", name="Френк", age=3)
 
 Мне очень нравится именованный кортеж:
 
-- честный iterable,
-- динамическое объявление типов,
-- именованный доступ к атрибутам,
-- лёгкий и неизменяемый.
+-   честный iterable,
+-   динамическое объявление типов,
+-   именованный доступ к атрибутам,
+-   лёгкий и неизменяемый.
 
-И при этом реализован в 150 строк кода. Что ещё надо для счастья ツ
+И при этом реализован в 150 строк кода. Что ещё надо для счастья  ツ
 
-*Если хотите узнать больше о стандартной библиотеке Python — подписывайтесь на канал [@ohmypy](https://t.me/ohmypy)*
+_Если хотите узнать больше о стандартной библиотеке Python — подписывайтесь на канал [@ohmypy](https://t.me/ohmypy)_
 
-*[33 комментария](https://habr.com/ru/post/438162/#comments)*
-
+_[33 комментария](https://habr.com/ru/post/438162/#comments)_

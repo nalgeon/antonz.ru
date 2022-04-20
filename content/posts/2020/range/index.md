@@ -1,7 +1,7 @@
 +++
 date = 2020-08-07T12:50:42Z
 description = "С помощью range() и его неожиданных возможностей."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "range"
 tags = ["ohmypy"]
 title = "Python. Грамотно работать с любым диапазоном"
@@ -69,9 +69,9 @@ True
 
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
-Кто-то на этом месте скажет «погодите, откуда *O(1)*? у списка ведь `in`, `.index()`, `.count()` выполняются за *O(n)*, почему у диапазона иначе?»
+Кто-то на этом месте скажет «погодите, откуда _O(1)_? у списка ведь `in`, `.index()`, `.count()` выполняются за *O(n)*, почему у диапазона иначе?»
 
-Рассмотрим на примере `in`. Действительно: чтобы проверить, есть ли элемент в списке, придётся обходить элементы списка, пока не найдём искомый — это сложность *O(n)*. Но в случае с диапазоном мы точно знаем первый элемент, последний элемент и шаг. Поэтому разработчики стандартной библиотеки пошли на хитрость.
+Рассмотрим на примере `in`. Действительно: чтобы проверить, есть ли элемент в списке, придётся обходить элементы списка, пока не найдём искомый — это сложность _O(n)_. Но в случае с диапазоном мы точно знаем первый элемент, последний элемент и шаг. Поэтому разработчики стандартной библиотеки пошли на хитрость.
 
 Допустим, есть выражение `x in range(start, stop, step)`. Для положительного step можно обойтись без перебора всех элементов, вот так:
 
@@ -92,9 +92,9 @@ False
 
 Проверили границы, посчитали остаток от деления, бумс, готово. Для `.index()` и `.count()` сделано аналогично, если интересно как — посмотрите исходники (осторожно, код на `C`):
 
-- [range_contains_long](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L368)
-- [range_index](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L562)
-- [range_count](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L544)
+-   [range_contains_long](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L368)
+-   [range_index](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L562)
+-   [range_count](https://github.com/python/cpython/blob/384621c42f9102e31ba2c47feba144af09c989e5/Objects/rangeobject.c#L544)
 
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
@@ -103,6 +103,3 @@ False
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-
-
-

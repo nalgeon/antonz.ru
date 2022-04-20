@@ -1,7 +1,7 @@
 +++
 date = 2019-07-09T14:07:20Z
 description = "С помощью dict.from_keys()"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "dict-from-keys"
 tags = ["ohmypy"]
 title = "Python. Создать словарь по списку ключей"
@@ -57,4 +57,3 @@ counter = Counter(dict.fromkeys(actions, 0))
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
 </div>
-

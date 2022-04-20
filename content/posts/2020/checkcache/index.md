@@ -1,7 +1,7 @@
 +++
 date = 2020-06-30T16:27:34Z
 description = "Чтобы не остаться в продакшене с пустым кешем посреди рабочего дня."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "checkcache"
 tags = ["ohmypy"]
 title = "Зачем читать исходники стандартной библиотеки"
@@ -46,6 +46,3 @@ def checkcache(filename=None):
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-
-
-

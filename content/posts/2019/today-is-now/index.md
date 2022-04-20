@@ -1,7 +1,7 @@
 +++
 date = 2019-02-19T12:32:15Z
 description = "Работа с датой-временем не слишком удалась в Питоне ツ"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "today-is-now"
 tags = ["ohmypy"]
 title = "Python. Сегодня == сейчас"
@@ -42,4 +42,3 @@ False
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

@@ -1,7 +1,7 @@
 +++
 date = 2018-11-29T14:45:00Z
 description = "С помощью модуля textwrap."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "textwrap-fill"
 tags = ["ohmypy"]
 title = "Python. Отформатировать текст для консоли"
@@ -41,4 +41,3 @@ print(inspirational, quote, sep="\n")
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

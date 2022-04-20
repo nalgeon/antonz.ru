@@ -1,7 +1,7 @@
 +++
 date = 2019-06-24T17:02:00Z
 description = "С помощью copy.deepcopy()"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "deepcopy"
 tags = ["ohmypy"]
 title = "Python. Создать полный дубль коллекции"
@@ -92,4 +92,3 @@ Tesla Roadster driven by Starman sent to space!
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
 </div>
-

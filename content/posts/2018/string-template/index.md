@@ -1,7 +1,7 @@
 +++
 date = 2018-12-12T15:32:00Z
 description = "С помощью string.Template"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "string-template"
 tags = ["ohmypy"]
 title = "Python. Шаблонизатор для бедных"
@@ -42,4 +42,3 @@ template.substitute({ "who": "Кот Джарвис"})
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

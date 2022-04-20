@@ -1,7 +1,7 @@
 +++
 date = 2019-02-18T13:35:18Z
 description = "С помощью модуля heapq"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "heapq"
 tags = ["ohmypy"]
 title = "Python. Обработать заявки с учётом приоритетов"
@@ -34,9 +34,9 @@ requests.appendleft(("Френк", "насыпать зёрен"))
 
 Обработка по порядку, всё честно. А теперь допустим, что у заявки появился вес:
 
-- → Лукас, вес 1
-- → Зоя, вес 1
-- → Френк, вес 10
+-   → Лукас, вес 1
+-   → Зоя, вес 1
+-   → Френк, вес 10
 
 Френк с весом 10 должен пойти первым. А Зоя и Лукас — после него, в порядке поступления: сначала Лукас, потом Зоя.
 
@@ -78,4 +78,3 @@ def process(requests):
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

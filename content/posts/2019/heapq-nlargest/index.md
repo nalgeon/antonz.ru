@@ -1,7 +1,7 @@
 +++
 date = 2019-02-11T10:32:16Z
 description = "С помощью heapq.nlargest()"
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "heapq-nlargest"
 tags = ["ohmypy"]
 title = "Python. Выбрать топ-k элементов списка"
@@ -52,4 +52,3 @@ contenders = [
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

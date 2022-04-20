@@ -1,7 +1,7 @@
 +++
 date = 2018-12-04T15:46:00Z
 description = "С помощью pprint.pprint() и аргумента depth."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "pprint-depth"
 tags = ["ohmypy"]
 title = "Python. Кратко напечатать развесистую структуру"
@@ -37,4 +37,3 @@ pprint.pprint(rating, depth=3)
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-

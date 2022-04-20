@@ -1,7 +1,7 @@
 +++
 date = 2019-01-26T15:42:48Z
 description = "float.as_integer_ratio() не так прост, как кажется."
-image = "/assets/projects/ohmypy-2.jpg"
+image = "/assets/projects/ohmypy-2.png"
 slug = "float-as-integer-ratio"
 tags = ["ohmypy"]
 title = "Python. Из десятичной дроби — в обычную"
@@ -42,4 +42,3 @@ title = "Python. Из десятичной дроби — в обычную"
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
 </div>
-
