@@ -3,8 +3,8 @@
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name=yandex-verification content="166c4872c92b3261">
 <meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
-<title>История команд SQLite</title>
-<meta name=description content="Помогает найти запрос, чтобы не вводить заново.">
+<title>Многострочные запросы в консоли SQLite</title>
+<meta name=description content="Как отредактировать большой запрос за один раз">
 <meta name=robots content="index, follow">
 <link rel=stylesheet type=text/css href=/assets/css/style.e5485f3d9455cd273d18af061d88ebe20e91b4df8cb118745360b642b5dfbcbe.css>
 <link rel=icon href=/assets/favicon/favicon.ico>
@@ -14,20 +14,20 @@
 <link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
 <meta name=theme-color content="#fff">
 <meta name=msapplication-TileColor content="#fff">
-<link rel=canonical href=https://antonz.ru/sqlite-history/>
+<link rel=canonical href=https://antonz.ru/sqlite-multiline/>
 <meta name=author content="Антон Жиянов">
 <meta property="og:site_name" content="Антон Жиянов">
 <meta property="og:type" content="article">
-<meta property="og:title" content="История команд SQLite">
-<meta property="og:description" content="Помогает найти запрос, чтобы не вводить заново.">
-<meta property="og:url" content="https://antonz.ru/sqlite-history/">
-<meta property="og:image" content="https://antonz.ru/sqlite-history/cover.png">
+<meta property="og:title" content="Многострочные запросы в консоли SQLite">
+<meta property="og:description" content="Как отредактировать большой запрос за один раз">
+<meta property="og:url" content="https://antonz.ru/sqlite-multiline/">
+<meta property="og:image" content="https://antonz.ru/sqlite-multiline/cover.png">
 <meta name=twitter:card content="summary_large_image">
-<meta name=twitter:title content="История команд SQLite">
-<meta name=twitter:description content="Помогает найти запрос, чтобы не вводить заново.">
-<meta name=twitter:url content="https://antonz.ru/sqlite-history/">
+<meta name=twitter:title content="Многострочные запросы в консоли SQLite">
+<meta name=twitter:description content="Как отредактировать большой запрос за один раз">
+<meta name=twitter:url content="https://antonz.ru/sqlite-multiline/">
 <meta name=twitter:site content="@nalgeon">
-<meta name=twitter:image content="https://antonz.ru/sqlite-history/cover.png"></head>
+<meta name=twitter:image content="https://antonz.ru/sqlite-multiline/cover.png"></head>
 <body>
 <div class=header>
 <div class=container>
@@ -71,28 +71,23 @@
 <div class=row>
 <div class="col-xs-12 col-sm-10 article">
 <header>
-<h1>История команд SQLite</h1>
+<h1>Многострочные запросы в консоли SQLite</h1>
 </header>
-<p>Если вы используете консоль SQLite (<code>sqlite3</code> или <code>sqlite3.exe</code>), то она помнит последние 2000 выполненных команд. Чтобы повторить последнюю команду, достаточно нажать клавишу <code>↑</code>, а поиск работает по сочетанию <code>Ctrl+R</code>.</p>
+<p>Стоило написать, что отлаживать многострочные запросы <a href=/sqlite-history/>в консоли SQLite</a> неудобно, как вычитал на sqlite-форуме классный трюк:</p>
+<p>Достаточно вместо <code>Enter</code> использовать для перехода на новую строку сочетание <code>Ctrl+V</code>, <code>Ctrl+J</code> — и многострочный запрос редактируется одним куском!</p>
 <div class=row>
-<div class="col-xs-12 col-sm-8">
+<div class="col-xs-12 col-sm-7">
 <figure>
-<img alt="Поиск по истории" src=search.jpg>
-<figcaption>Быстрее найти старый запрос, чем вбивать заново</figcaption>
+<img alt="Консоль SQLite" src=multiline.png class=img-bordered-thin>
 </figure>
 </div>
 </div>
-<p>По умолчанию файл истории хранится в каталоге пользователя и называется <code>.sqlite_history</code>. Он текстовый, так что можно просматривать хоть в редакторе. Если хотите сохранить в другом месте — укажите полный путь в переменной окружения <code>SQLITE_HISTORY</code>.</p>
-<div class=row>
-<div class="col-xs-12 col-sm-8">
-<figure>
-<img alt="Файл истории" src=history.jpg>
-<figcaption>Синхронизируйте файл истории через Яндекс-диск или Дропбокс, чтобы искать запросы на всех устройствах</figcaption>
-</figure>
-</div>
-</div>
-<p>История записывается в файл при штатном выходе из консоли, так что если «моргнет» электричество или еще что — команды, выполненные с последнего запуска sqlite3, потеряются.</p>
-<p>Конечно, запись истории — не единственная фича консоли. Например, через нее удобно <a href="https://stepik.org/lesson/469658/step/1?unit=460482">импортировать и экспортировать данные</a> или работать с несколькими базами одновременно. А вот отлаживать <a href=/sqlite-multiline/>многострочные запросы</a> — не слишком удобно 🤷‍♀️</p>
+<p>Еще несколько способов, которые используют люди:</p>
+<ul>
+<li>Внешний редактор (<code>.shell &lt;editor> &lt;file></code>)</li>
+<li>Запуск из файла (<code>.read &lt;file></code>)</li>
+<li>DBeaver, DataGrip или аналоги</li>
+</ul>
 <div class=row>
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class=nowrap><i class="fas fa-database"></i> «<a href=https://t.me/sqliter><strong>SQLite на практике</strong></a>»</span></em></p></div>
 </div>
@@ -101,7 +96,7 @@
 <div class=row>
 <div class=col-xs-12>
 <div class=post__date>
-<time datetime="2022-04-17 14:50:00 +0000 UTC">17.04.2022</time>
+<time datetime="2022-04-24 21:30:00 +0000 UTC">24.04.2022</time>
 </div>
 <div class=post__tags>
 <a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
@@ -113,10 +108,7 @@
 <div class="post__nav article">
 <div class=row>
 <div class="col-xs-12 col-sm-6">
-<p>&larr;&nbsp;<a href=https://antonz.ru/sqlite-types/>Гибкие типы данных в SQLite</a></p>
-</div>
-<div class="col-xs-12 col-sm-6">
-<p><a href=https://antonz.ru/functools-cache/>Закешировать результат вычислений в Python</a>&nbsp;&rarr;</p>
+<p>&larr;&nbsp;<a href=https://antonz.ru/functools-cache/>Закешировать результат вычислений в Python</a></p>
 </div>
 </div>
 </div>
@@ -124,9 +116,9 @@
 <div class=row>
 <div class="col-xs-12 col-sm-8 col-md-6">
 <h3>Ещё по теме</h3>
+<p><a href=/sqlite-history/>История команд SQLite</a></p>
 <p><a href=/sqlite-types/>Гибкие типы данных в SQLite</a></p>
 <p><a href=/sqlean/>Все расширения для SQLite</a></p>
-<p><a href=/similar-words/>Быстрый поиск похожих слов на SQL</a></p>
 </div>
 </div>
 </div>
