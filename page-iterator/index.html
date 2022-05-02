@@ -91,7 +91,7 @@
     <span style=color:#a90d91>yield</span> <span style=color:#000>page</span>
 </code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>reader</span> <span style=color:#000>=</span> <span style=color:#000>fetch_toys</span>()
 <span style=color:#000>page_size</span> <span style=color:#000>=</span> <span style=color:#1c01ce>10_000</span>
-<span style=color:#a90d91>for</span> <span style=color:#000>page</span> <span style=color:#000>in</span> <span style=color:#000>paginate</span>(<span style=color:#000>reader</span>, <span style=color:#000>page_size</span>)
+<span style=color:#a90d91>for</span> <span style=color:#000>page</span> <span style=color:#000>in</span> <span style=color:#000>paginate</span>(<span style=color:#000>reader</span>, <span style=color:#000>page_size</span>):
     <span style=color:#000>process_batch</span>(<span style=color:#000>page</span>)
 </code></pre></div><p>Реализация рабочая, но есть проблемка. Такой постраничный обход заметно медленнее обычного итерирования по одной записи.</p>
 <h2 id=скорость-обхода>Скорость обхода</h2>
@@ -105,7 +105,7 @@
 <span style=color:#a90d91>def</span> <span style=color:#000>batch</span>(<span style=color:#000>page_size</span>, <span style=color:#000>a</span>, <span style=color:#000>b</span>):
     <span style=color:#c41a16>&#34;&#34;&#34;Processes records in batches, with pagination&#34;&#34;&#34;</span>
     <span style=color:#000>rdr</span> <span style=color:#000>=</span> <span style=color:#000>reader</span>(<span style=color:#000>a</span>, <span style=color:#000>b</span>)
-    <span style=color:#a90d91>for</span> <span style=color:#000>page</span> <span style=color:#000>in</span> <span style=color:#000>paginate</span>(<span style=color:#000>rdr</span>, <span style=color:#000>page_size</span><span style=color:#000>=</span><span style=color:#000>page_size</span>):
+    <span style=color:#a90d91>for</span> <span style=color:#000>page</span> <span style=color:#000>in</span> <span style=color:#000>paginate</span>(<span style=color:#000>rdr</span>, <span style=color:#000>page_size</span>):
         <span style=color:#000>process_batch</span>(<span style=color:#000>page</span>)
 
 <span style=color:#000>times</span> <span style=color:#000>=</span> <span style=color:#1c01ce>10</span>
