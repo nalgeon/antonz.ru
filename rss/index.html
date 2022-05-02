@@ -1,4 +1,105 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Sun, 24 Apr 2022 21:30:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Многострочные запросы в консоли SQLite</title><link>https://antonz.ru/sqlite-multiline/</link><pubDate>Sun, 24 Apr 2022 21:30:00 +0000</pubDate><guid>https://antonz.ru/sqlite-multiline/</guid><description>Как отредактировать большой запрос за один раз</description><content:encoded><![CDATA[<p>Стоило написать, что отлаживать многострочные запросы <a href="/sqlite-history/">в консоли SQLite</a> неудобно, как вычитал на sqlite-форуме классный трюк:</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Mon, 02 May 2022 13:00:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Постраничный итератор в Python</title><link>https://antonz.ru/page-iterator/</link><pubDate>Mon, 02 May 2022 13:00:00 +0000</pubDate><guid>https://antonz.ru/page-iterator/</guid><description>Обходим датасет страницами для быстрой пакетной обработки.</description><content:encoded><![CDATA[<p>Предположим, вы считаете статистику по огромному датасету игрушек, проданных по всей стране за прошлый год:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">reader</span> <span style="color:#000">=</span> <span style="color:#000">fetch_toys</span>()
+<span style="color:#a90d91">for</span> <span style="color:#000">item</span> <span style="color:#000">in</span> <span style="color:#000">reader</span>:
+    <span style="color:#000">process_single</span>(<span style="color:#000">item</span>)
+</code></pre></div><p><code>process_single()</code> занимает 10 мс, так что 400 млн игрушек обработаются за 46 дней 😱</p>
+<p>В результате оживленного диалога вам удается убедить разработчиков, что так не очень быстро. На свет появляется функция <code>process_batch()</code>, которая обрабатывает 10000 игрушек за 1 сек. Это уже 11 часов на все игрушки, что значительно приятнее.</p>
+<p>Как бы теперь пройти по датасету пакетами по 10 тысяч записей? Тут и пригодится постраничный итератор!</p>
+<h2 id="наивный-постраничник">Наивный постраничник</h2>
+<p>Пройдем по исходной последовательности, постепенно заполняя страницу. Как заполнится — отдадим через <code>yield</code> и начнем заполнять следующую. Будем продолжать, пока исходная последовательность не закончится:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">paginate</span>(<span style="color:#000">iterable</span>, <span style="color:#000">page_size</span>):
+    <span style="color:#000">page</span> <span style="color:#000">=</span> []
+    <span style="color:#a90d91">for</span> <span style="color:#000">item</span> <span style="color:#000">in</span> <span style="color:#000">iterable</span>:
+        <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">append</span>(<span style="color:#000">item</span>)
+        <span style="color:#a90d91">if</span> <span style="color:#a90d91">len</span>(<span style="color:#000">page</span>) <span style="color:#000">==</span> <span style="color:#000">page_size</span>:
+            <span style="color:#a90d91">yield</span> <span style="color:#000">page</span>
+            <span style="color:#000">page</span> <span style="color:#000">=</span> []
+    <span style="color:#a90d91">yield</span> <span style="color:#000">page</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">reader</span> <span style="color:#000">=</span> <span style="color:#000">fetch_toys</span>()
+<span style="color:#000">page_size</span> <span style="color:#000">=</span> <span style="color:#1c01ce">10_000</span>
+<span style="color:#a90d91">for</span> <span style="color:#000">page</span> <span style="color:#000">in</span> <span style="color:#000">paginate</span>(<span style="color:#000">reader</span>, <span style="color:#000">page_size</span>)
+    <span style="color:#000">process_batch</span>(<span style="color:#000">page</span>)
+</code></pre></div><p>Реализация рабочая, но есть проблемка. Такой постраничный обход заметно медленнее обычного итерирования по одной записи.</p>
+<h2 id="скорость-обхода">Скорость обхода</h2>
+<p>Сравним два обхода — одиночный и постраничный:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">one_by_one</span>(<span style="color:#000">a</span>, <span style="color:#000">b</span>):
+    <span style="color:#c41a16">&#34;&#34;&#34;Processes records one-by-one, without pagination&#34;&#34;&#34;</span>
+    <span style="color:#000">rdr</span> <span style="color:#000">=</span> <span style="color:#000">reader</span>(<span style="color:#000">a</span>, <span style="color:#000">b</span>)
+    <span style="color:#a90d91">for</span> <span style="color:#000">record</span> <span style="color:#000">in</span> <span style="color:#000">rdr</span>:
+        <span style="color:#000">process_single</span>(<span style="color:#000">record</span>)
+
+<span style="color:#a90d91">def</span> <span style="color:#000">batch</span>(<span style="color:#000">page_size</span>, <span style="color:#000">a</span>, <span style="color:#000">b</span>):
+    <span style="color:#c41a16">&#34;&#34;&#34;Processes records in batches, with pagination&#34;&#34;&#34;</span>
+    <span style="color:#000">rdr</span> <span style="color:#000">=</span> <span style="color:#000">reader</span>(<span style="color:#000">a</span>, <span style="color:#000">b</span>)
+    <span style="color:#a90d91">for</span> <span style="color:#000">page</span> <span style="color:#000">in</span> <span style="color:#000">paginate</span>(<span style="color:#000">rdr</span>, <span style="color:#000">page_size</span><span style="color:#000">=</span><span style="color:#000">page_size</span>):
+        <span style="color:#000">process_batch</span>(<span style="color:#000">page</span>)
+
+<span style="color:#000">times</span> <span style="color:#000">=</span> <span style="color:#1c01ce">10</span>
+
+<span style="color:#000">page_size</span> <span style="color:#000">=</span> <span style="color:#1c01ce">10_000</span>
+<span style="color:#000">a</span> <span style="color:#000">=</span> <span style="color:#1c01ce">1_000_000</span>
+<span style="color:#000">b</span> <span style="color:#000">=</span> <span style="color:#1c01ce">2_000_000</span>
+
+<span style="color:#000">fn</span> <span style="color:#000">=</span> <span style="color:#a90d91">lambda</span>: <span style="color:#000">one_by_one</span>(<span style="color:#000">a</span>, <span style="color:#000">b</span>)
+<span style="color:#000">total</span> <span style="color:#000">=</span> <span style="color:#000">timeit</span><span style="color:#000">.</span><span style="color:#000">timeit</span>(<span style="color:#000">fn</span>, <span style="color:#000">number</span><span style="color:#000">=</span><span style="color:#000">times</span>)
+<span style="color:#000">it_time</span> <span style="color:#000">=</span> <span style="color:#a90d91">round</span>(<span style="color:#000">total</span> <span style="color:#000">*</span> <span style="color:#1c01ce">1000</span> <span style="color:#000">/</span> <span style="color:#000">times</span>)
+<span style="color:#a90d91">print</span>(<span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;One-by-one (baseline): </span><span style="color:#c41a16">{</span><span style="color:#000">it_time</span><span style="color:#c41a16">}</span><span style="color:#c41a16"> ms&#34;</span>)
+
+<span style="color:#000">fn</span> <span style="color:#000">=</span> <span style="color:#a90d91">lambda</span>: <span style="color:#000">batch</span>(<span style="color:#000">page_size</span>, <span style="color:#000">a</span>, <span style="color:#000">b</span>)
+<span style="color:#000">total</span> <span style="color:#000">=</span> <span style="color:#000">timeit</span><span style="color:#000">.</span><span style="color:#000">timeit</span>(<span style="color:#000">fn</span>, <span style="color:#000">number</span><span style="color:#000">=</span><span style="color:#000">times</span>)
+<span style="color:#000">it_time</span> <span style="color:#000">=</span> <span style="color:#a90d91">round</span>(<span style="color:#000">total</span> <span style="color:#000">*</span> <span style="color:#1c01ce">1000</span> <span style="color:#000">/</span> <span style="color:#000">times</span>)
+<span style="color:#a90d91">print</span>(<span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;Fill page with append(): </span><span style="color:#c41a16">{</span><span style="color:#000">it_time</span><span style="color:#c41a16">}</span><span style="color:#c41a16"> ms&#34;</span>)
+</code></pre></div><p>Вот результат на 1 млн записей и странице размером в 10 тысяч:</p>
+<pre tabindex="0"><code>One-by-one (baseline):   161 ms
+Fill page with append(): 227 ms
+</code></pre><p>Постраничный обход медленнее почти в полтора раза!</p>
+<p>Дело в том, что на каждой итерации цикла мы создаем новый пустой список и затем постепенно заполняем его. Питону приходится постоянно увеличивать размер массива под списком, а это затратная операция — O(n) от количества элементов в списке.</p>
+<h2 id="фиксированная-страница">Фиксированная страница</h2>
+<p>Попробуем заранее создать список нужной длины и использовать его для всех страниц.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">paginate</span>(<span style="color:#000">iterable</span>, <span style="color:#000">page_size</span>):
+    <span style="color:#000">page</span> <span style="color:#000">=</span> [<span style="color:#a90d91">None</span>] <span style="color:#000">*</span> <span style="color:#000">page_size</span>
+    <span style="color:#000">idx</span> <span style="color:#000">=</span> <span style="color:#1c01ce">0</span>
+    <span style="color:#a90d91">for</span> <span style="color:#000">item</span> <span style="color:#000">in</span> <span style="color:#000">iterable</span>:
+        <span style="color:#000">page</span>[<span style="color:#000">idx</span>] <span style="color:#000">=</span> <span style="color:#000">item</span>
+        <span style="color:#000">idx</span> <span style="color:#000">+=</span> <span style="color:#1c01ce">1</span>
+        <span style="color:#a90d91">if</span> <span style="color:#000">idx</span> <span style="color:#000">==</span> <span style="color:#000">page_size</span>:
+            <span style="color:#a90d91">yield</span> <span style="color:#000">page</span>
+            <span style="color:#000">idx</span> <span style="color:#000">=</span> <span style="color:#1c01ce">0</span>
+    <span style="color:#a90d91">yield</span> <span style="color:#000">page</span>[:<span style="color:#000">idx</span>]
+</code></pre></div><p>Повторим сравнение:</p>
+<pre tabindex="0"><code>One-by-one (baseline):   161 ms
+Fill page with append(): 227 ms
+Use fixed-size page:     162 ms
+</code></pre><p>Заметно быстрее! Скорость сравнялась с обычным итерированим по одной записи.</p>
+<h2 id="итерация-срезами">Итерация срезами</h2>
+<p>Можно ли ещё быстрее? Алгоритмически — нет. А вот практически — да, если перенести как можно больше действий из кода на питоне в библиотечный код на си. В этом поможет модуль <code>itertools()</code> и его функция <code>islice()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">paginate</span>(<span style="color:#000">iterable</span>, <span style="color:#000">page_size</span>):
+    <span style="color:#000">it</span> <span style="color:#000">=</span> <span style="color:#a90d91">iter</span>(<span style="color:#000">iterable</span>)
+    <span style="color:#000">slicer</span> <span style="color:#000">=</span> <span style="color:#a90d91">lambda</span>: <span style="color:#a90d91">list</span>(<span style="color:#000">itertools</span><span style="color:#000">.</span><span style="color:#000">islice</span>(<span style="color:#000">it</span>, <span style="color:#000">page_size</span>))
+    <span style="color:#a90d91">return</span> <span style="color:#a90d91">iter</span>(<span style="color:#000">slicer</span>, [])
+</code></pre></div><p>Вот что здесь происходит:</p>
+<ul>
+<li><code>islice()</code> создаёт итератор (назовем его слайсером), который обходит переданную ему последовательность, пока не выберет из нее <code>page_size</code> элементов;</li>
+<li><code>list()</code> выбирает все элементы из этого маленького итератора — получается страница;</li>
+<li>поскольку <code>islice()</code> работает поверх основного итератора, при следующем вызове он продолжит с того же места, где остановился до этого;</li>
+<li>конструкция <code>iter(slicer, [])</code> создает итератор, который на каждом шаге вызывает слайсер;</li>
+<li>таким образом, функция <code>paginate()</code> возвращает итератор, который на каждом шаге выбирает очередную страницу через слайсер, провигаясь по основной последовательности — пока она не закончится.</li>
+</ul>
+<p>Посмотрите, до чего хорош такой вариант:</p>
+<pre tabindex="0"><code>One-by-one (baseline):   161 ms
+Fill page with append(): 227 ms
+Use fixed-size page:     162 ms
+Use islice:               93 ms
+</code></pre><p>На 40% быстрее обычного итератора по одной записи!</p>
+<h2 id="итого">Итого</h2>
+<p>Постраничный обход отлично работает везде, где пакетная операция выполняется сильно быстрее набора одиночных. Чтобы не писать такой обход каждый раз с нуля, удобно использовать универсальный <em>постраничный итератор</em>.</p>
+<p>Постраничный итератор, который динамически заполняет список, работает медленно — из-за постоянного изменения размера массива. Лучше использовать список фиксированного размера, а еще лучше — итерацию на основе <code>itertools.islice()</code></p>
+<p>Рекомендую!</p>
+<p><a href="https://replit.com/@antonz/page-iterator#main.py">песочница</a></p>
+<div class="row">
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Подписывайтесь на канал <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy"><strong>Oh My Py</strong></a>»</span>, чтобы узнать больше о чистом коде на Python</em></p></div>
+</div>
+]]></content:encoded></item><item><title>Многострочные запросы в консоли SQLite</title><link>https://antonz.ru/sqlite-multiline/</link><pubDate>Sun, 24 Apr 2022 21:30:00 +0000</pubDate><guid>https://antonz.ru/sqlite-multiline/</guid><description>Как отредактировать большой запрос за один раз</description><content:encoded><![CDATA[<p>Стоило написать, что отлаживать многострочные запросы <a href="/sqlite-history/">в консоли SQLite</a> неудобно, как вычитал на sqlite-форуме классный трюк:</p>
 <p>Достаточно вместо <code>Enter</code> использовать для перехода на новую строку сочетание <code>Ctrl+V</code>, <code>Ctrl+J</code> — и многострочный запрос редактируется одним куском!</p>
 <div class="row">
 <div class="col-xs-12 col-sm-7">
@@ -539,142 +640,4 @@ Run Time: real 0.182 user 0.112689 sys 0.014142
 ]]></content:encoded></item><item><title>Что нового в SQLite 3.37</title><link>https://antonz.ru/sqlite-3-37/</link><pubDate>Sun, 28 Nov 2021 15:25:00 +0000</pubDate><guid>https://antonz.ru/sqlite-3-37/</guid><description>Строгие таблицы, any-тип и новая прагма.</description><content:encoded><![CDATA[<p>В отличие от <a href="/sqlite-3-35">3.35</a>, релиз 3.37 принес не так много изменений. Но среди них — одно из важнейших за всю историю: «строгий» режим таблиц, в котором движок следит, чтобы данные в столбце соответствовали типу.</p>
 <p>Возможно, теперь SQLite перестанут называть «джаваскриптом в мире СУБД» ツ Но давайте по порядку.</p>
 <p><a href="https://habr.com/ru/news/t/592085/">подробности на Хабре</a></p>
-]]></content:encoded></item><item><title>Скорость алгоритмов и котики</title><link>https://antonz.ru/big-o/</link><pubDate>Thu, 25 Nov 2021 16:30:00 +0000</pubDate><guid>https://antonz.ru/big-o/</guid><description>Разбираем быстрые и медленные алгоритмы на шерстяных жопках.</description><content:encoded><![CDATA[<p>Давайте посмотрим, как программисты оценивают быстрые и медленные алгоритмы. Поскольку тема максимально занудная, разбираться будем на дурацких примерах с котиками.</p>
-<h2 id="константное-время-o1">Константное время, O(1)</h2>
-<p>Самый лучший вариант, скорость алгоритма не зависит от количества котиков.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Вы — счастливый обладатель <code>N</code> котиков. Каждый котик знает, как его зовут. Если позвать «Клёпа!», то прибежит только он, а остальным <code>N-1</code> жопкам пофиг.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Константное время" src="01-constant.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<h2 id="логарифмическое-время-ologn">Логарифмическое время, O(log n)</h2>
-<p>На <code>N</code> котиках алгоритм отрабатывает за <code>log(N)</code> шагов. Это быстро! 1 000 000 котиков → всего 20 операций.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Мисочки у котиков расставлены по алфавиту. Когда у вас появляется новый котик, место для его мисочки находится за <code>log(N)</code> шагов.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Логарифмическое время" src="02-log.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<h2 id="линейное-время-on">Линейное время, O(n)</h2>
-<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N</code> шагов. Это значит, каждый раз приходится перебирать всех кошачьих. Ну такое.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Котики взбунтовались и перестали отзываться на клички. Теперь приходится обходить <code>N</code> шубок, чтобы найти нужного.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Линейное время" src="03-linear.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<h2 id="линейно-логарифмическое-время-onlogn">Линейно-логарифмическое время, O(n log n)</h2>
-<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N</code> × <code>log(N)</code> шагов. Это дольше, чем за линейное время, но ненамного (логарифм <code>N</code> сильно меньше <code>N</code>, помните?).</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>К приходу гостей вы решили рассадить котиков по размеру. Алгоритм quick sort справится с этим за <code>N</code> × <code>log(N)</code> шагов.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Линейно-логарифмическое время" src="04-log-linear.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<p>На очереди у нас неторопливые полиномиальные котики и совсем улиточки — суперполиномиальные.</p>
-<h2 id="квадратичное-время-on">Квадратичное время O(n²)</h2>
-<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N²</code> шагов. Ме-е-едленно.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Конкурент утверждает, что его <code>N</code> котиков более гладкие и довольные, чем ваши. Специальная комиссия попарно сравнит хвостатых и вынесет справедливый вердикт. Понадобится ~ <code>N²</code> сравнений.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Квадратичное время" src="05-quadratic.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<h2 id="полиномиальное-время-onᵏ">Полиномиальное время, O(nᵏ)</h2>
-<p>На <code>N</code> котиках алгоритм отрабатывает за <code>N³</code> шагов, <code>N⁴</code> шагов, <code>N⁵</code> шагов, или ещё дольше. Фу таким быть.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Фотосессия! Каждого из <code>N</code> котиков надо попарно отфоткать с другими, причем фотограф делает <code>N</code> снимков на каждую пару. <code>N</code> × <code>N</code> × <code>N</code> ≃ <code>N³</code> шагов.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Полиномиальное время" src="06-polinomial.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<p>Хоть полиномиальные алгоритмы и не славятся быстротой, по сравнению с суперполиномиальными они стремительны как Флеш. Из «суперского» у суперполиномиальных только название, увы. Сейчас покажу.</p>
-<h2 id="экспоненциальное-время-o2ⁿ">Экспоненциальное время, O(2ⁿ)</h2>
-<p>На <code>N</code> котиках алгоритм отрабатывает за <code>2ⁿ</code> шагов. Это долго, вы вряд ли дождетесь.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Котики отправляются на выставку. Каждого взвесили и оценили в звездах. Но перевозка рассчитана максимум на X килограмм. Как выбрать самый звездный состав? Ответ потребует <code>2ⁿ</code> шагов.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Экспоненциальное время" src="07-exponential.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<h2 id="факториальное-время-on">Факториальное время, O(n!)</h2>
-<p>На <code>N</code> котиках алгоритм отработает за <code>N</code> × <code>(N-1)</code> × <code>(N-2)</code> ×… × <code>1</code> шагов. Это жесть! Всего 20 котиков уже дадут нам пару квинтиллионов операций.</p>
-<div class="row">
-<div class="col-xs-12 col-sm-6 flex">
-<div class="boxed">
-    <p><strong>🐾 Пример</strong></p>
-    <p>Котики расселись по квартире. Вам хочется пожамкать каждого, но ходить лень. Какой кратчайший маршрут, чтобы обойти всех шерстяных жопок? Это ~ <code>N!</code> сравнений.</p>
-</div>
-</div>
-<div class="col-xs-12 col-sm-6">
-<figure>
-  <img alt="Факториальное время" src="08-factorial.jpg" class="img-bordered-thin">
-</figure>
-</div>
-</div>
-<h2 id="резюме">Резюме</h2>
-<p>Вот какие алгоритмы мы рассмотрели:</p>
-<ul>
-<li>Константные <code>O(1)</code></li>
-<li>Логарифмические <code>O(log n)</code></li>
-<li>Линейные <code>O(n)</code></li>
-<li>Линейно-логарифмические <code>O(n log n)</code></li>
-<li>Квадратичные <code>O(n²)</code></li>
-<li>Полиномиальные <code>O(nᵏ)</code></li>
-<li>Экспоненциальные <code>O(2ⁿ)</code></li>
-<li>Факториальные <code>O(n!)</code></li>
-</ul>
-<p>Константный алгоритм — всегда лучший вариант, а логарифмический — почти всегда. С линейными и полиномиальными сложнее — тут все зависит от задачи. Где-то стыдно выбирать <code>O(n)</code>, а где-то и <code>O(n²)</code> будет большим успехом.</p>
-<p><code>O(2ⁿ)</code> и <code>O(n!)</code> безумно медленные, поэтому на практике вместо них обычно используют неоптимальные, но быстрые алгоритмы.</p>
-<p><em>Всем котиков! И подписывайтесь на <a href="https://t.me/ohmypy">Oh My Py</a>, чтобы не пропустить новые заметки 🚀</em></p>
 ]]></content:encoded></item></channel></rss>
