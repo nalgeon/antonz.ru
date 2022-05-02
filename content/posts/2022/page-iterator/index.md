@@ -39,7 +39,7 @@ def paginate(iterable, page_size):
 ```python
 reader = fetch_toys()
 page_size = 10_000
-for page in paginate(reader, page_size)
+for page in paginate(reader, page_size):
     process_batch(page)
 ```
 
@@ -59,7 +59,7 @@ def one_by_one(a, b):
 def batch(page_size, a, b):
     """Processes records in batches, with pagination"""
     rdr = reader(a, b)
-    for page in paginate(rdr, page_size=page_size):
+    for page in paginate(rdr, page_size):
         process_batch(page)
 
 times = 10
