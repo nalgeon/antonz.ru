@@ -14,9 +14,15 @@ title = "Миф о сложности Oracle Database"
 Чтобы разрабатывать приложения любой сложности (ладно, кроме биллинга МТС и процессинга Сбербанка) и знать о работе СУБД больше, чем 90% людей в индустрии, достаточно выполнить шаги:
 
 1. Освоить основы реляционных БД и SQL: курсы Стенфорда [Modeling and Theory](https://www.edx.org/course/modeling-and-theory) и [SQL](https://www.edx.org/course/databases-5-sql) — 1 месяц.
+
 2. Разобраться, как работают [индексы](http://use-the-index-luke.com/sql/preface) — 1 месяц.
-3. Понять архитектуру БД Оракла: посмотреть [10-минутное видео](http://youtu.be/yk8esAZKz4k) и прочитать главу «Developing Successfull Oracle Applications» из книги [Expert Oracle Database Architecture](https://www.amazon.com/dp/1430262982/) — 1 день.
+
+3. Понять архитектуру БД Оракла: посмотреть [10-минутное видео](http://youtu.be/yk8esAZKz4k) и прочитать главу «Developing Successfull Oracle Applications» из книги [Expert Oracle Database Architecture](https://www.amazon.com/dp/1484274989/) — 1 день.
+
 4. (необязательно) Чтобы приобрести виртуальные залысины, прочитать книгу [Oracle Core](http://www.amazon.com/Oracle-Core-Essential-Internals-Developers-ebook/dp/B006C9EN1U/), в ней всего 250 страниц, в отличие от. Еще 1–3 месяца.
 
 И каждый шаг закрепить практикой. Все, вы восхитительны.
 
+<div class="row">
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Лично мне SQLite милее Оракла. Если вам тоже — подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter"><strong>SQLite на практике</strong></a>»</span></em></p></div>
+</div>
