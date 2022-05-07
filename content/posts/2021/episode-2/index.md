@@ -9,11 +9,4 @@ title = "Моментальный поиск"
 
 Что такое индекс в базе данных и как он работает. Никакой магии!
 
-<iframe src="https://anchor.fm/nalgeon/embed/episodes/ep-er9i8l" height="102px" width="360px" frameborder="0" scrolling="no"></iframe>
-
 [Анатомия индекса](https://use-the-index-luke.com/sql/anatomy)
-
-[Поддержать подкаст + бонусы](https://www.patreon.com/nalgeon)
-
-
-
