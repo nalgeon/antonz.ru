@@ -1,4 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Mon, 02 May 2022 13:00:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Постраничный итератор в Python</title><link>https://antonz.ru/page-iterator/</link><pubDate>Mon, 02 May 2022 13:00:00 +0000</pubDate><guid>https://antonz.ru/page-iterator/</guid><description>Обходим датасет страницами для быстрой пакетной обработки.</description><content:encoded><![CDATA[<p>Предположим, вы считаете статистику по огромному датасету игрушек, проданных по всей стране за прошлый год:</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Sat, 07 May 2022 17:10:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Вычисляемые столбцы в SQLite</title><link>https://antonz.ru/generated-columns/</link><pubDate>Sat, 07 May 2022 17:10:00 +0000</pubDate><guid>https://antonz.ru/generated-columns/</guid><description>Чтобы не повторять сложные выражения в каждом запросе.</description><content:encoded><![CDATA[<p>Иногда поле в запросе рассчитывают на основе других столбцов таблицы. Например, есть столбец <code>income</code> с годовым доходом и <code>tax_rate</code> с налоговой ставкой:</p>
+<pre tabindex="0"><code>┌────────┬──────────┐
+│ income │ tax_rate │
+├────────┼──────────┤
+│ 70     │ 0.22     │
+│ 84     │ 0.22     │
+│ 90     │ 0.24     │
+└────────┴──────────┘
+</code></pre><p>Можно посчитать годовой налог:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">select</span>
+  <span style="color:#000">id</span>,
+  <span style="color:#000">income</span> <span style="color:#000">*</span> <span style="color:#000">tax_rate</span> <span style="color:#a90d91">as</span> <span style="color:#000">tax</span>
+<span style="color:#a90d91">from</span> <span style="color:#000">people</span>;
+</code></pre></div><p>А чтобы не таскать везде это выражение, удобно создать виртуальный <em>вычисляемый столбец</em> (generated column):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">alter</span> <span style="color:#a90d91">table</span> <span style="color:#000">people</span>
+<span style="color:#a90d91">add</span> <span style="color:#a90d91">column</span> <span style="color:#000">tax</span> <span style="color:#a90d91">real</span> <span style="color:#a90d91">as</span> (
+  <span style="color:#000">income</span> <span style="color:#000">*</span> <span style="color:#000">tax_rate</span>
+);
+</code></pre></div><p>После этого столбец можно использовать в запросах точно так же, как обычные столбцы:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">select</span> <span style="color:#000">id</span>, <span style="color:#000">tax</span>
+<span style="color:#a90d91">from</span> <span style="color:#000">people</span>;
+</code></pre></div><p>Виртуальные столбцы не хранятся в базе и рассчитываются «на лету». Но по ним вполне можно построить индекс, чтобы ускорить выборку.</p>
+<blockquote>
+<p>Строго говоря, в SQLite есть <em>виртуальные</em> (virtual) вычисляемые столбцы и <em>хранимые</em> (stored). Хранимые сохраняются на диске, но создать их через <code>alter table</code> невозможно, поэтому в основном пользуются виртуальными.</p>
+</blockquote>
+<p>В общем виде синтаксис вычисляемых столбцов такой:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">alter</span> <span style="color:#a90d91">table</span> <span style="color:#000">ТАБЛИЦА</span>
+<span style="color:#a90d91">add</span> <span style="color:#a90d91">column</span> <span style="color:#000">СТОЛБЕЦ</span> <span style="color:#000">ТИП</span> <span style="color:#a90d91">as</span> (<span style="color:#000">ВЫРАЖЕНИЕ</span>);
+</code></pre></div><p>Вычисляемые столбцы могут использовать любые колонки таблицы, но не другие таблицы и не результаты подзапросов. Оно и к лучшему: для более сложных комбинаций есть <em>представления</em> (views) и <em>временные таблицы</em> (temp tables). Но о них как-нибудь в другой раз.</p>
+<p><a href="https://sqlite.org/gencol.html">документация</a> • <a href="https://sqlime.org/#gist:5208177f89a0e38ccfae8ead90a35631">песочница</a></p>
+<div class="row">
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter"><strong>SQLite на практике</strong></a>»</span>, чтобы узнать больше о возможностях SQLite</em></p></div>
+</div>
+]]></content:encoded></item><item><title>Постраничный итератор в Python</title><link>https://antonz.ru/page-iterator/</link><pubDate>Mon, 02 May 2022 13:00:00 +0000</pubDate><guid>https://antonz.ru/page-iterator/</guid><description>Обходим датасет страницами для быстрой пакетной обработки.</description><content:encoded><![CDATA[<p>Предположим, вы считаете статистику по огромному датасету игрушек, проданных по всей стране за прошлый год:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">reader</span> <span style="color:#000">=</span> <span style="color:#000">fetch_toys</span>()
 <span style="color:#a90d91">for</span> <span style="color:#000">item</span> <span style="color:#000">in</span> <span style="color:#000">reader</span>:
     <span style="color:#000">process_single</span>(<span style="color:#000">item</span>)
@@ -637,7 +670,4 @@ Run Time: real 0.182 user 0.112689 sys 0.014142
 <div class="row">
 <div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
 </div>
-]]></content:encoded></item><item><title>Что нового в SQLite 3.37</title><link>https://antonz.ru/sqlite-3-37/</link><pubDate>Sun, 28 Nov 2021 15:25:00 +0000</pubDate><guid>https://antonz.ru/sqlite-3-37/</guid><description>Строгие таблицы, any-тип и новая прагма.</description><content:encoded><![CDATA[<p>В отличие от <a href="/sqlite-3-35">3.35</a>, релиз 3.37 принес не так много изменений. Но среди них — одно из важнейших за всю историю: «строгий» режим таблиц, в котором движок следит, чтобы данные в столбце соответствовали типу.</p>
-<p>Возможно, теперь SQLite перестанут называть «джаваскриптом в мире СУБД» ツ Но давайте по порядку.</p>
-<p><a href="https://habr.com/ru/news/t/592085/">подробности на Хабре</a></p>
 ]]></content:encoded></item></channel></rss>
