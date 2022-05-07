@@ -13,34 +13,87 @@ title = "Синтез и распознавание речи в 50 строк
 
 Вовсю работает в нормальных браузерах. Реализуется в несколько строчек на джаваскрипте:
 
-<p data-height="265" data-theme-id="0" data-slug-hash="LBJNXG" data-default-tab="js,result" data-user="nalgeon" data-pen-title="Синтез речи" class="codepen">See the Pen <a href="https://codepen.io/nalgeon/pen/LBJNXG/">Синтез речи</a> by Anton (<a href="https://codepen.io/nalgeon">@nalgeon</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+```javascript
+function speak(text) {
+    const message = new SpeechSynthesisUtterance();
+    message.lang = "ru-RU";
+    // голос женский
+    message.voice = getVoice("Milena");
+    // или мужской
+    // message.voice = getVoice("Yuri");
+    message.text = text;
+    // тембр и скорость по вкусу
+    message.pitch = 0.8;
+    message.rate = 0.9;
+    window.speechSynthesis.speak(message);
+}
+```
 
-<br>
+<p>
+    <a class="button" href="https://codepen.io/nalgeon/pen/LBJNXG/?editors=1010" target="_blank">
+        песочница
+    </a>
+</p>
 
-Функция speak создаёт говорилку и озвучивает переданный текст на русском языке.
+Функция `speak` создаёт говорилку и озвучивает переданный текст на русском языке.
 
 ### Распознавание речи
 
 Работает только в хроме и фаерфоксе, причём у каждого по-своему. На андроиде тоже работает, хотя функциональность ограничена по сравнению с десктопом. Реализуется посложнее, но тоже терпимо — 40 строчек джаваскрипта:
 
-<p data-height="400" data-theme-id="0" data-slug-hash="XBPKrW" data-default-tab="js,result" data-user="nalgeon" data-pen-title="Распознавание речи" class="codepen">See the Pen <a href="https://codepen.io/nalgeon/pen/XBPKrW/">Распознавание речи</a> by Anton (<a href="https://codepen.io/nalgeon">@nalgeon</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+```javascript
+class Recognizer {
+    constructor() {
+        this.recognition = new SpeechRecognition();
+        this.recognition.lang = "ru-RU";
+        this.isRecognizing = false;
+        this.transcript = "";
+    }
 
-<br>
+    start(handler) {
+        this.transcript = "";
+        this.recognition.onresult = (event) => {
+            this.onResult(event, handler);
+        };
+        this.recognition.start();
+        this.isRecognizing = true;
+    }
 
-Распознавалка — в классе Recognizer. Начинает слушать после вызова `start()`, заканчивает после `stop()`. Накапливает распознанный текст в свойстве `transcript`. Умеет возвращать промежуточные результаты распознавания, если передать обработчик в `start()`:
+    stop() {
+        this.recognition.abort();
+        this.isRecognizing = false;
+    }
+
+    onResult(event, handler) {
+        var interim_transcript = "";
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+            var result = event.results[i];
+            if (result.isFinal) {
+                this.transcript += result[0].transcript;
+            } else {
+                interim_transcript += result[0].transcript;
+            }
+        }
+        handler(interim_transcript);
+    }
+}
+```
+
+<p>
+    <a class="button" href="https://codepen.io/nalgeon/pen/XBPKrW/?editors=1010" target="_blank">
+        песочница
+    </a>
+</p>
+
+Распознавалка — в классе `Recognizer`. Начинает слушать после вызова `start()`, заканчивает после `stop()`. Накапливает распознанный текст в свойстве `transcript`. Умеет возвращать промежуточные результаты распознавания, если передать обработчик в `start()`:
 
 ```javascript
 recognizer.start((text) => {
-  txtInterim.value = text;
-  txtMessage.value = recognizer.transcript;
+    txtInterim.value = text;
+    txtMessage.value = recognizer.transcript;
 });
 ```
 
 Добрый человек Tal Ater сделал удобную обёртку над API распознавания — библиотеку [annyang](https://github.com/TalAter/annyang). С ней всё ещё проще.
 
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span>, это лучше любого JavaScript</em></p></div>
-</div>
-
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
+_И подписывайтесь на <a href="https://twitter.com/nalgeon">**@nalgeon**</a> в твитере, чтобы не пропустить новые заметки 🚀_
