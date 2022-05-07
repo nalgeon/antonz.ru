@@ -3,4 +3,4 @@ title = "sqlite"
 aliases = ["/tag/sqlite"]
 +++
 
-select awesome from tools limit 1;
+Все о работе с данными в SQLite.
