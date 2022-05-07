@@ -20,7 +20,7 @@ title = "Оконные функции SQL в картинках"
 <div class="row">
 <div class="col-xs-12 col-sm-6">
 <figure>
-  <img alt="Сложна" src="window-wtf.png">
+  <img alt="Сложна" src="window-wtf.png" class="img-bordered-thin">
   <figcaption>Если не разобраться в запросах с «окошками»,
 выглядят они как-то так</figcaption>
 </figure>
@@ -38,6 +38,10 @@ title = "Оконные функции SQL в картинках"
 5. [Скользящие агрегаты](/window-rolling/)</span>
 
 Я рекомендую не просто читать статьи, а сразу <a href="https://stepik.org/z/95367"><strong>проходить курс</strong></a>. В нем много практических задачек, а только с ними абстрактные знания превратятся в навыки.
+
+<a class="button" href="https://stepik.org/z/95367">
+    Записаться на курс
+</a>
 
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
