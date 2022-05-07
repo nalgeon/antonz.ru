@@ -2,27 +2,20 @@
 Introduction to Redis
 Data types, Pub/Sub, Streams
 Исходники
-Блог Сальваторе
-Поддержать подкаст + бонусы</description></item><item><title>GitHub Actions</title><link>https://antonz.ru/episode-6/</link><pubDate>Fri, 26 Mar 2021 16:44:06 +0000</pubDate><guid>https://antonz.ru/episode-6/</guid><description>О невероятно мощном бесплатном сервисе автоматизации любых задач от Гитхаба.
+Блог Сальваторе</description></item><item><title>GitHub Actions</title><link>https://antonz.ru/episode-6/</link><pubDate>Fri, 26 Mar 2021 16:44:06 +0000</pubDate><guid>https://antonz.ru/episode-6/</guid><description>О невероятно мощном бесплатном сервисе автоматизации любых задач от Гитхаба.
 Кросс-платформенная сборка с GitHub Actions
 Собираем открытые данные с GitHub Actions
-Introduction to GitHub Actions
-Поддержать подкаст + бонусы</description></item><item><title>awsm.css</title><link>https://antonz.ru/episode-5/</link><pubDate>Fri, 19 Mar 2021 10:08:55 +0000</pubDate><guid>https://antonz.ru/episode-5/</guid><description>О замечательной библиотеке для всех, кто не фанатеет от html-верстки.
+Introduction to GitHub Actions</description></item><item><title>awsm.css</title><link>https://antonz.ru/episode-5/</link><pubDate>Fri, 19 Mar 2021 10:08:55 +0000</pubDate><guid>https://antonz.ru/episode-5/</guid><description>О замечательной библиотеке для всех, кто не фанатеет от html-верстки.
 awsm.css на гитхабе
-Описание и примеры
-Поддержать подкаст + бонусы</description></item><item><title>Ошибки в API</title><link>https://antonz.ru/episode-4/</link><pubDate>Sun, 14 Mar 2021 14:07:02 +0000</pubDate><guid>https://antonz.ru/episode-4/</guid><description>Как лучше всего возвращать информацию об ошибках в API.
+Описание и примеры</description></item><item><title>Ошибки в API</title><link>https://antonz.ru/episode-4/</link><pubDate>Sun, 14 Mar 2021 14:07:02 +0000</pubDate><guid>https://antonz.ru/episode-4/</guid><description>Как лучше всего возвращать информацию об ошибках в API.
 How do you know what's gone wrong when your API request fails?
 RFC 7807. Problem Details for HTTP APIs
 Библиотеки для разных языков
-HTTP Status Codes
-Поддержать подкаст + бонусы</description></item><item><title>JSON:API</title><link>https://antonz.ru/episode-3/</link><pubDate>Fri, 05 Mar 2021 07:18:00 +0000</pubDate><guid>https://antonz.ru/episode-3/</guid><description>Сегодня поговорим об API. Не просто о REST + JSON, а о спецификации JSON:API для сложных и долгоживущих систем.
+HTTP Status Codes</description></item><item><title>JSON:API</title><link>https://antonz.ru/episode-3/</link><pubDate>Fri, 05 Mar 2021 07:18:00 +0000</pubDate><guid>https://antonz.ru/episode-3/</guid><description>Сегодня поговорим об API. Не просто о REST + JSON, а о спецификации JSON:API для сложных и долгоживущих систем.
 Спецификация JSON:API 1.0
 JSON API — работаем по спецификации
-REST vs JSON:API vs GraphQL
-Поддержать подкаст + бонусы</description></item><item><title>Моментальный поиск</title><link>https://antonz.ru/episode-2/</link><pubDate>Wed, 03 Mar 2021 07:15:00 +0000</pubDate><guid>https://antonz.ru/episode-2/</guid><description>Что такое индекс в базе данных и как он работает. Никакой магии!
-Анатомия индекса
-Поддержать подкаст + бонусы</description></item><item><title>Используй индекс, Люк!</title><link>https://antonz.ru/episode-1/</link><pubDate>Sun, 28 Feb 2021 07:12:00 +0000</pubDate><guid>https://antonz.ru/episode-1/</guid><description>О лучшей книге для тех, кто уже знает SQL и хочет понять, как заставить запросы работать быстро.
+REST vs JSON:API vs GraphQL</description></item><item><title>Моментальный поиск</title><link>https://antonz.ru/episode-2/</link><pubDate>Wed, 03 Mar 2021 07:15:00 +0000</pubDate><guid>https://antonz.ru/episode-2/</guid><description>Что такое индекс в базе данных и как он работает. Никакой магии!
+Анатомия индекса</description></item><item><title>Используй индекс, Люк!</title><link>https://antonz.ru/episode-1/</link><pubDate>Sun, 28 Feb 2021 07:12:00 +0000</pubDate><guid>https://antonz.ru/episode-1/</guid><description>О лучшей книге для тех, кто уже знает SQL и хочет понять, как заставить запросы работать быстро.
 Бесплатная книга онлайн
-Книга на Амазоне
-Поддержать подкаст + бонусы</description></item><item><title>Сегодня я узнал</title><link>https://antonz.ru/podcast/</link><pubDate>Sun, 28 Feb 2021 07:02:00 +0000</pubDate><guid>https://antonz.ru/podcast/</guid><description>Запустил подкаст о программировании и продуктах. Главные принципы:
+Книга на Амазоне</description></item><item><title>Сегодня я узнал</title><link>https://antonz.ru/podcast/</link><pubDate>Sun, 28 Feb 2021 07:02:00 +0000</pubDate><guid>https://antonz.ru/podcast/</guid><description>Запустил подкаст о программировании и продуктах. Главные принципы:
 Никакой пустой болтовни. Никаких рассуждений об очередном айфоне, цене биткойна или что там Маск написал в твитере. Только практические штуки. В каждом выпуске — одна тема, которую можно взять и сразу применять на работе или в жизни. Очень короткие эпизоды — пять минут или около того. Не хочу долго занимать эфир, да и вообще длинных подкастов уже достаточно. Выходит раз в неделю или чаще.</description></item></channel></rss>
