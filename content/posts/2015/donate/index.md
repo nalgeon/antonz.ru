@@ -13,34 +13,41 @@ title = "Донат — зло"
 
 Пойти этим путем легко. Некоторые люди сами предложат: «Вы такие клевые! Как бы вам помочь материально?» Но донат — это слезы:
 
-- часть людей просьба пожертвовать раздражает;
-- некоторые обещают себе заплатить позже, а потом забудут;
-- остальные снисходительно проигнорируют.
+-   часть людей просьба пожертвовать раздражает;
+-   некоторые обещают себе заплатить позже, а потом забудут;
+-   остальные снисходительно проигнорируют.
 
 Ах да, еще 0,004% бросят-таки монетку:
 
-![Щедрые жертвователи](https://pbs.twimg.com/media/B_IU3yZU8AIipiB.png)
+<div class="row">
+<div class="col-xs-12 col-sm-6">
+<figure>
+  <img alt="Щедрые пожертвования" src="./donate-800k.png">
+  <figcaption>800 тысяч загрузок, $8 чаевых</figcaption>
+</figure>
+</div>
+</div>
 
 Если программа создает ценность для пользователей — так сделайте ее платной! Или оставьте бесплатной, если это осознанное решение: вы хотите приносить пользу безвозмездно. Но не надо выпрашивать деньги «на поддержку проекта».
 
 Плохо:
 
 <figure class="image">
-    <img src="donate-1.png" alt="Главред просит денег" class="img-bordered">
+    <img src="donate-1.png" alt="Главред просит денег" class="img-bordered-thin">
     <figcaption>Главред просит прислать денег</figcaption>
 </figure>
 
 Лучше:
 
 <figure class="image">
-    <img src="donate-2.png" alt="Орфограмка стеснительно предлагает платный тариф" class="img-bordered">
+    <img src="donate-2.png" alt="Орфограмка стеснительно предлагает платный тариф" class="img-bordered-thin">
     <figcaption>Орфограмка стеснительно предлагает платный тариф</figcaption>
 </figure>
 
 Хорошо:
 
 <figure class="image">
-    <img src="donate-3.png" alt="Фидбин обещает удовольствие от чтения за 30 баксов в год" class="img-bordered">
+    <img src="donate-3.png" alt="Фидбин обещает удовольствие от чтения за 30 баксов в год" class="img-bordered-thin">
     <figcaption>Фидбин обещает удовольствие от чтения за 30 баксов в год</figcaption>
 </figure>
 
@@ -49,6 +56,5 @@ title = "Донат — зло"
 P. S. Донат встречается еще в играх и в жизни (благотворительность). Но это другая история.
 
 <div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
+<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry"><strong>Интерфейсы без шелухи</strong></a>»</span></em></p></div>
 </div>
-
