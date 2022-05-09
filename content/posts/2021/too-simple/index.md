@@ -3,7 +3,7 @@ date = 2021-03-02T14:19:02Z
 description = "Все любят простые решения. Но иногда можно сделать даже проще, чем думаешь."
 image = "/too-simple/cover.png"
 slug = "too-simple"
-tags = ["productology", "interface"]
+tags = ["productology", "interface", "dadata"]
 title = "Слишком простое решение"
 +++
 

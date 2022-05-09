@@ -4,7 +4,7 @@ description = "Ограничивать пользователя фиксиро�
 featured = true
 image = "/suggestions-vs-validation/cover.png"
 slug = "suggestions-vs-validation"
-tags = ["interface"]
+tags = ["interface", "dadata"]
 title = "Автокомплит и проверка данных"
 +++
 

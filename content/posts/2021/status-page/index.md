@@ -3,7 +3,7 @@ date = 2021-01-08T15:06:47Z
 description = "Покажите уже надежность вашего сервиса"
 image = "/status-page/cover.png"
 slug = "status-page"
-tags = ["productology"]
+tags = ["productology", "dadata"]
 title = "Аптайм на статус-странице"
 +++
 

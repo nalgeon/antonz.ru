@@ -3,7 +3,7 @@ date = 2021-09-06T14:32:41Z
 description = "6 правил для работы с адресами."
 image = "/postal-address/cover.png"
 slug = "postal-address"
-tags = ["interface"]
+tags = ["interface", "dadata"]
 title = "Почтовые адреса в интерфейсе"
 +++
 
