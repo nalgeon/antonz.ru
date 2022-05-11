@@ -6,6 +6,7 @@ image = "/necessary-evil/cover.png"
 slug = "necessary-evil"
 tags = ["interface"]
 title = "Регистрация и оплата как необходимое зло"
+subscribe = "dangry"
 +++
 
 Два самых распространённых «необходимых зла» в интерфейсе — регистрация и оплата. 
@@ -101,8 +102,3 @@ title = "Регистрация и оплата как необходимое з
 <blockquote class="big">
 Минимизировать боль и сохранить контекст
 </blockquote>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

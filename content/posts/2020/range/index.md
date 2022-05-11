@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "range"
 tags = ["ohmypy"]
 title = "Python. Грамотно работать с любым диапазоном"
+subscribe = "ohmypy"
 +++
 
 Все знают, что `range()` в питоне используется, когда нужно что-то сделать сколько-то раз:
@@ -99,7 +100,3 @@ False
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Итого, получили структуру данных постоянного размера, с константным временем выполнения операций. Ну разве он не чудо, этот `range`?
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

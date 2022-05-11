@@ -6,7 +6,14 @@ image = "/choice/cover.jpg"
 slug = "choice"
 tags = ["interface"]
 title = "Главное правило выбора в интерфейсе"
+subscribe = "dangry"
 +++
+
+<figure>
+    <img alt="Дизайнеры обсуждают юзабилити" src="choice-strip.png">
+    <figcaption>
+    <em>Обложка — <a href="https://xkcd.com/1804/">xkcd</a></em></figcaption>
+</figure>
 
 Главное правило выбора из нескольких вариантов в интерфейсе сформулировал Джоэл Спольски 16 лет назад:
 
@@ -123,16 +130,3 @@ title = "Главное правило выбора в интерфейсе"
 1. Делайте выбор за человека во второстепенных задачах.
 2. Оставляйте ему выбор в основных задачах. Но подсвечивайте предпочтительный вариант.
 3. В любой непонятной ситуации ориентируйтесь на прошлый выбор пользователя.
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Если понравилась статья, подписывайтесь <span class="nowrap">на <i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-<figure>
-    <img alt="Дизайнеры обсуждают юзабилити" src="choice-strip.png">
-    <figcaption>
-    <em>Обложка — <a href="https://xkcd.com/1804/">xkcd</a></em></figcaption>
-</figure>
-

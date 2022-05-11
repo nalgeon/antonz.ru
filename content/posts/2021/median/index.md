@@ -43,10 +43,3 @@ title = "Медиана вместо среднего"
 </p>
 
 Курс расскажет, как использовать SQLite для прикладного анализа данных. Без воды, куча примеров, применяйте в работе с первого дня.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

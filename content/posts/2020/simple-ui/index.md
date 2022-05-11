@@ -5,6 +5,7 @@ image = "/simple-ui/cover.png"
 slug = "simple-ui"
 tags = ["interface"]
 title = "Что делает интерфейс простым"
+subscribe = "dangry"
 +++
 
 *Это вторая часть цикла статей о проектировании интерфейсов для <span class="nowrap">не-дизайнеров</span>. Предыдущая: [Законы робототехники в интерфейсе](/laws/)*
@@ -210,10 +211,6 @@ title = "Что делает интерфейс простым"
 
 *Спасибо [Ольге Коноваловой](http://cat-in-cap.ru) за помощь в подготовке статьи.*
 
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсов без шелухи</a>»</span></em></p></div>
-</div>
-
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Ссылки по тексту:
@@ -221,6 +218,3 @@ title = "Что делает интерфейс простым"
 [^1]: Гайдлайны для разных платформ: [Apple](https://developer.apple.com/design/human-interface-guidelines/), [Google](https://material.io/design), [Microsoft](https://www.microsoft.com/design/fluent/)
 [^2]: [Контур.Гайды](https://guides.kontur.ru/)
 [^3]: «[Психбольница в руках пациентов](/asylum-2/)»
-
-
-

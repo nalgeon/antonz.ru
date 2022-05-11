@@ -5,6 +5,7 @@ description = "С помощью декоратора @functools.lru_cache"
 image = "/assets/projects/ohmypy-2.png"
 slug = "functools-cache"
 tags = ["ohmypy"]
+subscribe = "ohmypy"
 +++
 
 Предположим, написали вы функцию, которая возвращает емейл пользователя:
@@ -71,7 +72,3 @@ get_user_email.cache_clear()
 
 [документация](https://devdocs.io/python/library/functools#functools.lru_cache) •
 [песочница](https://replit.com/@antonz/functools-cache#main.py)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy"><strong>Oh My Py</strong></a>»</span></em></p></div>
-</div>

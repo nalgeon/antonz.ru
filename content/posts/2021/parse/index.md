@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "parse"
 tags = ["package", "ohmypy"]
 title = "Разбор текста по шаблону на Python"
+subscribe = "ohmypy"
 +++
 
 Все знают, как в питоне форматировать текст по шаблону:
@@ -42,10 +43,3 @@ datetime.datetime(2020, 11, 20, 0, 0)
 parse по большей части поддерживает стандартный питонячий [мини-язык форматирования](https://docs.python.org/3/library/string.html#format-specification-mini-language), так что новый синтаксис учить не придется.
 
 Внутри работает на регулярках. Ноль зависимостей, питон 2 и 3.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

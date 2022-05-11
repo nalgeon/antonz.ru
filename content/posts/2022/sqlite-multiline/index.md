@@ -5,6 +5,7 @@ description = "Как отредактировать большой запрос
 image = "/sqlite-multiline/cover.png"
 slug = "sqlite-multiline"
 tags = ["sqlite"]
+subscribe = "sqliter"
 +++
 
 Стоило написать, что отлаживать многострочные запросы [в консоли SQLite](/sqlite-history/) неудобно, как вычитал на sqlite-форуме классный трюк:
@@ -24,7 +25,3 @@ tags = ["sqlite"]
 -   Внешний редактор (`.shell <editor> <file>`)
 -   Запуск из файла (`.read <file>`)
 -   DBeaver, DataGrip или аналоги
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter"><strong>SQLite на практике</strong></a>»</span></em></p></div>
-</div>

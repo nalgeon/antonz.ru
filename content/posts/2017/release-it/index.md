@@ -6,6 +6,7 @@ image = "/release-it/cover.jpg"
 slug = "release-it"
 tags = ["development", "book"]
 title = "Сломается всё"
+subscribe = "ohmypy"
 +++
 
 _(и что с этим делать)_
@@ -41,10 +42,3 @@ _(и что с этим делать)_
 </p>
 </div>
 </div>
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-

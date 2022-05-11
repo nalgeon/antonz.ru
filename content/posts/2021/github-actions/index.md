@@ -5,6 +5,7 @@ image = "/github-actions/cover.png"
 slug = "github-actions"
 tags = ["development"]
 title = "Кросс-платформенная сборка с GitHub Actions"
+subscribe = "ohmypy"
 +++
 
 Если проект живет на GitHub, можно за десять минут настроить авто-сборку под основные операционные системы — Windows, Linux и macOS.
@@ -95,10 +96,3 @@ strategy:
 
 - [Документация по GitHub Actions](https://docs.github.com/en/actions)
 - [Как сделать все что угодно вообще с GitHub Actions](https://docs.github.com/en/actions)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

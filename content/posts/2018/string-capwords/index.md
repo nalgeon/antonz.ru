@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "string-capwords"
 tags = ["ohmypy"]
 title = "Python. Все слова с прописной буквы"
+subscribe = "ohmypy"
 +++
 
 Допустим, запустили вы стартап. В автоматическом режиме собираете самые упоротые новости русскоязычных СМИ, вот такие:
@@ -30,7 +31,3 @@ string.capwords(header)
 ```
 
 Соу мач беттер.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

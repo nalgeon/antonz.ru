@@ -5,6 +5,7 @@ image = "/mike-ozornin/cover.jpg"
 slug = "mike-ozornin"
 tags = ["talk", "interface"]
 title = "Интерфейсы в энтерпрайзе и прокачка дизайнера"
+subscribe = "dangry"
 +++
 
 <div class="row">
@@ -135,8 +136,3 @@ title = "Интерфейсы в энтерпрайзе и прокачка д
 <li><a href="http://twitter.com/mikeozornin">В твиттере</a>. Кроме постов там будет много всякого, в том числе не самого интересного.</li>
 </ol>
 </div>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для подписчиков канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

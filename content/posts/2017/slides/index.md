@@ -5,6 +5,7 @@ image = "/slides/cover.jpg"
 slug = "slides"
 tags = ["60-sec"]
 title = "Тяжелая правда о презентациях"
+subscribe = "dangry"
 +++
 
 Люди любят делиться презентациями. После каждой конференции организатор с трепетом выкладывает в соцсети пачку ПДФов, а люди не менее радостно репостят по всему фейсбуку и твитеру, и сохраняют в избранное. Я полагаю, что мотивация репостящего такая же, как с подборками «полезных ссылок» — человек думает, что презентация ему внезапно пригодится.
@@ -43,8 +44,3 @@ title = "Тяжелая правда о презентациях"
 <p class="big">
 <a href="http://www.slideshare.net/otikik/how-to-make-awesome-diagrams-for-your-slides">How to make Awesome Diagrams for your slides</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

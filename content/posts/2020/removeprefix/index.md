@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "removeprefix"
 tags = ["ohmypy"]
 title = "Python. Отрезать строке голову и хвост"
+subscribe = "ohmypy"
 +++
 
 В Python 3.9 строке добавили методы, которые удаляют префикс и суффикс:
@@ -40,10 +41,3 @@ str.rstrip()
 Да, само по себе `strip` — не слишком удачное название (в других языках чаще используют `trim`). Но оно давно прижилось, так что логично его и использовать дальше.
 
 Так или иначе, строка обзавелась двумя новыми методами. Всего их теперь 47 (!), не считая дандеров.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

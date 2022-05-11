@@ -6,6 +6,7 @@ image = "/security-code/cover.png"
 slug = "security-code"
 tags = ["interface", "productology"]
 title = "О кодах подтверждения"
+subscribe = "dangry"
 +++
 
 Банки и другие сервисы используют коды подтверждения для защиты от мошенников. Обычно код выглядит как число из 4–6 цифр, которое приходит по СМС или пуш-оповещением.
@@ -78,8 +79,3 @@ title = "О кодах подтверждения"
 - Попробуйте генерить коды с повторами, пользователям понравится.
 
 А ещё, пишите код [в начале сообщения](/sms-password/).
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

@@ -19,10 +19,3 @@ title = "Днище ИТ-безопасности"
 На кой чёрт они — такие — вообще нужны?
 
 [Полный текст письма Линуса](https://lkml.org/lkml/2017/11/21/356)
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-

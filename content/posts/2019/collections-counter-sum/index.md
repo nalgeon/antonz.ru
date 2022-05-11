@@ -5,9 +5,10 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "collections-counter-sum"
 tags = ["ohmypy"]
 title = "Python. Операции со статистикой"
+subscribe = "ohmypy"
 +++
 
-Вернёмся к примеру со статистикой по заявкам разных типов. Вот данные о вопросах, проблемах и идеях за три дня:
+Вернёмся к примеру [со статистикой по заявкам](/collections-counter/) разных типов. Вот данные о вопросах, проблемах и идеях за три дня:
 
 ```
 monday = {"question": 1, "problem": 3, "idea": 2}
@@ -75,7 +76,3 @@ P.S. Хотите реально злую штуку? Вот как посчит
 ```
 sum(map(Counter, [monday, tuesday, wednesday]), Counter())
 ```
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

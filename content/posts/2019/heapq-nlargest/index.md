@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "heapq-nlargest"
 tags = ["ohmypy"]
 title = "Python. Выбрать топ-k элементов списка"
+subscribe = "ohmypy"
 +++
 
 Сегодня новое соревнование — граждане города выбирают самое наглое животное. Результаты опроса поступили в виде неупорядоченного списка пар «количество голосов — участник»:
@@ -48,7 +49,3 @@ contenders = [
 ```
 
 Я даже знаю, как его зовут ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

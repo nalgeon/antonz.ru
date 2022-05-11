@@ -6,6 +6,7 @@ image = "/assets/projects/sqliter-2.png"
 slug = "sqlite-course"
 tags = ["sqlite", "project", "data"]
 title = "SQLite для аналитики"
+subscribe = "sqliter"
 +++
 
 *Я сделал интерактивный курс по прикладному анализу данных в SQLite. В этой заметке расскажу о нем и покажу, что внутри.*
@@ -161,10 +162,3 @@ title = "SQLite для аналитики"
 Стоимость — **3000** ₽. Первый модуль доступен бесплатно.
 
 <p><a class="button" href="https://stepik.org/z/90778">Перейти к курсу</a></p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

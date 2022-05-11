@@ -44,8 +44,3 @@ title = "Мозговой слизень атаковал городскую н�
 
 - Студия Лебедева [анонсирует указатели](http://www.artlebedev.ru/everything/moscow/street-signs/)
 - Тема Лебедев пишет, [что из этого получилось](http://tema.livejournal.com/2149952.html)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Слизни не пройдут: <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

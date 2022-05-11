@@ -6,6 +6,7 @@ image = "/url-as-interface/cover.png"
 slug = "url-as-interface"
 tags = ["interface", "development"]
 title = "Урл как интерфейс"
+subscribe = "ohmypy"
 +++
 
 Для меня урл (URL) на сайте или в веб-приложении — часть интерфейса. Поэтому он должен быть хорош.
@@ -190,9 +191,3 @@ antonz.ru/2016/04/12/laws/ → antonz.ru/laws/
 - Павлу Дорофееву, который обратил внимание на устойчивость урлов к изменению текстовой части.
 - Никите Прокопову, который поднял проблему красоты и иерархичности урлов.
 - Андрею Лёзову, который напомнил о редиректах.
-
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Больше таких статей — на канале <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

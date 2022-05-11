@@ -4,6 +4,7 @@ description = "Когда есть универсальная админка."
 slug = "admin-ui"
 tags = ["interface", "60-sec"]
 title = "Когда дизайн не нужен"
+subscribe = "dangry"
 +++
 
 Я вообще большой поклонник интерфейсов «под задачу». Таких, чтобы удобно закрывали конкретные пользовательские сценарии, а не пытались быть конструкторами под любые требования (чем часто грешат в корпоративном софте).
@@ -17,8 +18,3 @@ title = "Когда дизайн не нужен"
 Готовые админки вроде есть под все популярные фреймворки разработки. Самая известная, конечно — Django (Python). Но и других хватает: RailsAdmin (Ruby), Spring Roo и Grails (Java), Play Framework (Scala), KeystoneJS (JavaScript).
 
 Рекомендую.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

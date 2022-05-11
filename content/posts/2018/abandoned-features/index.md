@@ -5,6 +5,7 @@ image = "/abandoned-features/cover.png"
 slug = "abandoned-features"
 tags = ["productology"]
 title = "Не надо заканчивать фичи"
+subscribe = "dangry"
 +++
 
 Вредный совет продакту: «Надо заканчивать фичи». Вредный совет вообще: «Надо заканчивать то, что начал».
@@ -33,8 +34,3 @@ title = "Не надо заканчивать фичи"
 Фичи надо заканчивать. Но только если игра стоит свеч.
 
 *P.S. Это ответ на заметку «[Надо заканчивать фичи](https://medium.com/@mdubakov/157278331672)» Михаила Дубакова, основателя Targetprocess*
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

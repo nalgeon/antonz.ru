@@ -6,6 +6,7 @@ image = "/common-sense-design/cover.png"
 slug = "common-sense-design"
 tags = ["interface"]
 title = "Дизайн — это здравый смысл"
+subscribe = "dangry"
 +++
 
 Чтобы создать хороший интерфейс, дизайнеру требуется:
@@ -143,8 +144,3 @@ title = "Дизайн — это здравый смысл"
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Здравый смысл, ребята. Пользуйтесь им.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

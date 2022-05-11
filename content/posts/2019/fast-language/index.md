@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "fast-language"
 tags = ["development", "ohmypy"]
 title = "Быстрый язык ≠ быстрый код"
+subscribe = "ohmypy"
 +++
 
 Получил такой комментарий на заметку про [быстрый и медленный алгоритмы](/sorted-puzzle/):
@@ -19,9 +20,4 @@ title = "Быстрый язык ≠ быстрый код"
 
 А ещё бывает, что при одинаковой асимптотической сложности один алгоритм в 5 раз быстрее другого — потому что она такие мелочи игнорирует. И тут тоже без тестирования никуда.
 
-P. S. Модуль <code>bisect</code> на самом деле [реализован на C](https://github.com/python/cpython/blob/3.7/Modules/_bisectmodule.c). Если интересно, как выглядит «сишная» часть питона, посмотрите — это один из самых простых модулей.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
+P.S. Модуль <code>bisect</code> на самом деле [реализован на C](https://github.com/python/cpython/blob/3.7/Modules/_bisectmodule.c). Если интересно, как выглядит «сишная» часть питона, посмотрите — это один из самых простых модулей.

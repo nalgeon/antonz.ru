@@ -4,6 +4,7 @@ description = "5 правил хороших заметок к релизу дл
 slug = "release-notes"
 tags = ["productology", "60-sec"]
 title = "Правильные заметки к релизу"
+subscribe = "dangry"
 +++
 
 На днях Ника Троицкая подняла тему пользы и шуточек в release notes. А сегодня я прочитал статью Роба Гила «As a Designer I want Better Release Notes», в которой он подробно и с примерами описал идеальные заметки к релизу для апсторов.
@@ -23,8 +24,3 @@ title = "Правильные заметки к релизу"
 <p class="big">
 <a href="https://uxdesign.cc/3e8c8c785231">As a Designer I want Better Release Notes</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

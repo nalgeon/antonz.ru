@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "schedule"
 tags = ["package", "ohmypy"]
 title = "Планировщик задач на Python"
+subscribe = "ohmypy"
 +++
 
 В стандартной библотеке есть встроенный планировщик задач (а чего вообще в ней нет?). Подробно расскажу в другой раз, но в целом он, скажем так, не слишком юзер-френдли.
@@ -28,10 +29,3 @@ while True:
 ```
 
 Ноль зависимостей, чистый и великолепно документированный код, примеры на все случаи жизни.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

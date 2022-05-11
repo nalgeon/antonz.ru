@@ -5,6 +5,7 @@ image = "/search-as-a-service/cover.png"
 slug = "search-as-a-service"
 tags = ["productology"]
 title = "Как сделать нормальный поиск"
+subscribe = "dangry"
 +++
 
 У магазинов, госсайтов, СМИ и даже жирных блогов часто есть поиск. Качество его обычно варьируется от «ужасно» (когда напилили сами) до «на троечку» (когда используют встроенный в CMS).
@@ -29,10 +30,3 @@ title = "Как сделать нормальный поиск"
 В качестве опенсорсной алтернативы Алголии рекомендуют [Typesense](https://github.com/typesense/typesense). Я с ним не работал, но по описанию выглядит интересно.
 
 А пилить свой поиск — почти всегда плохая идея.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-
-

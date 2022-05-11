@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "functools-partial"
 tags = ["ohmypy"]
 title = "«Отнаследовать» функцию от существующей в Python"
+subscribe = "ohmypy"
 +++
 
 Допустим, у нас есть список важных гостей. Он в легком беспорядке:
@@ -57,10 +58,3 @@ natsorted = functools.partial(sorted, key=_key)
 `partial()` создает новую <abbr title="Строго говоря, не функцию, а вызываемый объект, у которого определен дандер call — его можно вызывать, как будто это функция">функцию</abbr> на основе существующей. При этом можно «зафиксировать» один или несколько параметров (мы зафиксировали `key`), разрешив менять остальные (`iterable` и `reverse` в нашем случае).
 
 Таким образом, `partial()` помогает создавать узкоспециализированные функции на базе более универсальных.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

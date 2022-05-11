@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "heapq"
 tags = ["ohmypy"]
 title = "Python. Обработать заявки с учётом приоритетов"
+subscribe = "ohmypy"
 +++
 
 Если система обрабатывает заявки, редко бывает, что все они одинакового веса. Чаще встречаются разные приоритеты: клиенты бывают обычные и VIP, баги бывают минорные и критические, заказы бывают «до 1000 ₽» и «10000+ ₽».
@@ -74,7 +75,3 @@ def process(requests):
 ```
 
 Порядок!
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

@@ -48,8 +48,3 @@ title = "Конспект курильщика"
 Конспект здорового человека:
 
 <blockquote class="big">Книга → конспект с примерами → задачи в туду-листе</blockquote>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

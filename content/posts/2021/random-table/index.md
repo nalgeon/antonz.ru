@@ -5,6 +5,7 @@ image = "/assets/projects/sql.png"
 slug = "random-table"
 tags = ["sqlite", "data"]
 title = "Как создать таблицу на 1М записей одним запросом"
+subscribe = "sqliter"
 +++
 
 Допустим, вы хотите проверить, как поведет себя запрос на большой таблице — но такой таблицы под рукой нет. Если СУБД умеет в рекурсию, это не проблема: кучу данных можно нагенерить одним запросом. Поможет в этом конструкция `WITH RECURSIVE`.
@@ -188,10 +189,3 @@ sqlite> select * from person_data limit 10;
 </p>
 
 Курс расскажет, как использовать SQLite для повседневной работы с данными. Без воды, куча примеров, применяйте в работе с первого дня.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

@@ -1,6 +1,6 @@
 +++
 date = 2018-01-16T09:05:42Z
-description = "Сервис тупых отмазок на все случаи жизни."
+description = "Всем на них плевать."
 image = "/reasons/cover.png"
 slug = "reasons"
 tags = ["writing", "60-sec"]
@@ -24,8 +24,3 @@ title = "По техническим причинам"
 > В честь дня защиты улиток поезда следуют с увеличенными интервалами.
 > Платежи картой не принимаются во славу Плутоса.
 > Магазин не работает после 18, потому что ну сколько можно уже.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

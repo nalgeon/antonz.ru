@@ -5,6 +5,7 @@ image = "/assets/projects/sin-3.jpg"
 slug = "offboarding"
 tags = ["interface", "productology"]
 title = "Прощание с пользователем"
+subscribe = "dangry"
 +++
 
 Есть такая штука — *офбординг* (offboarding). Это то, как продукт ведёт себя, когда взаимодействие с пользователем закончилось:
@@ -44,8 +45,3 @@ title = "Прощание с пользователем"
 <blockquote class="big">
 Ответить на важные вопросы или молча отпустить
 </blockquote>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

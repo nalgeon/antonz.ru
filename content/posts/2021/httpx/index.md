@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "httpx"
 tags = ["package", "ohmypy"]
 title = "Современный HTTP-клиент для Python"
+subscribe = "ohmypy"
 +++
 
 Мало у какого языка такая нажористая стандартная библиотека, как у питона. Но все равно для работы с HTTP люди пользуются сторонним пакетом requests.
@@ -28,10 +29,3 @@ title = "Современный HTTP-клиент для Python"
 ```
 
 Питон 3.6+
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

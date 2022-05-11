@@ -6,6 +6,7 @@ image = "/gift-for-designer/cover.png"
 slug = "gift-for-designer"
 tags = ["interface", "60-sec"]
 title = "Что подарить дизайнеру интерфейсов"
+subscribe = "dangry"
 +++
 
 UPD: а вот [вариант 2019 года](https://vc.ru/flood/55198)
@@ -151,10 +152,3 @@ UPD: а вот [вариант 2019 года](https://vc.ru/flood/55198)
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Теперь вы знаете, что подарить коллеге-дизайнеру. Или чем себя любимого порадовать ツ
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

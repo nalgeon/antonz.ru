@@ -5,6 +5,7 @@ image = "/cte/cover.png"
 slug = "cte"
 tags = ["data", "sqlite"]
 title = "Табличные выражения SQL"
+subscribe = "sqliter"
 +++
 
 Прием № 1, чтобы писать хорошие читаемые SQL-запросы — это _табличные выражения_ (CTE). Люди их боятся, а зря. Давайте разберемся за три минуты, читать увесистую книгу по SQL или проходить курсы не придется.
@@ -177,10 +178,3 @@ PostgreSQL 12+ и другие современные СУБД поумнели
 </blockquote>
 
 Чего и вам желаю.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

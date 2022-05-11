@@ -5,6 +5,7 @@ image = "/ilya-aleksandrov/cover.jpg"
 slug = "ilya-aleksandrov"
 tags = ["talk", "interface"]
 title = "Как веб-дизайнеру проектировать хардварные интерфейсы"
+subscribe = "dangry"
 +++
 
 <div class="row">
@@ -140,8 +141,3 @@ title = "Как веб-дизайнеру проектировать хардв�
 
 <p>В блоге <a href="https://medium.com/@yakostro">статьи на профессиональные темы</a></p>
 </div>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

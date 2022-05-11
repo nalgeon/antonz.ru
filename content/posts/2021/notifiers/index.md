@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "notifiers"
 tags = ["package", "ohmypy"]
 title = "Универсальные оповещения на Python"
+subscribe = "ohmypy"
 +++
 
 Есть куча способов отправлять уведомления — от проверенного SMTP и удобного Telegram до смс и специальных приложений для мобилок вроде Pushover.
@@ -25,10 +26,3 @@ tg.notify(message="Привет!", token=token, chat_id=chat_id)
 Поддерживается аж 16 провайдеров, а интерфейс один — метод `.notify()`. И никаких дополнительных 3rd-party библиотек. Удобно!
 
 Питон 3.6+
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

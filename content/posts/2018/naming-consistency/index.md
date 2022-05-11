@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "naming-consistency"
 tags = ["ohmypy", "development"]
 title = "Чистый код. Единообразие в именах"
+subscribe = "ohmypy"
 +++
 
 Всякая книга про хороший код начинается с главы об именах переменных и функций. Но каждый, кто работал с большим проектом, знает — хороших имён недостаточно. Важно ещё, чтобы они были единообразными во всём проекте.
@@ -28,7 +29,3 @@ title = "Чистый код. Единообразие в именах"
 -   `find_longest_match()`
 -   `find_all_matches()`
 -   `find_similar_words()` или просто `find_similar()`
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

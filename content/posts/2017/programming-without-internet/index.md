@@ -47,8 +47,3 @@ title = "Программирование без интернета"
 
 - Лекция Григория Бакунова «[Можно ли программировать без интернета](https://www.youtube.com/embed/h10qZGq36DE?start=5&end=1228&autoplay=1)», 20 минут.
 - Выпуск подкаста Developer Tea [Intentional Problem Solving](https://spec.fm/podcasts/developer-tea/15165), 15 минут.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-

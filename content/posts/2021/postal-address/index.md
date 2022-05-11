@@ -5,6 +5,7 @@ image = "/postal-address/cover.png"
 slug = "postal-address"
 tags = ["interface", "dadata"]
 title = "Почтовые адреса в интерфейсе"
+subscribe = "dangry"
 +++
 
 Моя вынужденно-любимая тема! Поговорим о том, как работать с почтовыми адресами в интерфейсах. Вот что я об этом думаю (1–3 обязательно, 4–6 по необходимости и возможности):
@@ -56,10 +57,3 @@ title = "Почтовые адреса в интерфейсе"
 <p class="big">
 <a href="https://dadata.ru/blog/basics/best-practises-address/">Подробности — в блоге «Дадаты»</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-
-

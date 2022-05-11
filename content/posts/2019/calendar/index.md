@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "calendar"
 tags = ["ohmypy"]
 title = "Python. Узнать день недели 40 лет назад"
+subscribe = "ohmypy"
 +++
 
 Есть в питоне модуль `calendar`. Лично я ожидал от него крутых фич по работе с датами, которые не влезли в `datetime`.
@@ -40,7 +41,3 @@ True
 ```
 
 А генерировать HTML-календари с помощью `calendar` вы не будете, надеюсь ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
-</div>

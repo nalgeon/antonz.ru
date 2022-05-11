@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "element-in-collection"
 tags = ["ohmypy"]
 title = "Python. Проверить, входит ли элемент в коллекцию"
+subscribe = "ohmypy"
 +++
 
 Предположим, вы ведёте реестр монет. В нём записаны монетки всех времён, стран и достоинств. На вашем сайте любой может проверить, есть ли та или иная монета в реестре, и если нет — добавить её.
@@ -107,7 +108,3 @@ def size_mb(obj):
 ```
 
 Три с лишним гигабайта, рост линейный. Чудес не бывает, но выигрыш по памяти в 30 раз при сохранении приемлемой скорости иногда может вам пригодиться.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

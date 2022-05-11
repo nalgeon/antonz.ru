@@ -5,6 +5,7 @@ image = "/os-update-puzzle/cover.jpg"
 slug = "os-update-puzzle"
 tags = ["puzzle", "interface"]
 title = "Задачка: приглашение обновить ОС"
+subscribe = "dangry"
 +++
 
 <div class="row">
@@ -124,8 +125,3 @@ title = "Задачка: приглашение обновить ОС"
 Спасибо всем участникам! Особенно хочу отметить [Матвея Правосудова](http://pravosudov.com/), Филиппа Ляха, Алексея Милеева и Мишу Березина.
 
 Мы продолжим ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Решайте задачки на канале <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

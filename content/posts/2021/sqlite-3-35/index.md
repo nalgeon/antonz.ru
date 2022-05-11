@@ -5,6 +5,7 @@ image = "/sqlite-3-35/cover.png"
 slug = "sqlite-3-35"
 tags = ["sqlite", "data"]
 title = "Что нового в SQLite 3.35"
+subscribe = "sqliter"
 +++
 
 В новых релизах разработчики SQLite часто перебирают движок так и сяк, а для внешнего наблюдателя ничего особо не меняется. 2020 год стал приятным исключением — добавили кучу приятных фич для пользователей, вроде вычисляемых столбцов, `UPDATE FROM` и великолепного `.mode box` в консоли.
@@ -143,10 +144,3 @@ select ... from history where ...
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 И все это в одном релизе! Невероятно ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

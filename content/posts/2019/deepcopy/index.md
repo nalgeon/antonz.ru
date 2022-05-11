@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "deepcopy"
 tags = ["ohmypy"]
 title = "Python. Создать полный дубль коллекции"
+subscribe = "ohmypy"
 +++
 
 У нас ответственная миссия: запустить в космос автомобиль. Сначала подготовим инфраструктуру — собственно машину и мега-пушку:
@@ -88,7 +89,3 @@ Tesla Roadster driven by Starman sent to space!
 ```
 
 Во, другое дело.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
-</div>

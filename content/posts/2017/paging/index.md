@@ -6,6 +6,7 @@ image = "/paging/cover.png"
 slug = "paging"
 tags = ["interface", "60-sec"]
 title = "Пейджинг, ещёкалка и бесконечный скрол"
+subscribe = "dangry"
 +++
 
 _Три способа постраничной навигации по данным, и как их использовать._
@@ -41,8 +42,3 @@ _Три способа постраничной навигации по дан�
 - [Пейджинг](https://guides.kontur.ru/components/paging/)
 - [Ещёкалка](https://guides.kontur.ru/components/eschekalka/)
 - [Бесконечный скрол](https://guides.kontur.ru/components/endlesscroll/)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

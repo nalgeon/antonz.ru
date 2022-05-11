@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "checkcache"
 tags = ["ohmypy"]
 title = "Зачем читать исходники стандартной библиотеки"
+subscribe = "ohmypy"
 +++
 
 Я как-то писал, что в документацию питона добавили ссылки на [исходники модулей](/python-sources/). Читать их не только увлекательно, но и полезно.
@@ -42,7 +43,3 @@ def checkcache(filename=None):
 В случае с `linecache` это вряд ли станет большой проблемой, но представьте, какой был бы неприятный сюрприз, если бы речь шла о продакшен-кеше вашего приложения ツ
 
 В любой непонятной ситуации читай исходники, как говорил Урбан Мюллер, автор языка Brainfuck.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

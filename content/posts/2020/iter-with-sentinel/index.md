@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "iter-with-sentinel"
 tags = ["ohmypy", "puzzle"]
 title = "Задачка об итераторе на Python"
+subscribe = "ohmypy"
 +++
 
 _На днях я предложил читателям телеграм-канала [Oh My Py](https://t.me/ohmypy) задачку об итераторе с ограничениями. Давайте её разберём._
@@ -152,5 +153,3 @@ def employeficator():
 ```
 
 Пожалуйста, никогда не пишите так продакшен-код. Пожалейте коллег и себя.
-
-<p>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>», конечно!</p>

@@ -91,10 +91,6 @@ title = "Юлия → Iuliia. Всё о транслитерации"
 <a href="https://iuliia.ru/">Юлия → Iuliia. Руководство по транслитерации</a>
 </p>
 
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Специально для подписчиков канала<span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Ссылки по тексту:

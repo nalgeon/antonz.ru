@@ -5,6 +5,7 @@ image = "/only-productology-book/cover.jpg"
 slug = "only-productology-book"
 tags = ["productology", "book", "60-sec"]
 title = "Единственная книга о продакт-менеджменте"
+subscribe = "dangry"
 +++
 
 <div class="row between-sm">
@@ -34,10 +35,3 @@ ePub, Kindle, PDF. На английском. 65 страниц.
 <p class="big">
 <a href="https://www.intercom.com/books/product-management">📖 Intercom on Product Management</a>
 </p>
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

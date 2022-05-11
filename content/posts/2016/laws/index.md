@@ -6,6 +6,7 @@ image = "/laws/cover.png"
 slug = "laws"
 tags = ["interface"]
 title = "Законы робототехники в интерфейсе"
+subscribe = "dangry"
 +++
 
 Интерфейс — это способ, которым человек решает свою задачу:
@@ -267,10 +268,3 @@ title = "Законы робототехники в интерфейсе"
 <p class="big">
 <a href="/simple-ui">Что делает интерфейс простым</a>
 </p>
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

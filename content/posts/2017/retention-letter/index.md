@@ -4,6 +4,7 @@ description = "Одна из тёмных областей, в которые 
 slug = "retention-letter"
 tags = ["productology", "60-sec"]
 title = "Письма пользователям-отщепенцам"
+subscribe = "dangry"
 +++
 
 Одна из тёмных областей, в которые редко заглядывают дизайнеры — емейлы пользователям. Обычно это вотчина маркетологов. А зря, потому что письма от продукта или команды к пользователю — тоже интерфейс. А для людей, которые не используют сервис (зарегистрировались однажды и забыли) — это единственный интерфейс.
@@ -22,8 +23,3 @@ title = "Письма пользователям-отщепенцам"
 <p class="big">
 <a href="https://blog.intercom.com/simple-improvement-product-mails/">A simple improvement to product announcements</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

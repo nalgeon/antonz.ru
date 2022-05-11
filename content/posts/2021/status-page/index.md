@@ -5,6 +5,7 @@ image = "/status-page/cover.png"
 slug = "status-page"
 tags = ["productology", "dadata"]
 title = "Аптайм на статус-странице"
+subscribe = "dangry"
 +++
 
 Есть такая штука у облачных сервисов — «статус-страница». Это отдельный, независимый от основного сайт, на котором написано, работает основной сервис или нет.
@@ -36,10 +37,3 @@ title = "Аптайм на статус-странице"
 В любом случае, даже плохая статус-страница лучше, чем никакой. Тем более, что подключить ее несложно — есть куча готовых инструментов. Даже бесплатные, вроде <a href="https://uptimerobot.com/">UptimeRobot</a> или <a href="https://upptime.js.org/">Upptime</a>.
 
 Рекомендую!
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-
-

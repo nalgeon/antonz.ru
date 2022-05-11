@@ -5,6 +5,7 @@ image = "/richard-hipp/cover.jpg"
 slug = "richard-hipp"
 tags = ["development"]
 title = "Ричард Хипп и SQLite"
+subscribe = "sqliter"
 +++
 
 Ричард Хипп — создатель SQLite, самой распространенной в мире базы данных.
@@ -34,8 +35,3 @@ title = "Ричард Хипп и SQLite"
 [Выпуск подкаста Changelog с Ричардом Хиппом](https://changelog.com/podcast/201)
 
 [Сайт SQLite](https://www.sqlite.org/index.html)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-

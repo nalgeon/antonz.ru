@@ -5,6 +5,7 @@ image = "/recursion/cover.png"
 slug = "recursion"
 tags = ["development"]
 title = "Как понять рекурсию"
+subscribe = "ohmypy"
 +++
 
 У программистов есть расхожая шутка:
@@ -34,10 +35,3 @@ def understand_recursion(myself):
 <blockquote class="big">
 Чтобы понять рекурсию, надо понимать рекурсию до тех пор, пока не поймёте
 </blockquote>
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-

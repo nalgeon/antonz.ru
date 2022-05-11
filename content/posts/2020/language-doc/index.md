@@ -5,6 +5,7 @@ image = "/language-doc/cover.png"
 slug = "language-doc"
 tags = ["development"]
 title = "Плохая и хорошая документация языка"
+subscribe = "thank_go"
 +++
 
 Язык Go не отличается красотой. Кто-то называет его «намеренно простым», кто-то уродливым. Но с чем у Go действительно всё классно — так это с документацией. Там много хорошего, но вот главное, на мой взгляд:
@@ -94,8 +95,3 @@ title = "Плохая и хорошая документация языка"
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Счёт 10-0 в пользу Go.
-
-<p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fab fa-telegram-plane"></i> «<a href="https://t.me/thank_go">Thank Go</a>»</span></em></p>
-
-
-

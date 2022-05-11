@@ -6,6 +6,7 @@ image = "/dataviz-guide/cover.png"
 slug = "dataviz-guide"
 tags = ["interface", "data"]
 title = "Книга по визуализации данных"
+subscribe = "dangry"
 +++
 
 На днях я наткнулся на идеальное руководство по инфографике и визуализации данных:
@@ -32,10 +33,3 @@ title = "Книга по визуализации данных"
 К счастью, IBCS опубликовали руководство под открытой лицензий Creative Commons. Так что с помощью пригоршни питона и такой-то матери я подготовил нормальную [веб-версию](https://github.com/nalgeon/dataviz), [EPUB](https://github.com/nalgeon/dataviz/releases/download/1.1/data-visualization-guide.epub) and [PDF](https://github.com/nalgeon/dataviz/releases/download/1.1/data-visualization-guide.pdf).
 
 Авторы вложили в руководство много труда, а результат мне очень понравился. Так что предлагаю вам тоже оценить!
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-
-

@@ -6,6 +6,7 @@ image = "/human-factor/cover.png"
 slug = "human-factor"
 tags = ["interface"]
 title = "Человеческого фактора не существует"
+subscribe = "dangry"
 +++
 
 Когда случается авария из-за ошибки человека, говорят «человеческий фактор». А правильнее сказать — «фактор системы» или «фактор интерфейса».
@@ -26,12 +27,3 @@ title = "Человеческого фактора не существует"
 - не теряйте пользовательские данные,
 - наглядно показывайте ситуацию,
 - помогайте исправить сделанное.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-<p class="figcaption">
-<em>Обложка — <a href="https://xkcd.com/1700/">xkcd</a></em>
-</p>
-

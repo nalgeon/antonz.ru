@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "float-as-integer-ratio"
 tags = ["ohmypy"]
 title = "Python. Из десятичной дроби — в обычную"
+subscribe = "ohmypy"
 +++
 
 У класса `float` есть прекрасный метод `as_integer_ratio()`, который представляет десятичную дробь в виде обычной — пары «числитель, знаменатель»:
@@ -38,7 +39,3 @@ title = "Python. Из десятичной дроби — в обычную"
 ```
 
 Уверен, вы и так это знаете. Просто на всякий случай ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

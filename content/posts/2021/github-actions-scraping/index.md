@@ -5,6 +5,7 @@ image = "/github-actions-scraping/cover.png"
 slug = "github-actions-scraping"
 tags = ["development", "sqlite"]
 title = "Собираем открытые данные с GitHub Actions"
+subscribe = "sqliter"
 +++
 
 GitHub Actions чаще всего используют для сборки и тестов, но вообще сервис подходит для любой автоматизации.
@@ -110,10 +111,3 @@ select id, name from city;
 [Полный сценарий](https://github.com/nalgeon/metro/blob/main/.github/workflows/scrape.yaml)
 
 [Репозиторий с данными](https://github.com/nalgeon/metro)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
-
-

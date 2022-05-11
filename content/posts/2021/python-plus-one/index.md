@@ -5,6 +5,7 @@ image = "/python-plus-one/cover.png"
 slug = "python-plus-one"
 tags = ["development", "ohmypy"]
 title = "Второй язык для питониста"
+subscribe = "thank_go"
 +++
 
 Если вы давно и хорошо знаете питон, некоторые моменты в нем могут напрягать. Например, необходимость начинать каждый новый проект с создания виртуального окружения и установки пачки тулов вроде black, pylint и pytest. Или отсутствующий рефакторинг и частые ошибки из-за динамической типизации. Или убоговатая асинхронность и костыль в виде GIL.
@@ -44,10 +45,3 @@ title = "Второй язык для питониста"
 <p class="big">
 <a href="https://stepik.org/96832">Go на практике</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fab fa-telegram-plane"></i> «<a href="https://t.me/thank_go">Thank Go!</a>»</span></em></p></div>
-</div>
-
-
-

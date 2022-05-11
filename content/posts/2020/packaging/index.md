@@ -6,6 +6,7 @@ image = "/packaging/cover.png"
 slug = "packaging"
 tags = ["development", "ohmypy"]
 title = "Как сделать классный Python-пакет"
+subscribe = "ohmypy"
 +++
 
 *Версия от апреля 2021 года*
@@ -424,12 +425,3 @@ jobs:
 - [Makefile](https://github.com/nalgeon/podsearch-py/blob/main/Makefile)
 - [build.yml](https://github.com/nalgeon/podsearch-py/blob/main/.github/workflows/build.yml)
 - [publish.yml](https://github.com/nalgeon/podsearch-py/blob/main/.github/workflows/publish.yml)
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="tg://resolve?domain=ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-
-
-

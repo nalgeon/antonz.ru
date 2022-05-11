@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "shlex-split"
 tags = ["ohmypy"]
 title = "Python. Разбить строку на слова с учётом кавычек"
+subscribe = "ohmypy"
 +++
 
 Предположим, вы собираете архив статей, и хотите для каждой автоматически определять теги — по ним можно будет моментально найти статью в архиве. В качестве тегов решили брать топ-3 слова из текста.
@@ -44,7 +45,3 @@ Counter(words).most_common(3)
 Вот теперь теги что надо!
 
 P.S. Вообще, shlex предназначен для разбора shell-подобных строк, так что если злая судьба заставит вас парсить bash-скрипты — вы знаете, куда смотреть.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

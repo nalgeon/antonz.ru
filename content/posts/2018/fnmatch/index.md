@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "fnmatch"
 tags = ["ohmypy"]
 title = "Python. Простое сравнение с шаблоном"
+subscribe = "ohmypy"
 +++
 
 Для проверки строки по шаблону обычно используют регулярные выражения и модуль `re`. Но иногда хочется что-нибудь попроще, пусть и не такое мощное — вроде like в SQL.
@@ -38,7 +39,3 @@ fnmatch.translate("*Френк*")
 ```
 
 Курлык.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

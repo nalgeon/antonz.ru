@@ -5,6 +5,7 @@ image = "/voice-interface-leaking-abstraction/cover.png"
 slug = "voice-interface-leaking-abstraction"
 tags = ["interface"]
 title = "Дырявая абстракция голосовых интерфейсов"
+subscribe = "dangry"
 +++
 
 Эдриан Цумбрюнен написал о голосовом интерфейсе, который прикидываются человеком: понимает свободные формулировки и демонстрируют эмоции. Эдриан называет такие интерфейсы «скеоморфными» и преподносит их как благо&thinsp;[^1].

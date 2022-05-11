@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "difflib-ratio"
 tags = ["ohmypy"]
 title = "Python. Сравнить строки на похожесть"
+subscribe = "ohmypy"
 +++
 
 Помните ваш [стартап с самыми актуальными новостями дня](/string-capwords/)? Кажется, у него появился конкурент — он нагло крадёт ваши аутентичные новости, рерайтит их, и рассылает ничего не подозревающим клиентам, подрывая вашу репутацию.
@@ -55,8 +56,3 @@ similarity(genuine[2], plagiary[2])
 ```
 
 АГА! 51%, 69% и 55% похожести! Всё ясно, какие ещё нужны доказательства.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>
-

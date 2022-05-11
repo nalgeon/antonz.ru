@@ -5,6 +5,7 @@ image = "/persona-jtbd-cargo/cover.png"
 slug = "persona-jtbd-cargo"
 tags = ["productology"]
 title = "Персоны, Jobs-to-Be-Done и здравый смысл"
+subscribe = "dangry"
 +++
 
 Пейдж Лаубхаймер из группы Нильсена-Нормана опубликовал статью-сравнение двух методик: [персон и Jobs-to-Be-Done](https://www.nngroup.com/articles/personas-jobs-be-done/).
@@ -46,8 +47,3 @@ title = "Персоны, Jobs-to-Be-Done и здравый смысл"
 > _Решение_<br>Полностью анонимная покупка. Оформлять заказ без регистрации, не спрашивать имя, фамилию, телефон, адрес — вообще ничего. Пояснить, что платёжные реквизиты (номер карты) не храним. Доставлять до пункта выдачи.
 
 Кто и зачем — это важно. Конкретная методика — карго-культ.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

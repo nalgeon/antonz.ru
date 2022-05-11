@@ -5,6 +5,7 @@ image = "/olga-romanova/cover.jpg"
 slug = "olga-romanova"
 tags = ["talk", "interface"]
 title = "Как спроектировать удобный интерфейс для сложной предметной области"
+subscribe = "dangry"
 +++
 
 <div class="row">
@@ -150,10 +151,3 @@ title = "Как спроектировать удобный интерфейс �
 <li>В твитере <a href="https://twitter.com/cat_in_cap">анонсы из блога</a>.</li>
 </ol>
 </div>
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Больше классных статей — на канале <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</em></span></p></div>
-</div>
-

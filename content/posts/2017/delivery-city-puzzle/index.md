@@ -5,6 +5,7 @@ image = "/delivery-city-puzzle/cover.jpg"
 slug = "delivery-city-puzzle"
 tags = ["interface", "puzzle"]
 title = "Задачка: город в интернет-магазине"
+subscribe = "dangry"
 +++
 
 Два дня назад я предложил читателям телеграм-канала «<a href="https://t.me/dangry" class="nowrap">интерфейсов без шелухи</a>» такую задачку:
@@ -105,12 +106,3 @@ title = "Задачка: город в интернет-магазине"
 
 <em>Гражданин, ваши документы</em>
 Сделать отдельную стартовую страницу, на которой будет *только* выбор города. Не выбрал — на сайт не пускать!
-
-<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
-
-Ещё раз спасибо всем участникам! Любые вопросы и замечания пишите в личку — [@nalgeon](https://t.me/nalgeon). Продолжим через недельку ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Решайте задачки на канале <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

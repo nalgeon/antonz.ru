@@ -5,6 +5,8 @@ description = "Обходим датасет страницами для быс�
 image = "/page-iterator/cover.png"
 slug = "page-iterator"
 tags = ["development", "ohmypy"]
+featured = true
+subscribe = "ohmypy"
 +++
 
 Предположим, вы считаете статистику по огромному датасету игрушек, проданных по всей стране за прошлый год:
@@ -156,7 +158,3 @@ Use islice:               93 ms
 Рекомендую!
 
 [песочница](https://replit.com/@antonz/page-iterator#main.py)
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Подписывайтесь на канал <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy"><strong>Oh My Py</strong></a>»</span>, чтобы узнать больше о чистом коде на Python</em></p></div>
-</div>

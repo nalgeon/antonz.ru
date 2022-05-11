@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "real-quick-ratio"
 tags = ["ohmypy", "development"]
 title = "Чистый код. Похожие названия методов"
+subscribe = "ohmypy"
 +++
 
 На днях мы использовали метод `SequenceMatcher.ratio()` из модуля difflib, чтобы [оценить сходство двух строк](/difflib-ratio/).
@@ -23,7 +24,3 @@ if matcher.real_quick_ratio() >= cutoff and \
 ```
 
 Как вспомогательные методы — ладно. Но точно не в публичный интерфейс.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

@@ -46,10 +46,3 @@ title = "Как привести дела в порядок без Дэвид�
 <a href="https://www.mann-ivanov-ferber.ru/books/dzhedajskie-texniki/" class="img-link"><img alt="Книга «Джедайские техники»" src="jedi-book.png"></a>
 </div>
 </div>
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

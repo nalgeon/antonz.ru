@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "dict-from-keys"
 tags = ["ohmypy"]
 title = "Python. Создать словарь по списку ключей"
+subscribe = "ohmypy"
 +++
 
 Предположим, вы сделали робота для общественных пространств. Он будет помогать людям.
@@ -53,7 +54,3 @@ counter = Counter(dict.fromkeys(actions, 0))
 ```
 
 Первый аргумент — список ключей, второй — умолчательное значение. Удобно, а?
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
-</div>

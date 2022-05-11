@@ -5,6 +5,7 @@ image = "/single-color-scheme/cover.png"
 slug = "single-color-scheme"
 tags = ["interface", "60-sec"]
 title = "Как собрать палитру из одного цвета"
+subscribe = "dangry"
 +++
 
 9 из 10 статей о работе с цветом в дизайне напоминают мне картинку «как нарисовать сову».
@@ -25,8 +26,3 @@ title = "Как собрать палитру из одного цвета"
 <a href="https://medium.com/@erikdkennedy/e18cacd97f9e">Color in UI Design: A Practical Framework</a>
 <br><small><a href="https://medium.com/usethics-doc/7d4f978b65c">на русском</a></small>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "textwrap-shorten"
 tags = ["ohmypy"]
 title = "Python. Сделать превьюшку длинного текста"
+subscribe = "ohmypy"
 +++
 
 Допустим, мы хотим получить превьюшку длинной статьи. Можно обрезать механически:
@@ -28,7 +29,3 @@ textwrap.shorten(article, 30, placeholder="...")
 ```
 
 Намного лучше!
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="https://t.me/ohmypy">Oh My Py</a>»</span></em></p></div>
-</div>

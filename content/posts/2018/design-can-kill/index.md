@@ -5,6 +5,7 @@ image = "/design-can-kill/cover.jpg"
 slug = "design-can-kill"
 tags = ["interface", "60-sec"]
 title = "Убийственный дизайн"
+subscribe = "dangry"
 +++
 
 Наткнулся на классную, судя по всему, книгу — Tragic Design. Об ошибках в дизайне, которые калечат и убивают — и о том, как их избежать.
@@ -21,8 +22,3 @@ title = "Убийственный дизайн"
 <p class="big">
 <a href="https://www.safaribooksonline.com/library/view/tragic-design/9781491923603/ch02.html">Design Can Kill</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

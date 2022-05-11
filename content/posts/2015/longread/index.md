@@ -5,6 +5,7 @@ image = "/longread/cover.png"
 slug = "longread"
 tags = ["writing"]
 title = "Как не написать простыню"
+subscribe = "dangry"
 +++
 
 _По лекции Максима Ильяхова_
@@ -60,7 +61,3 @@ _По лекции Максима Ильяхова_
 </p>
 
 Внутри- и затекстовые элементы оформления хороши до тех пор, пока их не станет слишком много. Используйте не больше 4–5 приемов, иначе статья превращается в набор разобщенных блоков, которые борятся за внимание читателя.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="htttps://t.me/dangry"><strong>Интерфейсы без шелухи</strong></a>»</span></em></p></div>
-</div>

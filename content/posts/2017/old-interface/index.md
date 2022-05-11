@@ -5,6 +5,7 @@ image = "/old-interface/cover.jpg"
 slug = "old-interface"
 tags = ["interface", "60-sec"]
 title = "Люблю старые интерфейсы"
+subscribe = "dangry"
 +++
 
 Такие, знаете, немодные и слегка неказистые, которых давно не касалась рука дизайнера и разработчика.
@@ -36,8 +37,3 @@ title = "Люблю старые интерфейсы"
 </div>
 
 Люблю старые интерфейсы.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

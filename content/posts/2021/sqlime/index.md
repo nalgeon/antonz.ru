@@ -5,6 +5,7 @@ image = "/sqlime/cover.png"
 slug = "sqlime"
 tags = ["sqlite", "project"]
 title = "SQLite-песочница в браузере"
+subscribe = "sqliter"
 +++
 
 Чего мне всегда не хватало, так это аналога JSFiddle для SQLite. Онлайн-песочницы, в которой можно быстро проверить SQL-запрос и поделиться с другими.
@@ -26,7 +27,4 @@ title = "SQLite-песочница в браузере"
 -   [пример](https://sqlime.org/#gist:e012594111ce51f91590c4737e41a046) заполненной базы;
 -   [исходники](https://github.com/nalgeon/sqlime).
 
-[подробности на Хабре](https://habr.com/ru/post/580240/)
-
-
-
+[подробности на хабре](https://habr.com/ru/post/580240/)

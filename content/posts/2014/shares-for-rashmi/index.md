@@ -4,6 +4,7 @@ description = ""
 slug = "shares-for-rashmi"
 tags = ["productology"]
 title = "Дольки для Рашми"
+subscribe = "dangry"
 +++
 
 В прошлой статье мы рассмотрели [6 шагов](/gamify/) проектирования игрофицированной системы по Кевину Вербаху. А сегодня применим этот подход в действии.
@@ -136,7 +137,3 @@ ShareAll наиболее привлекательна для следующих
 <p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
 Ну вот и все! Спасибо, что осилили такое количество букв и дочитали до этого места. Насколько мне известно, Рашми уже не работает в ShareAll, променяв ее на одну из компаний топ-100. Но задумка была неплохая, согласитесь ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry"><strong>Интерфейсы без шелухи</strong></a>»</span></em></p></div>
-</div>

@@ -5,6 +5,7 @@ image = "/sql-groups/cover.png"
 slug = "sql-groups"
 tags = ["data", "sqlite", "puzzle"]
 title = "Найти группы похожих объектов с помощью SQL"
+subscribe = "sqliter"
 +++
 
 Бывает, есть множество объектов с разными свойствами, и хочется идентифицировать группы похожих:
@@ -505,16 +506,9 @@ order by g.group_id, g.user_id;</code>
 
 Далеко не всегда такие задачи стоит решать на SQL. Часто процедурный код будет понятнее и эффективнее.
 
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на канал <span class="nowrap"><i class="fas fa-database"></i> «<a href="https://t.me/sqliter">SQLite на практике</a>»</span></em></p></div>
-</div>
-
 <script>
 function showSql(e) {
   document.querySelector("#sql").style.display = "";
   return false;
 }
 </script>
-
-
-

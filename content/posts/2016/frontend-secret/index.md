@@ -5,6 +5,7 @@ image = "/frontend-secret/cover.jpg"
 slug = "frontend-secret"
 tags = ["development"]
 title = "Главный секрет фронтенд-разработки"
+subscribe = "dangry"
 +++
 
 Бурный рост фреймворков, библиотек и подходов в джаваскрипт-разработке вызывает объяснимое беспокойство у моих знакомых фронтендеров.
@@ -31,10 +32,3 @@ title = "Главный секрет фронтенд-разработки"
   * [Современный учебник JavaScript](https://learn.javascript.ru), Илья Кантор
 - Крутой коллега
 - Здоровый пофиг на все модное
-
-<br>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>В свободное время — заглядывайте в <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="tg://resolve?domain=dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

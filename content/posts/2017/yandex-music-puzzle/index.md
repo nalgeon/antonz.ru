@@ -5,6 +5,7 @@ image = "/yandex-music-puzzle/cover.jpg"
 slug = "yandex-music-puzzle"
 tags = ["interface", "puzzle"]
 title = "Задачка: Яндекс-музыка и медленный интернет"
+subscribe = "dangry"
 +++
 
 На днях я предложил читателям телеграм-канала «<a href="https://t.me/dangry" class="nowrap">интерфейсов без шелухи</a>» такую задачку:
@@ -90,12 +91,3 @@ title = "Задачка: Яндекс-музыка и медленный инт
 > Подгружать треки в урезанном качестве, сообщив об этом пользователю. Лучше пусть что-то играет, чем совсем ничего.
 
 Логично.
-
-<p class="align-center">⌘ ⌘ ⌘</p>
-
-Ещё раз спасибо всем участникам! Продолжим через недельку ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Решайте задачки на канале <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

@@ -5,6 +5,7 @@ image = "/assets/projects/thankgo.png"
 slug = "go-errors"
 tags = ["development"]
 title = "Красавица и чудовище. Обработка ошибок в Go"
+subscribe = "thank_go"
 +++
 
 Роб Пайк сказал об ошибках в го:
@@ -144,10 +145,3 @@ P.S. Результаты голосования:
 </figure>
 </div>
 </div>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fab fa-telegram-plane"></i> «<a href="tg://resolve?domain=thank_go">Thank Go</a>»</span></em></p></div>
-</div>
-
-
-

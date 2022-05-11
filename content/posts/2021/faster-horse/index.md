@@ -5,6 +5,7 @@ image = "/faster-horse/cover.png"
 slug = "faster-horse"
 tags = ["productology"]
 title = "Более быстрая лошадь"
+subscribe = "dangry"
 +++
 
 Продуктоводы любят цитировать Генри Форда:
@@ -23,10 +24,3 @@ title = "Более быстрая лошадь"
 В общем, я за другую цитату Форда:
 
 > Мой секрет успеха заключается в умении понять точку зрения другого человека и смотреть на вещи и с его, и со своей точек зрения.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
-
-

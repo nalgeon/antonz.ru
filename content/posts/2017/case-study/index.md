@@ -4,6 +4,7 @@ description = "Как правильно рассказывать о выпол
 slug = "case-study"
 tags = ["60-sec"]
 title = "Долой скриншоты или Правильный отчёт о проекте"
+subscribe = "dangry"
 +++
 
 Лорен Холидей написала, как правильно рассказывать о выполненных проектах. Особенно рекомендую статью фрилансерам и руководителям студий.
@@ -39,8 +40,3 @@ title = "Долой скриншоты или Правильный отчёт о
 <p class="big">
 <a href="https://blog.prototypr.io/68997f295ef9">Screenshots are so Last Year: How to Write a Case Study That Wins You Clients</a>
 </p>
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-

@@ -5,6 +5,7 @@ image = "/assets/projects/ohmypy-2.png"
 slug = "bisect"
 tags = ["ohmypy"]
 title = "Python. Быстро найти элемент коллекции"
+subscribe = "ohmypy"
 +++
 
 Френк решил открыть магазин диковинок. Прайс-лист огромный, приведу только несколько позиций:
@@ -70,7 +71,3 @@ Product(price=3300, name='мельница для сыра')
 -   Элемент слева от этой позиции и есть интересующий нас товар («мельница» за 3300).
 
 Френк доволен.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class="nowrap"><i class="fas fa-kiwi-bird"></i> «<a href="http://ohmypy.ru">Oh My Py</a>»</span></em></p></div>
-</div>

@@ -4,6 +4,7 @@ description = ""
 slug = "geek-as-a-human-being"
 tags = ["productology"]
 title = "Гик тоже хочет красиво"
+subscribe = "dangry"
 +++
 
 Давайте откровенно.
@@ -38,7 +39,3 @@ title = "Гик тоже хочет красиво"
 А все потому, что гик — тоже человек. И создатель Госта человек. А автор вордпресса — кальмар.
 
 P.S. Осенью 2013 года Джон О’Нолан реализовал первый макет и запустил платформу [Ghost](https://ghost.org/). Все остальные фичи, включая дашборд, он радостно слил. Но это уже совсем другая история.
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>И подписывайтесь на <span class="nowrap"><i class="far fa-star color-sin"></i> «<a href="https://t.me/dangry"><strong>Интерфейсы без шелухи</strong></a>»</span></em></p></div>
-</div>

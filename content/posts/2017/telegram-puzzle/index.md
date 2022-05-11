@@ -5,6 +5,7 @@ image = "/telegram-puzzle/cover.jpg"
 slug = "telegram-puzzle"
 tags = ["interface", "puzzle", "telegram"]
 title = "Задачка: бардак в телеграме"
+subscribe = "dangry"
 +++
 
 <div class="row">
@@ -125,8 +126,3 @@ title = "Задачка: бардак в телеграме"
 Было ещё несколько решений, но там такие космолёты, что я не готов всерьёз их обсуждать.
 
 Ещё раз спасибо всем участникам! Мы продолжим ツ
-
-<div class="row">
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Решайте задачки на канале <span class="nowrap"><i class="fa fa-star-o color-sin"></i> «<a href="https://t.me/dangry">Интерфейсы без шелухи</a>»</span></em></p></div>
-</div>
-
