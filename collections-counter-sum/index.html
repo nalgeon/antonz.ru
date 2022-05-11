@@ -72,7 +72,7 @@
 <header>
 <h1>Python. Операции со статистикой</h1>
 </header>
-<p>Вернёмся к примеру со статистикой по заявкам разных типов. Вот данные о вопросах, проблемах и идеях за три дня:</p>
+<p>Вернёмся к примеру <a href=/collections-counter/>со статистикой по заявкам</a> разных типов. Вот данные о вопросах, проблемах и идеях за три дня:</p>
 <pre tabindex=0><code>monday = {&quot;question&quot;: 1, &quot;problem&quot;: 3, &quot;idea&quot;: 2}
 tuesday = {&quot;problem&quot;: 5, &quot;idea&quot;: 1}
 wednesday = {&quot;question&quot;: 2, &quot;problem&quot;: 2}
@@ -112,8 +112,11 @@ dict_keys(['problem', 'idea', 'question'])
 </code></pre><p>Думаю, вы уловили идею ツ</p>
 <p>P.S. Хотите реально злую штуку? Вот как посчитать агрегированную статистику в одну строчку:</p>
 <pre tabindex=0><code>sum(map(Counter, [monday, tuesday, wednesday]), Counter())
-</code></pre><div class=row>
-<div class="col-xs-12 col-sm-10 col-md-8"><p><em>Заметка из телеграм-канала <span class=nowrap><i class="fas fa-kiwi-bird"></i> «<a href=https://t.me/ohmypy>Oh My Py</a>»</span></em></p></div>
+</code></pre>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8">
+<p><em>Подписывайтесь на <a href=https://t.me/ohmypy><strong>канал</strong></a> и <a href=http://digest.antonz.ru/><strong>рассылку</strong></a>, чтобы не пропустить новые заметки</em> 🚀</p>
+</div>
 </div>
 </div>
 </div><footer class=post__footer>
