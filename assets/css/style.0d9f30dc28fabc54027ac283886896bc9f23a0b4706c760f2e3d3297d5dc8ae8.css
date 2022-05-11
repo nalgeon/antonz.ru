@@ -1338,7 +1338,9 @@ pre > code {
 }
 p > code,
 li > code,
-td > code {
+td > code,
+p > a > code,
+li > a > code {
     background: #f5f5f5;
     font-size: 80%;
     padding: 0.125em 0.25em;
@@ -1495,6 +1497,9 @@ abbr[title] {
 .fa-dot-circle::before {
     content: "\f192";
 }
+.fa-envelope::before {
+    content: "\f0e0";
+}
 .fa-facebook::before {
     content: "\f09a";
 }
@@ -1503,6 +1508,9 @@ abbr[title] {
 }
 .fa-file::before {
     content: "\f15b";
+}
+.fa-github::before {
+    content: "\f09b";
 }
 .fa-kiwi-bird::before {
     content: "\f535";
