@@ -74,7 +74,7 @@
 </header>
 <p>Питон — объектный язык. Это здорово и удобно, пока не придется создать 10 млн объектов в памяти, которые благополучно ее и съедят. Поговорим о том, как уменьшить аппетит.</p>
 <p>Допустим, есть у вас простенький объект «питомец» с атрибутами «имя» (строка) и «стоимость» (целое). Интуитивно кажется, что самое компактное предоставление — в виде кортежа:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#000>«</span><span style=color:#000>Pigeon</span> <span style=color:#000>Frank</span><span style=color:#000>»</span>, <span style=color:#1c01ce>50000</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#c41a16>&#34;Pigeon Frank&#34;</span>, <span style=color:#1c01ce>50000</span>)
 </code></pre></div><p>Замерим, сколько займет в памяти один такой красавчик:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>random</span>
 <span style=color:#a90d91>from</span> <span style=color:#000>pympler.asizeof</span> <span style=color:#a90d91>import</span> <span style=color:#000>asizeof</span>
