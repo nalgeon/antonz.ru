@@ -1,0 +1,224 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Компактные объекты в Python</title>
+<meta name=description content="Кортеж против датакласса, пока не вмешается numpy">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.0d9f30dc28fabc54027ac283886896bc9f23a0b4706c760f2e3d3297d5dc8ae8.css>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/compact-objects/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Компактные объекты в Python">
+<meta property="og:description" content="Кортеж против датакласса, пока не вмешается numpy">
+<meta property="og:url" content="https://antonz.ru/compact-objects/">
+<meta property="og:image" content="https://antonz.ru/compact-objects/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Компактные объекты в Python">
+<meta name=twitter:description content="Кортеж против датакласса, пока не вмешается numpy">
+<meta name=twitter:url content="https://antonz.ru/compact-objects/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/compact-objects/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/stopwar.svg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=/#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article">
+<header>
+<h1>Компактные объекты в Python</h1>
+</header>
+<p>Питон — объектный язык. Это здорово и удобно, пока не придется создать 10 млн объектов в памяти, которые благополучно ее и съедят. Поговорим о том, как уменьшить аппетит.</p>
+<p>Допустим, есть у вас простенький объект «питомец» с атрибутами «имя» (строка) и «стоимость» (целое). Интуитивно кажется, что самое компактное предоставление — в виде кортежа:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#000>«</span><span style=color:#000>Pigeon</span> <span style=color:#000>Frank</span><span style=color:#000>»</span>, <span style=color:#1c01ce>50000</span>)
+</code></pre></div><p>Замерим, сколько займет в памяти один такой красавчик:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>random</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>pympler.asizeof</span> <span style=color:#a90d91>import</span> <span style=color:#000>asizeof</span>
+
+<span style=color:#a90d91>def</span> <span style=color:#000>fields</span>():
+    <span style=color:#000>name_gen</span> <span style=color:#000>=</span> (<span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>choice</span>(<span style=color:#000>string</span><span style=color:#000>.</span><span style=color:#000>ascii_uppercase</span>) <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#1c01ce>10</span>))
+    <span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#c41a16>&#34;&#34;</span><span style=color:#000>.</span><span style=color:#000>join</span>(<span style=color:#000>name_gen</span>)
+    <span style=color:#000>price</span> <span style=color:#000>=</span> <span style=color:#000>random</span><span style=color:#000>.</span><span style=color:#000>randint</span>(<span style=color:#1c01ce>10000</span>, <span style=color:#1c01ce>99999</span>)
+    <span style=color:#a90d91>return</span> (<span style=color:#000>name</span>, <span style=color:#000>price</span>)
+
+<span style=color:#a90d91>def</span> <span style=color:#000>measure</span>(<span style=color:#000>name</span>, <span style=color:#000>fn</span>, <span style=color:#000>n</span><span style=color:#000>=</span><span style=color:#1c01ce>10_000</span>):
+    <span style=color:#000>pets</span> <span style=color:#000>=</span> [<span style=color:#000>fn</span>() <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#000>n</span>)]
+    <span style=color:#000>size</span> <span style=color:#000>=</span> <span style=color:#a90d91>round</span>(<span style=color:#000>asizeof</span>(<span style=color:#000>pets</span>) <span style=color:#000>/</span> <span style=color:#000>n</span>)
+    <span style=color:#a90d91>print</span>(<span style=color:#c41a16>f</span><span style=color:#c41a16>&#34;Pet size (</span><span style=color:#c41a16>{</span><span style=color:#000>name</span><span style=color:#c41a16>}</span><span style=color:#c41a16>) = </span><span style=color:#c41a16>{</span><span style=color:#000>size</span><span style=color:#c41a16>}</span><span style=color:#c41a16> bytes&#34;</span>)
+    <span style=color:#a90d91>return</span> <span style=color:#000>size</span>
+
+<span style=color:#000>baseline</span> <span style=color:#000>=</span> <span style=color:#000>measure</span>(<span style=color:#c41a16>&#34;tuple&#34;</span>, <span style=color:#000>fields</span>)
+</code></pre></div><pre tabindex=0><code>Pet size (tuple) = 161 bytes
+</code></pre><p>161 байт. Будем использовать как основу для сравнения.</p>
+<p>С чистыми кортежами, конечно, работать неудобно. Наверняка вы используете датакласс:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>dataclasses</span> <span style=color:#a90d91>import</span> <span style=color:#000>dataclass</span>
+
+<span style=color:#000>@dataclass</span>
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetData</span>:
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>price</span>: <span style=color:#a90d91>int</span>
+
+<span style=color:#000>fn</span> <span style=color:#000>=</span> <span style=color:#a90d91>lambda</span>: <span style=color:#000>PetData</span>(<span style=color:#000>*</span><span style=color:#000>fields</span>())
+<span style=color:#000>measure</span>(<span style=color:#c41a16>&#34;dataclass&#34;</span>, <span style=color:#000>fn</span>)
+</code></pre></div><pre tabindex=0><code>Pet size (dataclass) = 257 bytes
+x1.60 to baseline
+</code></pre><p>Ого, какой толстенький!</p>
+<p>Попробуем использовать именованный кортеж:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>typing</span> <span style=color:#a90d91>import</span> <span style=color:#000>NamedTuple</span>
+
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetTuple</span>(<span style=color:#000>NamedTuple</span>):
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>price</span>: <span style=color:#a90d91>int</span>
+
+
+<span style=color:#000>fn</span> <span style=color:#000>=</span> <span style=color:#a90d91>lambda</span>: <span style=color:#000>PetTuple</span>(<span style=color:#000>*</span><span style=color:#000>fields</span>())
+<span style=color:#000>measure</span>(<span style=color:#c41a16>&#34;named tuple&#34;</span>, <span style=color:#000>fn</span>)
+</code></pre></div><pre tabindex=0><code>Pet size (named tuple) = 161 bytes
+x1.00 to baseline
+</code></pre><p>Теперь вы понимаете, за что я его <a href=/namedtuple/>так люблю</a>. Удобный интерфейс как у датакласса — а вес как у кортежа. Идеально.</p>
+<p>Или нет? В Python 3.10 приехали датаклассы со слотами:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>@dataclass</span>(<span style=color:#000>slots</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>)
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetData</span>:
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>price</span>: <span style=color:#a90d91>int</span>
+
+
+<span style=color:#000>fn</span> <span style=color:#000>=</span> <span style=color:#a90d91>lambda</span>: <span style=color:#000>PetData</span>(<span style=color:#000>*</span><span style=color:#000>fields</span>())
+<span style=color:#000>measure</span>(<span style=color:#c41a16>&#34;dataclass w/slots&#34;</span>, <span style=color:#000>fn</span>)
+</code></pre></div><pre tabindex=0><code>Pet size (dataclass w/slots) = 153 bytes
+x0.95 to baseline
+</code></pre><p>Ого! Магия слотов создает специальные худощавые объекты, у которых внутри нет словаря, в отличие от обычных питонячих объектов. И такой датакласс ничуть не уступает кортежу.</p>
+<p>Что делать, если 3.10 вам еще не завезли? Использовать <code>NamedTuple</code>. Или прописывать слоты вручную:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>@dataclass</span>
+<span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetData</span>:
+    <span style=color:#000>__slots__</span> <span style=color:#000>=</span> (<span style=color:#c41a16>&#34;name&#34;</span>, <span style=color:#c41a16>&#34;price&#34;</span>)
+    <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
+    <span style=color:#000>price</span>: <span style=color:#a90d91>int</span>
+</code></pre></div><p>У слотовых объектов есть свои недостатоки. Но они отлично подходят для простых случаев (без наследования и прочих извращений).</p>
+<p>P.S. Конечно, настоящий победитель — numpy-массив. Но с ним неинтересно соревноваться ツ</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>string</span>
+<span style=color:#a90d91>import</span> <span style=color:#000>numpy</span> <span style=color:#a90d91>as</span> <span style=color:#000>np</span>
+
+<span style=color:#000>PetNumpy</span> <span style=color:#000>=</span> <span style=color:#000>np</span><span style=color:#000>.</span><span style=color:#000>dtype</span>([(<span style=color:#c41a16>&#34;name&#34;</span>, <span style=color:#c41a16>&#34;S10&#34;</span>), (<span style=color:#c41a16>&#34;price&#34;</span>, <span style=color:#c41a16>&#34;i4&#34;</span>)])
+<span style=color:#000>generator</span> <span style=color:#000>=</span> (<span style=color:#000>fields</span>() <span style=color:#a90d91>for</span> <span style=color:#000>_</span> <span style=color:#000>in</span> <span style=color:#a90d91>range</span>(<span style=color:#000>n</span>))
+<span style=color:#000>pets</span> <span style=color:#000>=</span> <span style=color:#000>np</span><span style=color:#000>.</span><span style=color:#000>fromiter</span>(<span style=color:#000>generator</span>, <span style=color:#000>dtype</span><span style=color:#000>=</span><span style=color:#000>PetNumpy</span>)
+<span style=color:#000>size</span> <span style=color:#000>=</span> <span style=color:#a90d91>round</span>(<span style=color:#000>asizeof</span>(<span style=color:#000>pets</span>) <span style=color:#000>/</span> <span style=color:#000>n</span>)
+</code></pre></div><pre tabindex=0><code>Pet size (structured array) = 14 bytes
+x0.09 to baseline
+</code></pre><div class=row>
+<div class="col-xs-12 col-sm-4">
+<figure><img alt=Кортеж src=tuple.png></figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure><img alt=Датакласс src=dataclass.png></figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure><img alt="Именованный кортеж" src=named-tuple.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-4">
+<figure><img alt="Датакласс со слотами" src=dataclass-slots.png></figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure><img alt="Ручные слоты" src=manual-slots.png></figure>
+</div>
+<div class="col-xs-12 col-sm-4">
+<figure><img alt=numpy-массив src=np-array.png></figure>
+</div>
+</div>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8">
+<p><em>Подписывайтесь на <a href=https://t.me/ohmypy><strong>канал</strong></a> и <a href=http://digest.antonz.ru/><strong>рассылку</strong></a>, чтобы не пропустить новые заметки</em> 🚀</p>
+</div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2022-05-13 20:25:00 +0000 UTC">13.05.2022</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class="post__nav article">
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/python-stdlib-changes/>Новости стандартной библиотеки Python</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/page-iterator/>Постраничный итератор в Python</a></p>
+<p><a href=/functools-cache/>Закешировать результат вычислений в Python</a></p>
+<p><a href=/list-internals/>Как на самом деле устроен список в Python</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=http://digest.antonz.ru/ class=footer__social-link><i class="fas fa-envelope"></i><span>Email</span></a>
+<a href=/index.xml class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+</ul>
+</footer>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script></body>
+</html>
