@@ -191,6 +191,8 @@ x0.09 to baseline
 
 А я все равно предпочитаю именованные кортежи.
 
+[песочница](https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing)
+
 <div class="row">
 <div class="col-xs-12 col-sm-4">
 <figure><img alt="Кортеж" src="tuple.png"></figure>
