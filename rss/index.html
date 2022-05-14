@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Fri, 13 May 2022 20:25:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Компактные объекты в Python</title><link>https://antonz.ru/compact-objects/</link><pubDate>Fri, 13 May 2022 20:25:00 +0000</pubDate><guid>https://antonz.ru/compact-objects/</guid><description>Кортеж против датакласса, пока не вмешается numpy</description><content:encoded><![CDATA[<p>Питон — объектный язык. Это здорово и удобно, пока не придется создать 10 млн объектов в памяти, которые благополучно ее и съедят. Поговорим о том, как уменьшить аппетит.</p>
+<p><em>Используйте <a href="https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing">песочницу</a>, чтобы попробовать примеры</em></p>
 <h2 id="кортеж">Кортеж</h2>
 <p>Допустим, есть у вас простенький объект «питомец» с атрибутами «имя» (строка) и «стоимость» (целое). Интуитивно кажется, что самое компактное предоставление — в виде кортежа:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#c41a16">&#34;Frank the Pigeon&#34;</span>, <span style="color:#1c01ce">50000</span>)
@@ -68,7 +69,33 @@ x0.95 to baseline
     <span style="color:#000">name</span>: <span style="color:#a90d91">str</span>
     <span style="color:#000">price</span>: <span style="color:#a90d91">int</span>
 </code></pre></div><p>У слотовых объектов есть свои недостатки. Но они отлично подходят для простых случаев (без наследования и прочих наворотов).</p>
-<h2 id="другие-варианты">Другие варианты</h2>
+<h2 id="numpy-массив">numpy-массив</h2>
+<p>Конечно, настоящий победитель — numpy-массив:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">import</span> <span style="color:#000">string</span>
+<span style="color:#a90d91">import</span> <span style="color:#000">numpy</span> <span style="color:#a90d91">as</span> <span style="color:#000">np</span>
+
+<span style="color:#000">PetNumpy</span> <span style="color:#000">=</span> <span style="color:#000">np</span><span style="color:#000">.</span><span style="color:#000">dtype</span>([(<span style="color:#c41a16">&#34;name&#34;</span>, <span style="color:#c41a16">&#34;S10&#34;</span>), (<span style="color:#c41a16">&#34;price&#34;</span>, <span style="color:#c41a16">&#34;i4&#34;</span>)])
+<span style="color:#000">generator</span> <span style="color:#000">=</span> (<span style="color:#000">fields</span>() <span style="color:#a90d91">for</span> <span style="color:#000">_</span> <span style="color:#000">in</span> <span style="color:#a90d91">range</span>(<span style="color:#000">n</span>))
+<span style="color:#000">pets</span> <span style="color:#000">=</span> <span style="color:#000">np</span><span style="color:#000">.</span><span style="color:#000">fromiter</span>(<span style="color:#000">generator</span>, <span style="color:#000">dtype</span><span style="color:#000">=</span><span style="color:#000">PetNumpy</span>)
+<span style="color:#000">size</span> <span style="color:#000">=</span> <span style="color:#a90d91">round</span>(<span style="color:#000">asizeof</span>(<span style="color:#000">pets</span>) <span style="color:#000">/</span> <span style="color:#000">n</span>)
+</code></pre></div><pre tabindex="0"><code>Pet size (numpy array) = 14 bytes
+x0.09 to baseline
+</code></pre><p>Но и с <code>numpy</code> есть нюансы. Если строки юникодные (тип <code>U</code> вместо <code>S</code>), выигрыш будет не таким впечатляющим:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">PetNumpy</span> <span style="color:#000">=</span> <span style="color:#000">np</span><span style="color:#000">.</span><span style="color:#000">dtype</span>([(<span style="color:#c41a16">&#34;name&#34;</span>, <span style="color:#c41a16">&#34;U10&#34;</span>), (<span style="color:#c41a16">&#34;price&#34;</span>, <span style="color:#c41a16">&#34;i4&#34;</span>)])
+</code></pre></div><pre tabindex="0"><code>Pet size (numpy U10) = 44 bytes
+x0.27 to baseline
+</code></pre><p>А если длина имени не строго 10 символов, а варьируется, скажем, до 50 символов (<code>U50</code> вместо <code>U10</code>) — преимущества и вовсе сходят на нет:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">fields</span>():
+    <span style="color:#000">name_len</span> <span style="color:#000">=</span> <span style="color:#000">random</span><span style="color:#000">.</span><span style="color:#000">randint</span>(<span style="color:#1c01ce">10</span>, <span style="color:#1c01ce">50</span>)
+    <span style="color:#000">name_gen</span> <span style="color:#000">=</span> (<span style="color:#000">random</span><span style="color:#000">.</span><span style="color:#000">choice</span>(<span style="color:#000">string</span><span style="color:#000">.</span><span style="color:#000">ascii_uppercase</span>) <span style="color:#a90d91">for</span> <span style="color:#000">_</span> <span style="color:#000">in</span> <span style="color:#a90d91">range</span>(<span style="color:#000">name_len</span>))
+    <span style="color:#177500"># ...</span>
+
+<span style="color:#000">PetNumpy</span> <span style="color:#000">=</span> <span style="color:#000">np</span><span style="color:#000">.</span><span style="color:#000">dtype</span>([(<span style="color:#c41a16">&#34;name&#34;</span>, <span style="color:#c41a16">&#34;U50&#34;</span>), (<span style="color:#c41a16">&#34;price&#34;</span>, <span style="color:#c41a16">&#34;i4&#34;</span>)])
+</code></pre></div><pre tabindex="0"><code>Pet size (tuple) = 179 bytes
+
+Pet size (numpy U50) = 204 bytes
+x1.14 to baseline
+</code></pre><h2 id="другие-варианты">Другие варианты</h2>
 <p>Для объективности рассмотрим и альтернативы.</p>
 <p>Обычный класс по размеру не отличается от датакласса:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">class</span> <span style="color:#3f6e75">PetClass</span>:
@@ -92,19 +119,8 @@ x1.60 to baseline
     <span style="color:#000">price</span>: <span style="color:#a90d91">int</span>
 </code></pre></div><pre tabindex="0"><code>Pet size (pydantic) = 385 bytes
 x2.39 to baseline
-</code></pre><h2 id="настоящий-победитель">Настоящий победитель</h2>
-<p>Конечно, настоящий победитель — numpy-массив. Но с ним неинтересно соревноваться ツ</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">import</span> <span style="color:#000">string</span>
-<span style="color:#a90d91">import</span> <span style="color:#000">numpy</span> <span style="color:#a90d91">as</span> <span style="color:#000">np</span>
-
-<span style="color:#000">PetNumpy</span> <span style="color:#000">=</span> <span style="color:#000">np</span><span style="color:#000">.</span><span style="color:#000">dtype</span>([(<span style="color:#c41a16">&#34;name&#34;</span>, <span style="color:#c41a16">&#34;S10&#34;</span>), (<span style="color:#c41a16">&#34;price&#34;</span>, <span style="color:#c41a16">&#34;i4&#34;</span>)])
-<span style="color:#000">generator</span> <span style="color:#000">=</span> (<span style="color:#000">fields</span>() <span style="color:#a90d91">for</span> <span style="color:#000">_</span> <span style="color:#000">in</span> <span style="color:#a90d91">range</span>(<span style="color:#000">n</span>))
-<span style="color:#000">pets</span> <span style="color:#000">=</span> <span style="color:#000">np</span><span style="color:#000">.</span><span style="color:#000">fromiter</span>(<span style="color:#000">generator</span>, <span style="color:#000">dtype</span><span style="color:#000">=</span><span style="color:#000">PetNumpy</span>)
-<span style="color:#000">size</span> <span style="color:#000">=</span> <span style="color:#a90d91">round</span>(<span style="color:#000">asizeof</span>(<span style="color:#000">pets</span>) <span style="color:#000">/</span> <span style="color:#000">n</span>)
-</code></pre></div><pre tabindex="0"><code>Pet size (structured array) = 14 bytes
-x0.09 to baseline
-</code></pre><p>А я все равно предпочитаю именованные кортежи.</p>
-<p><a href="https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing">песочница</a></p>
+</code></pre><p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
+<p>Компактные (и не очень) объекты в Python:</p>
 <div class="row">
 <div class="col-xs-12 col-sm-4">
 <figure><img alt="Кортеж" src="tuple.png"></figure>
