@@ -10,6 +10,8 @@ subscribe = "ohmypy"
 
 Питон — объектный язык. Это здорово и удобно, пока не придется создать 10 млн объектов в памяти, которые благополучно ее и съедят. Поговорим о том, как уменьшить аппетит.
 
+_Используйте [песочницу](https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing), чтобы попробовать примеры_
+
 ## Кортеж
 
 Допустим, есть у вас простенький объект «питомец» с атрибутами «имя» (строка) и «стоимость» (целое). Интуитивно кажется, что самое компактное предоставление — в виде кортежа:
@@ -123,6 +125,54 @@ class PetData:
 
 У слотовых объектов есть свои недостатки. Но они отлично подходят для простых случаев (без наследования и прочих наворотов).
 
+## numpy-массив
+
+Конечно, настоящий победитель — numpy-массив:
+
+```python
+import string
+import numpy as np
+
+PetNumpy = np.dtype([("name", "S10"), ("price", "i4")])
+generator = (fields() for _ in range(n))
+pets = np.fromiter(generator, dtype=PetNumpy)
+size = round(asizeof(pets) / n)
+```
+
+```
+Pet size (numpy array) = 14 bytes
+x0.09 to baseline
+```
+
+Но и с `numpy` есть нюансы. Если строки юникодные (тип `U` вместо `S`), выигрыш будет не таким впечатляющим:
+
+```python
+PetNumpy = np.dtype([("name", "U10"), ("price", "i4")])
+```
+
+```
+Pet size (numpy U10) = 44 bytes
+x0.27 to baseline
+```
+
+А если длина имени не строго 10 символов, а варьируется, скажем, до 50 символов (`U50` вместо `U10`) — преимущества и вовсе сходят на нет:
+
+```python
+def fields():
+    name_len = random.randint(10, 50)
+    name_gen = (random.choice(string.ascii_uppercase) for _ in range(name_len))
+    # ...
+
+PetNumpy = np.dtype([("name", "U50"), ("price", "i4")])
+```
+
+```
+Pet size (tuple) = 179 bytes
+
+Pet size (numpy U50) = 204 bytes
+x1.14 to baseline
+```
+
 ## Другие варианты
 
 Для объективности рассмотрим и альтернативы.
@@ -170,28 +220,9 @@ Pet size (pydantic) = 385 bytes
 x2.39 to baseline
 ```
 
-## Настоящий победитель
+<p class="align-center">⌘&nbsp;⌘&nbsp;⌘</p>
 
-Конечно, настоящий победитель — numpy-массив. Но с ним неинтересно соревноваться ツ
-
-```python
-import string
-import numpy as np
-
-PetNumpy = np.dtype([("name", "S10"), ("price", "i4")])
-generator = (fields() for _ in range(n))
-pets = np.fromiter(generator, dtype=PetNumpy)
-size = round(asizeof(pets) / n)
-```
-
-```
-Pet size (structured array) = 14 bytes
-x0.09 to baseline
-```
-
-А я все равно предпочитаю именованные кортежи.
-
-[песочница](https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing)
+Компактные (и не очень) объекты в Python:
 
 <div class="row">
 <div class="col-xs-12 col-sm-4">
