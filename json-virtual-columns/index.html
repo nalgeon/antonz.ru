@@ -73,6 +73,7 @@
 <h1>JSON и виртуальные столбцы в SQLite</h1>
 </header>
 <p>У <a href=/generated-columns/>вычисляемых столбцов</a> есть еще одно чрезвычайно полезное применение.</p>
+<p><img src=json-data.png alt=JSON-данные></p>
 <p>Допустим, вы решили вести журнал событий, которые происходят в системе. События бывают разных типов, у каждого свой набор полей. Например, вход в систему:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
     <span style=color:#000>&#34;timestamp&#34;</span>: <span style=color:#c41a16>&#34;2022-05-15T09:31:00Z&#34;</span>,
@@ -94,7 +95,8 @@
         <span style=color:#000>&#34;currency&#34;</span>: <span style=color:#c41a16>&#34;USD&#34;</span>
     }
 }
-</code></pre></div><p>Вы решаете не заниматься нормализацией по таблицам, а хранить прямо в JSON. Заводите таблицу <code>events</code> с единственным полем <code>value</code>:</p>
+</code></pre></div><p><img src=json-functions.png alt=JSON-функции></p>
+<p>Вы решаете не заниматься нормализацией по таблицам, а хранить прямо в JSON. Заводите таблицу <code>events</code> с единственным полем <code>value</code>:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>value</span> <span style=color:#a90d91>from</span> <span style=color:#000>events</span>;
 </code></pre></div><pre tabindex=0><code>{&quot;timestamp&quot;:&quot;2022-05-15T09:31:00Z&quot;,&quot;object&quot;:&quot;user&quot;,&quot;object_id&quot;:11,&quot;action&quot;:&quot;login&quot;,&quot;details&quot;:{&quot;ip&quot;:&quot;192.168.0.1&quot;}}
 {&quot;timestamp&quot;:&quot;2022-05-15T09:32:00Z&quot;,&quot;object&quot;:&quot;account&quot;,&quot;object_id&quot;:12,&quot;action&quot;:&quot;deposit&quot;,&quot;details&quot;:{&quot;amount&quot;:&quot;1000&quot;,&quot;currency&quot;:&quot;USD&quot;}}
@@ -111,6 +113,7 @@
 │ user   │ login  │
 └────────┴────────┘
 </code></pre><p>Все здорово, но <code>json_extract()</code> при вызове каждый раз парсит текст, так что на сотне тысяч записей запрос будет работать медленно. Что делать?</p>
+<p><img src=json-columns.png alt=JSON-столбцы></p>
 <p>Создать виртуальные столбцы:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>alter</span> <span style=color:#a90d91>table</span> <span style=color:#000>events</span>
 <span style=color:#a90d91>add</span> <span style=color:#a90d91>column</span> <span style=color:#000>object_id</span> <span style=color:#a90d91>integer</span>
