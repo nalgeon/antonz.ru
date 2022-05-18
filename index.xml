@@ -1,4 +1,78 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Sun, 15 May 2022 11:25:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>JSON и виртуальные столбцы в SQLite</title><link>https://antonz.ru/json-virtual-columns/</link><pubDate>Sun, 15 May 2022 11:25:00 +0000</pubDate><guid>https://antonz.ru/json-virtual-columns/</guid><description>Строим NoSQL-базу на минималках.</description><content:encoded><![CDATA[<p>У <a href="/generated-columns/">вычисляемых столбцов</a> есть еще одно чрезвычайно полезное применение.</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Wed, 18 May 2022 21:30:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Временные таблицы в SQLite</title><link>https://antonz.ru/temp-tables/</link><pubDate>Wed, 18 May 2022 21:30:00 +0000</pubDate><guid>https://antonz.ru/temp-tables/</guid><description>Для быстрого исследовательского анализа данных.</description><content:encoded><![CDATA[<p>Бывает, хочется собрать данные из нескольких таблиц в одну, и дальше с ними поработать. Например, выбрать вакансии вместе с работодателями и регионами:</p>
+<p><img src="combine-then-query.png" alt="Сводный датасет"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">select</span> <span style="color:#000">v</span>.<span style="color:#000">*</span>, <span style="color:#000">e</span>.<span style="color:#000">name</span>, <span style="color:#000">a</span>.<span style="color:#000">name</span>
+<span style="color:#a90d91">from</span> <span style="color:#000">vacancy</span> <span style="color:#a90d91">as</span> <span style="color:#000">v</span>
+  <span style="color:#a90d91">join</span> <span style="color:#000">employer</span> <span style="color:#a90d91">as</span> <span style="color:#000">e</span> <span style="color:#a90d91">on</span> <span style="color:#000">e</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">employer_id</span>
+  <span style="color:#a90d91">join</span> <span style="color:#000">area</span> <span style="color:#a90d91">as</span> <span style="color:#000">a</span> <span style="color:#a90d91">on</span> <span style="color:#000">a</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">area_id</span>
+</code></pre></div><p>Вопрос, как дальше запускать запросы по сводным данным. Есть три способа это сделать:</p>
+<ol>
+<li>Табличное выражение (CTE)</li>
+<li>Представление (view)</li>
+<li>Временная таблица (temporary table)</li>
+</ol>
+<p><img src="cte.png" alt="CTE"></p>
+<p><strong>Табличное выражение</strong> — это подзапрос с именем:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">with</span> <span style="color:#000">combined_cte</span> <span style="color:#a90d91">as</span> (
+  <span style="color:#a90d91">select</span> <span style="color:#000">v</span>.<span style="color:#000">*</span>, <span style="color:#000">e</span>.<span style="color:#000">name</span>, <span style="color:#000">a</span>.<span style="color:#000">name</span>
+  <span style="color:#a90d91">from</span> <span style="color:#000">vacancy</span> <span style="color:#a90d91">as</span> <span style="color:#000">v</span>
+    <span style="color:#a90d91">join</span> <span style="color:#000">employer</span> <span style="color:#a90d91">as</span> <span style="color:#000">e</span> <span style="color:#a90d91">on</span> <span style="color:#000">e</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">employer_id</span>
+    <span style="color:#a90d91">join</span> <span style="color:#000">area</span> <span style="color:#a90d91">as</span> <span style="color:#000">a</span> <span style="color:#a90d91">on</span> <span style="color:#000">a</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">area_id</span>
+)
+<span style="color:#a90d91">select</span> ...
+<span style="color:#a90d91">from</span> <span style="color:#000">combined_cte</span>
+<span style="color:#a90d91">where</span> ...
+<span style="color:#a90d91">group</span> <span style="color:#a90d91">by</span> ...
+<span style="color:#a90d91">order</span> <span style="color:#a90d91">by</span> ...
+</code></pre></div><p>Я подробно описывал CTE <a href="/cte/">в отдельной заметке</a>, так что не буду повторяться. Важно, что CTE каждый раз вычисляется заново, так что если наш сводный селект не особо быстрый — запросы по нему будут тормозить.</p>
+<p><img src="view.png" alt="Представление"></p>
+<p><strong>Представление</strong> работает как CTE, но к нему можно обращаться как к обычной таблице и не повторять каждый раз подзапрос. Как и CTE, представление тоже вычисляется на лету.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#177500">-- 1) create once
+</span><span style="color:#177500"></span><span style="color:#a90d91">create</span> <span style="color:#a90d91">view</span> <span style="color:#000">combined_view</span> <span style="color:#a90d91">as</span>
+<span style="color:#a90d91">select</span> <span style="color:#000">v</span>.<span style="color:#000">*</span>, <span style="color:#000">e</span>.<span style="color:#000">name</span>, <span style="color:#000">a</span>.<span style="color:#000">name</span>
+<span style="color:#a90d91">from</span> <span style="color:#000">vacancy</span> <span style="color:#a90d91">as</span> <span style="color:#000">v</span>
+  <span style="color:#a90d91">join</span> <span style="color:#000">employer</span> <span style="color:#a90d91">as</span> <span style="color:#000">e</span> <span style="color:#a90d91">on</span> <span style="color:#000">e</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">employer_id</span>
+  <span style="color:#a90d91">join</span> <span style="color:#000">area</span> <span style="color:#a90d91">as</span> <span style="color:#000">a</span> <span style="color:#a90d91">on</span> <span style="color:#000">a</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">area_id</span>;
+
+<span style="color:#177500">-- 2) use everywhere
+</span><span style="color:#177500"></span><span style="color:#a90d91">select</span> ...
+<span style="color:#a90d91">from</span> <span style="color:#000">combined_view</span>
+<span style="color:#a90d91">where</span> ...
+<span style="color:#a90d91">group</span> <span style="color:#a90d91">by</span> ...
+<span style="color:#a90d91">order</span> <span style="color:#a90d91">by</span> ...
+</code></pre></div><p>В PostgreSQL и других СУБД есть материализованные представления, которые сохраняют данные на диск. Но не в SQLite.</p>
+<p><img src="temp-table.png" alt="Временная таблица"></p>
+<p><strong>Временная таблица</strong> — такая же, как настоящая: хранит данные на диске, можно построить индексы. Но существует она, только пока открыто соединение с базой данных.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#177500">-- 1) create once
+</span><span style="color:#177500"></span><span style="color:#a90d91">create</span> <span style="color:#000">temp</span> <span style="color:#a90d91">table</span> <span style="color:#000">combined_temp</span> <span style="color:#a90d91">as</span>
+<span style="color:#a90d91">select</span> <span style="color:#000">v</span>.<span style="color:#000">*</span>, <span style="color:#000">e</span>.<span style="color:#000">name</span>, <span style="color:#000">a</span>.<span style="color:#000">name</span>
+<span style="color:#a90d91">from</span> <span style="color:#000">vacancy</span> <span style="color:#a90d91">as</span> <span style="color:#000">v</span>
+  <span style="color:#a90d91">join</span> <span style="color:#000">employer</span> <span style="color:#a90d91">as</span> <span style="color:#000">e</span> <span style="color:#a90d91">on</span> <span style="color:#000">e</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">employer_id</span>
+  <span style="color:#a90d91">join</span> <span style="color:#000">area</span> <span style="color:#a90d91">as</span> <span style="color:#000">a</span> <span style="color:#a90d91">on</span> <span style="color:#000">a</span>.<span style="color:#000">id</span> <span style="color:#000">=</span> <span style="color:#000">v</span>.<span style="color:#000">area_id</span>;
+
+<span style="color:#177500">-- 2) use everywhere
+</span><span style="color:#177500"></span><span style="color:#a90d91">select</span> ...
+<span style="color:#a90d91">from</span> <span style="color:#000">combined_temp</span>
+<span style="color:#a90d91">where</span> ...
+<span style="color:#a90d91">group</span> <span style="color:#a90d91">by</span> ...
+<span style="color:#a90d91">order</span> <span style="color:#a90d91">by</span> ...
+</code></pre></div><p>Технически, SQLite хранит временные таблицы в специальной <code>temp</code>-базе. Она лежит в отдельном файле на диске и видна только тому соединению БД, в котором была создана. Как только соединение закрывается, SQLite автоматически удаляет временную базу.</p>
+<div class="boxed">
+<p><strong>Где находится временная база</strong></p>
+<p>На юниксо-подобных системах временная база лежит в одном из следующих каталогов:</p>
+<ol>
+<li>Каталог, заданный прагмой <code>PRAGMA temp_store_directory</code> (объявлена устаревшей)</li>
+<li>Переменная окружения <code>SQLITE_TMPDIR</code></li>
+<li>Переменная окружения <code>TMPDIR</code></li>
+<li><code>/var/tmp</code></li>
+<li><code>/usr/tmp</code></li>
+<li><code>/tmp</code></li>
+<li>Текущий рабочий каталог (<code>.</code>)</li>
+</ol>
+<p>SQLite выбирает первый вариант из списка, для которого есть разрешения на запись (write) и исполнение (execute).</p>
+<p><a href="https://sqlite.org/tempfiles.html">документация</a></p>
+</div>
+<p>Временные таблицы отлично подходят для экспериментов, когда вы только знакомитесь с данными. Можно позволить себе любые безумства — ведь после отключения от базы все будет забыто ツ</p>
+]]></content:encoded></item><item><title>JSON и виртуальные столбцы в SQLite</title><link>https://antonz.ru/json-virtual-columns/</link><pubDate>Sun, 15 May 2022 11:25:00 +0000</pubDate><guid>https://antonz.ru/json-virtual-columns/</guid><description>Строим NoSQL-базу на минималках.</description><content:encoded><![CDATA[<p>У <a href="/generated-columns/">вычисляемых столбцов</a> есть еще одно чрезвычайно полезное применение.</p>
 <p><img src="json-data.png" alt="JSON-данные"></p>
 <p>Допустим, вы решили вести журнал событий, которые происходят в системе. События бывают разных типов, у каждого свой набор полей. Например, вход в систему:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
@@ -429,74 +503,4 @@ Use islice:               93 ms
 <p>Дело в том, что SQLite хранит тип не только на столбце, но и на каждом значении в таблице. Именно поэтому в одном столбце без проблем хранятся значения разных типов. Тип на столбце используется как рекомендация: при вставке SQLite пытается привести значение к рекомендуемому типу, но если не получилось — сохраняет «как есть».</p>
 <p>Это удобно для анализа данных — можно сначала все загрузить, а потом средствами SQL разбираться с проблемными значениями. Любая другая СУБД выдаст ошибку при импорте и заставит вас «шерстить» файл скриптами или вручную.</p>
 <p>С другой стороны, это неожиданное поведение, за которое многие недолюбливают SQLite и даже прозвали его «JavaScript в мире баз данных». Со временем разработчики SQLite прислушались и сделали альтернативный механизм «строгих» таблиц — но о нем в другой раз.</p>
-]]></content:encoded></item><item><title>Все расширения для SQLite</title><link>https://antonz.ru/sqlean/</link><pubDate>Tue, 04 Jan 2022 11:30:00 +0000</pubDate><guid>https://antonz.ru/sqlean/</guid><description>Регулярки, статистика, файлы и еще 100+ функций.</description><content:encoded><![CDATA[<p>Мне очень нравится SQLite. Это миниатюрная встраиваемая база, которая отлично подходит как для исследовательского анализа данных, так и в качестве хранилища для небольших приложений (<a href="https://habr.com/ru/post/547448/">писал об этом</a>, не буду повторяться).</p>
-<p>Но есть у нее один недостаток: маловато встроенных функций по сравнению с PostgreSQL или Oracle. К счастью, авторы заложили в SQLite механизм расширений, на котором можно сделать почти все что угодно. В результате интернет заполнен обрывочными расширениями, которые добавляют функцию-другую.</p>
-<p>Мне хотелось большой системности. В результате появился проект <strong>sqlean</strong> — в нем я собираю вместе недостающие в SQLite функции, распределяю их по модулям, рефакторю код, пишу тесты и документацию. Получается что-то вроде стандартной библиотеки, как в Python или Go, только для SQLite.</p>
-<p>Я планирую подробно написать про каждый модуль в отдельной статье, а пока — вот краткий обзор.</p>
-<h2 id="основной-набор">Основной набор</h2>
-<p>Это самые популярные функции, которых не хватало в SQLite:</p>
-<ul>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md">crypto</a>: криптографические хеш-функции вроде MD5, SHA-1 и SHA-256.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/fileio.md">fileio</a>: работа с файловой системой — чтение и запись файлов, создание каталогов.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md">fuzzy</a>: нечеткое сравнение строк, фонетические алгоритмы, транслитерация.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/ipaddr.md">ipaddr</a>: манипуляция IP-адресами и подсетями.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/json1.md">json1</a>: работа с JSON.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/math.md">math</a>: математические функции.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/re.md">re</a>: регулярные выражения.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/stats.md">stats</a>: статистика — медиана, процентили, стандартное отклонение.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/text.md">text</a>: работа со строками.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/unicode.md">unicode</a>: поддержка юникода для функций <code>upper()</code>, <code>lower()</code> и <code>LIKE</code>.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/uuid.md">uuid</a>: генерация уникальных идентификаторов.</li>
-<li><a href="https://github.com/nalgeon/sqlean/blob/main/docs/vsv.md">vsv</a>: работа с CSV-файлами как с таблицами базы.</li>
-</ul>
-<p>Все расширения можно <a href="https://github.com/nalgeon/sqlean/releases/latest">скачать</a> для Windows, Linix и macOS.</p>
-<h2 id="инкубатор">Инкубатор</h2>
-<p>Функции, которые пока не вошли в основной набор. Эти расширения могут быть плохо структурированы, но я их постепенно рефакторю и переношу в основные.</p>
-<ul>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1004109889">array</a>: работа с массивами (почти как в постгресе).</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-999732640">besttype</a>: преобразует строку в подходящий числовой тип.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002267134">bloom</a>: быстрый вероятностный способ понять, есть значение в таблице или нет.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-996605444">cbrt</a>: кубический корень из числа.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1001239676">classifier</a>: бинарный классификатор на логистической регрессии.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1000937999">compress</a> и <a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1000938046">sqlar</a>: архивация и распаковка данных.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997427979">cron</a>: проверяет даты по cron-шаблонам.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1004347222">define</a>: динамически создает скалярные и табличные функции прямо из SQL.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997423609">envfuncs</a>: читает переменные среды.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-996432840">eval</a>: выполняет произвольные SQL-запросы.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997482625">fcmp</a>: сравнение и округление десятичных дробей.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-998138191">isodate</a>: дополнительные функции для работы с датами.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-999128539">math2</a>: больше математических функций и битовой арифметики.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997417836">pearson</a>: корреляция Пирсона между двумя наборами данных.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997052157">pivotvtab</a>: сводные таблицы.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-999732907">recsize</a>: считает размер записи в таблице.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002297477">spellfix</a>: быстрый поиск похожих слов в словаре.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1000902666">stats2</a> и <a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1002703581">stats3</a>: еще больше матстатистики.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1003105288">text2</a>: еще больше функций для работы со строками.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1001232670">uint</a>: натуральная сортировка и сравнение строк, содержащих числа (natsort).</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997432989">unhex</a>: преобразует строку в бинарные данные (обратная операция для <code>hex()</code>).</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-997018486">xmltojson</a>: преобразует XML в JSON.</li>
-<li><a href="https://github.com/nalgeon/sqlean/issues/27#issuecomment-1001190336">zipfile</a>: читает и пишет zip-архивы.</li>
-</ul>
-<p><a href="https://github.com/nalgeon/sqlean/issues/27">Голосуйте</a> за расширения в инкубаторе! Чем популярнее расширение, тем быстрее оно попадет в основной набор.</p>
-<p>Инкубаторные расширения тоже можно <a href="https://github.com/nalgeon/sqlean/releases/tag/incubator">скачать</a>.</p>
-<h2 id="как-подключить-расширение">Как подключить расширение</h2>
-<p>Есть три способа. Если работаете с командной строкой SQLite (<code>sqlite.exe</code>):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000">sqlite</span><span style="color:#000">&gt;</span> .<span style="color:#a90d91">load</span> .<span style="color:#000">/</span><span style="color:#000">stats</span>
-<span style="color:#000">sqlite</span><span style="color:#000">&gt;</span> <span style="color:#a90d91">select</span> <span style="color:#000">median</span>(<span style="color:#000">value</span>) <span style="color:#a90d91">from</span> <span style="color:#000">generate_series</span>(<span style="color:#1c01ce">1</span>, <span style="color:#1c01ce">99</span>);
-</code></pre></div><p>Если используете инструмент вроде DB Browser for SQLite, SQLite Expert или DBeaver:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a90d91">select</span> <span style="color:#000">load_extension</span>(<span style="color:#c41a16">&#39;c:\Users\anton\sqlite\stats.dll&#39;</span>);
-<span style="color:#a90d91">select</span> <span style="color:#000">median</span>(<span style="color:#000">value</span>) <span style="color:#a90d91">from</span> <span style="color:#000">generate_series</span>(<span style="color:#1c01ce">1</span>, <span style="color:#1c01ce">99</span>);
-</code></pre></div><p>Если работаете из Python (в других языках аналогично):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">import</span> <span style="color:#000">sqlite3</span>
-
-<span style="color:#000">connection</span> <span style="color:#000">=</span> <span style="color:#000">sqlite3</span><span style="color:#000">.</span><span style="color:#000">connect</span>(<span style="color:#c41a16">&#34;:memory:&#34;</span>)
-<span style="color:#000">connection</span><span style="color:#000">.</span><span style="color:#000">enable_load_extension</span>(<span style="color:#a90d91">True</span>)
-<span style="color:#000">connection</span><span style="color:#000">.</span><span style="color:#000">load_extension</span>(<span style="color:#c41a16">&#34;./stats.so&#34;</span>)
-<span style="color:#000">connection</span><span style="color:#000">.</span><span style="color:#000">execute</span>(<span style="color:#c41a16">&#34;select median(value) from generate_series(1, 99)&#34;</span>)
-<span style="color:#000">connection</span><span style="color:#000">.</span><span style="color:#000">close</span>()
-</code></pre></div><h2 id="что-дальше">Что дальше</h2>
-<p>Если почувствуете, что в SQLite вам не хватает какой-то функции — приходите в репозиторий <a href="https://github.com/nalgeon/sqlean"><strong>sqlean</strong></a>, там наверняка найдется.</p>
-<p>Я продолжаю добавлять новые расширения в инкубатор, а расширения из инкубатора рефакторю и переношу в основные. По каждому основному модулю планирую написать отдельную статью с примерами.</p>
-<p>А если захотите поучаствовать — присылайте <a href="https://github.com/nalgeon/sqlean/blob/incubator/docs/submit.md">свои</a> или <a href="https://github.com/nalgeon/sqlean/blob/incubator/docs/external.md">чужие</a> расширения.</p>
-<p>Всем SQLite!</p>
 ]]></content:encoded></item></channel></rss>

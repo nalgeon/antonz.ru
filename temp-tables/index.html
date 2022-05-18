@@ -1,0 +1,199 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Временные таблицы в SQLite</title>
+<meta name=description content="Для быстрого исследовательского анализа данных.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.0d9f30dc28fabc54027ac283886896bc9f23a0b4706c760f2e3d3297d5dc8ae8.css>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/temp-tables/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Временные таблицы в SQLite">
+<meta property="og:description" content="Для быстрого исследовательского анализа данных.">
+<meta property="og:url" content="https://antonz.ru/temp-tables/">
+<meta property="og:image" content="https://antonz.ru/temp-tables/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Временные таблицы в SQLite">
+<meta name=twitter:description content="Для быстрого исследовательского анализа данных.">
+<meta name=twitter:url content="https://antonz.ru/temp-tables/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/temp-tables/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/stopwar.svg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=/#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article">
+<header>
+<h1>Временные таблицы в SQLite</h1>
+</header>
+<p>Бывает, хочется собрать данные из нескольких таблиц в одну, и дальше с ними поработать. Например, выбрать вакансии вместе с работодателями и регионами:</p>
+<p><img src=combine-then-query.png alt="Сводный датасет"></p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>select</span> <span style=color:#000>v</span>.<span style=color:#000>*</span>, <span style=color:#000>e</span>.<span style=color:#000>name</span>, <span style=color:#000>a</span>.<span style=color:#000>name</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>vacancy</span> <span style=color:#a90d91>as</span> <span style=color:#000>v</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>employer</span> <span style=color:#a90d91>as</span> <span style=color:#000>e</span> <span style=color:#a90d91>on</span> <span style=color:#000>e</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>employer_id</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>area</span> <span style=color:#a90d91>as</span> <span style=color:#000>a</span> <span style=color:#a90d91>on</span> <span style=color:#000>a</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>area_id</span>
+</code></pre></div><p>Вопрос, как дальше запускать запросы по сводным данным. Есть три способа это сделать:</p>
+<ol>
+<li>Табличное выражение (CTE)</li>
+<li>Представление (view)</li>
+<li>Временная таблица (temporary table)</li>
+</ol>
+<p><img src=cte.png alt=CTE></p>
+<p><strong>Табличное выражение</strong> — это подзапрос с именем:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#a90d91>with</span> <span style=color:#000>combined_cte</span> <span style=color:#a90d91>as</span> (
+  <span style=color:#a90d91>select</span> <span style=color:#000>v</span>.<span style=color:#000>*</span>, <span style=color:#000>e</span>.<span style=color:#000>name</span>, <span style=color:#000>a</span>.<span style=color:#000>name</span>
+  <span style=color:#a90d91>from</span> <span style=color:#000>vacancy</span> <span style=color:#a90d91>as</span> <span style=color:#000>v</span>
+    <span style=color:#a90d91>join</span> <span style=color:#000>employer</span> <span style=color:#a90d91>as</span> <span style=color:#000>e</span> <span style=color:#a90d91>on</span> <span style=color:#000>e</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>employer_id</span>
+    <span style=color:#a90d91>join</span> <span style=color:#000>area</span> <span style=color:#a90d91>as</span> <span style=color:#000>a</span> <span style=color:#a90d91>on</span> <span style=color:#000>a</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>area_id</span>
+)
+<span style=color:#a90d91>select</span> ...
+<span style=color:#a90d91>from</span> <span style=color:#000>combined_cte</span>
+<span style=color:#a90d91>where</span> ...
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> ...
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> ...
+</code></pre></div><p>Я подробно описывал CTE <a href=/cte/>в отдельной заметке</a>, так что не буду повторяться. Важно, что CTE каждый раз вычисляется заново, так что если наш сводный селект не особо быстрый — запросы по нему будут тормозить.</p>
+<p><img src=view.png alt=Представление></p>
+<p><strong>Представление</strong> работает как CTE, но к нему можно обращаться как к обычной таблице и не повторять каждый раз подзапрос. Как и CTE, представление тоже вычисляется на лету.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#177500>-- 1) create once
+</span><span style=color:#177500></span><span style=color:#a90d91>create</span> <span style=color:#a90d91>view</span> <span style=color:#000>combined_view</span> <span style=color:#a90d91>as</span>
+<span style=color:#a90d91>select</span> <span style=color:#000>v</span>.<span style=color:#000>*</span>, <span style=color:#000>e</span>.<span style=color:#000>name</span>, <span style=color:#000>a</span>.<span style=color:#000>name</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>vacancy</span> <span style=color:#a90d91>as</span> <span style=color:#000>v</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>employer</span> <span style=color:#a90d91>as</span> <span style=color:#000>e</span> <span style=color:#a90d91>on</span> <span style=color:#000>e</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>employer_id</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>area</span> <span style=color:#a90d91>as</span> <span style=color:#000>a</span> <span style=color:#a90d91>on</span> <span style=color:#000>a</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>area_id</span>;
+
+<span style=color:#177500>-- 2) use everywhere
+</span><span style=color:#177500></span><span style=color:#a90d91>select</span> ...
+<span style=color:#a90d91>from</span> <span style=color:#000>combined_view</span>
+<span style=color:#a90d91>where</span> ...
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> ...
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> ...
+</code></pre></div><p>В PostgreSQL и других СУБД есть материализованные представления, которые сохраняют данные на диск. Но не в SQLite.</p>
+<p><img src=temp-table.png alt="Временная таблица"></p>
+<p><strong>Временная таблица</strong> — такая же, как настоящая: хранит данные на диске, можно построить индексы. Но существует она, только пока открыто соединение с базой данных.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#177500>-- 1) create once
+</span><span style=color:#177500></span><span style=color:#a90d91>create</span> <span style=color:#000>temp</span> <span style=color:#a90d91>table</span> <span style=color:#000>combined_temp</span> <span style=color:#a90d91>as</span>
+<span style=color:#a90d91>select</span> <span style=color:#000>v</span>.<span style=color:#000>*</span>, <span style=color:#000>e</span>.<span style=color:#000>name</span>, <span style=color:#000>a</span>.<span style=color:#000>name</span>
+<span style=color:#a90d91>from</span> <span style=color:#000>vacancy</span> <span style=color:#a90d91>as</span> <span style=color:#000>v</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>employer</span> <span style=color:#a90d91>as</span> <span style=color:#000>e</span> <span style=color:#a90d91>on</span> <span style=color:#000>e</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>employer_id</span>
+  <span style=color:#a90d91>join</span> <span style=color:#000>area</span> <span style=color:#a90d91>as</span> <span style=color:#000>a</span> <span style=color:#a90d91>on</span> <span style=color:#000>a</span>.<span style=color:#000>id</span> <span style=color:#000>=</span> <span style=color:#000>v</span>.<span style=color:#000>area_id</span>;
+
+<span style=color:#177500>-- 2) use everywhere
+</span><span style=color:#177500></span><span style=color:#a90d91>select</span> ...
+<span style=color:#a90d91>from</span> <span style=color:#000>combined_temp</span>
+<span style=color:#a90d91>where</span> ...
+<span style=color:#a90d91>group</span> <span style=color:#a90d91>by</span> ...
+<span style=color:#a90d91>order</span> <span style=color:#a90d91>by</span> ...
+</code></pre></div><p>Технически, SQLite хранит временные таблицы в специальной <code>temp</code>-базе. Она лежит в отдельном файле на диске и видна только тому соединению БД, в котором была создана. Как только соединение закрывается, SQLite автоматически удаляет временную базу.</p>
+<div class=boxed>
+<p><strong>Где находится временная база</strong></p>
+<p>На юниксо-подобных системах временная база лежит в одном из следующих каталогов:</p>
+<ol>
+<li>Каталог, заданный прагмой <code>PRAGMA temp_store_directory</code> (объявлена устаревшей)</li>
+<li>Переменная окружения <code>SQLITE_TMPDIR</code></li>
+<li>Переменная окружения <code>TMPDIR</code></li>
+<li><code>/var/tmp</code></li>
+<li><code>/usr/tmp</code></li>
+<li><code>/tmp</code></li>
+<li>Текущий рабочий каталог (<code>.</code>)</li>
+</ol>
+<p>SQLite выбирает первый вариант из списка, для которого есть разрешения на запись (write) и исполнение (execute).</p>
+<p><a href=https://sqlite.org/tempfiles.html>документация</a></p>
+</div>
+<p>Временные таблицы отлично подходят для экспериментов, когда вы только знакомитесь с данными. Можно позволить себе любые безумства — ведь после отключения от базы все будет забыто ツ</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8">
+<p><em>Подписывайтесь на <a href=https://t.me/sqliter><strong>канал</strong></a> и <a href=http://digest.antonz.ru/><strong>рассылку</strong></a>, чтобы не пропустить новые заметки</em> 🚀</p>
+</div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2022-05-18 21:30:00 +0000 UTC">18.05.2022</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/sqlite/>sqlite</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class="post__nav article">
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/json-virtual-columns/>JSON и виртуальные столбцы в SQLite</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/json-virtual-columns/>JSON и виртуальные столбцы в SQLite</a></p>
+<p><a href=/generated-columns/>Вычисляемые столбцы в SQLite</a></p>
+<p><a href=/sqlite-multiline/>Многострочные запросы в консоли SQLite</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=http://digest.antonz.ru/ class=footer__social-link><i class="fas fa-envelope"></i><span>Email</span></a>
+<a href=/index.xml class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+</ul>
+</footer>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script></body>
+</html>
