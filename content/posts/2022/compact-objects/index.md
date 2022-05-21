@@ -10,7 +10,7 @@ subscribe = "ohmypy"
 
 Питон — объектный язык. Это здорово и удобно, пока не придется создать 10 млн объектов в памяти, которые благополучно ее и съедят. Поговорим о том, как уменьшить аппетит.
 
-_Используйте [песочницу](https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing), чтобы попробовать примеры_
+_Используйте [песочницу](https://colab.research.google.com/drive/16GK-Xbv_kOvDC9Hfa_0O8E0Nyo4L9JwO?usp=sharing), чтобы попробовать примеры_
 
 ## Кортеж
 
@@ -144,7 +144,7 @@ Pet size (numpy array) = 14 bytes
 x0.09 to baseline
 ```
 
-Но и с `numpy` есть нюансы. Если строки юникодные (тип `U` вместо `S`), выигрыш будет не таким впечатляющим:
+Но это не чистая победа. Если строки юникодные (тип `U` вместо `S`), выигрыш будет не таким впечатляющим:
 
 ```python
 PetNumpy = np.dtype([("name", "U10"), ("price", "i4")])
@@ -177,7 +177,7 @@ x1.14 to baseline
 
 Для объективности рассмотрим и альтернативы.
 
-Обычный класс по размеру не отличается от датакласса:
+**Обычный класс** по размеру не отличается от датакласса:
 
 ```python
 class PetClass:
@@ -191,7 +191,7 @@ Pet size (class) = 257 bytes
 x1.60 to baseline
 ```
 
-И «замороженный» (неизменяемый) датакласс тоже:
+И «**замороженный**» (неизменяемый) датакласс тоже:
 
 ```python
 @dataclass(frozen=True)
@@ -205,7 +205,20 @@ Pet size (frozen dataclass) = 257 bytes
 x1.60 to baseline
 ```
 
-Pydantic-модель ставит антирекорд (неудивительно, она ведь использует наследование):
+**Словарь** еще хуже:
+
+```python
+names = ("name", "price")
+fn = lambda: dict(zip(names, fields()))
+measure("dict", fn)
+```
+
+```
+Pet size (dict) = 355 bytes
+x1.98 to baseline
+```
+
+**Pydantic-модель** ставит антирекорд (неудивительно, она ведь использует наследование):
 
 ```python
 from pydantic import BaseModel
