@@ -102,7 +102,8 @@
 <p>Нам поможет модуль <code>bisect</code> стандартной библиотеки:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>import</span> <span style=color:#000>bisect</span>
 
-<span style=color:#000>prices</span> <span style=color:#000>=</span> <span style=color:#a90d91>sorted</span>(<span style=color:#000>p</span><span style=color:#000>.</span><span style=color:#000>price</span> <span style=color:#a90d91>for</span> <span style=color:#000>p</span> <span style=color:#000>in</span> <span style=color:#000>products</span>)
+<span style=color:#000>products</span> <span style=color:#000>=</span> <span style=color:#a90d91>sorted</span>(<span style=color:#000>products</span>, <span style=color:#000>key</span><span style=color:#000>=</span><span style=color:#a90d91>lambda</span> <span style=color:#000>p</span>: <span style=color:#000>p</span><span style=color:#000>.</span><span style=color:#000>price</span>)
+<span style=color:#000>prices</span> <span style=color:#000>=</span> [<span style=color:#000>p</span><span style=color:#000>.</span><span style=color:#000>price</span> <span style=color:#a90d91>for</span> <span style=color:#000>p</span> <span style=color:#000>in</span> <span style=color:#000>products</span>]
 
 <span style=color:#a90d91>def</span> <span style=color:#000>suggest</span>(<span style=color:#000>max_price</span>):
     <span style=color:#000>best_index</span> <span style=color:#000>=</span> <span style=color:#000>bisect</span><span style=color:#000>.</span><span style=color:#000>bisect</span>(<span style=color:#000>prices</span>, <span style=color:#000>max_price</span>)
@@ -112,7 +113,8 @@
 
 <span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>suggest</span>(<span style=color:#1c01ce>5000</span>)
 <span style=color:#000>Product</span>(<span style=color:#000>price</span><span style=color:#000>=</span><span style=color:#1c01ce>3300</span>, <span style=color:#000>name</span><span style=color:#000>=</span><span style=color:#c41a16>&#39;мельница для сыра&#39;</span>)
-</code></pre></div><p>Работает так:</p>
+</code></pre></div><p><a href=https://replit.com/@antonz/bisect#main.py>песочница</a></p>
+<p>Работает так:</p>
 <ul>
 <li>Создали отсортированный список цен.</li>
 <li>Покупатель принёс 5000₽ денег.</li>
