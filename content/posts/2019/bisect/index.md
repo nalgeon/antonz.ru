@@ -51,7 +51,8 @@ Product(price=3300, name='мельница для сыра')
 ```python
 import bisect
 
-prices = sorted(p.price for p in products)
+products = sorted(products, key=lambda p: p.price)
+prices = [p.price for p in products]
 
 def suggest(max_price):
     best_index = bisect.bisect(prices, max_price)
@@ -62,6 +63,8 @@ def suggest(max_price):
 >>> suggest(5000)
 Product(price=3300, name='мельница для сыра')
 ```
+
+[песочница](https://replit.com/@antonz/bisect#main.py)
 
 Работает так:
 
