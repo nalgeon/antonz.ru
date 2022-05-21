@@ -73,7 +73,7 @@
 <h1>Компактные объекты в Python</h1>
 </header>
 <p>Питон — объектный язык. Это здорово и удобно, пока не придется создать 10 млн объектов в памяти, которые благополучно ее и съедят. Поговорим о том, как уменьшить аппетит.</p>
-<p><em>Используйте <a href="https://colab.research.google.com/drive/1oKl4rda2apWORLxYYtN9J49r3Mj3L6J9?usp=sharing">песочницу</a>, чтобы попробовать примеры</em></p>
+<p><em>Используйте <a href="https://colab.research.google.com/drive/16GK-Xbv_kOvDC9Hfa_0O8E0Nyo4L9JwO?usp=sharing">песочницу</a>, чтобы попробовать примеры</em></p>
 <h2 id=кортеж>Кортеж</h2>
 <p>Допустим, есть у вас простенький объект «питомец» с атрибутами «имя» (строка) и «стоимость» (целое). Интуитивно кажется, что самое компактное предоставление — в виде кортежа:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#c41a16>&#34;Frank the Pigeon&#34;</span>, <span style=color:#1c01ce>50000</span>)
@@ -154,7 +154,7 @@ x0.95 to baseline
 <span style=color:#000>size</span> <span style=color:#000>=</span> <span style=color:#a90d91>round</span>(<span style=color:#000>asizeof</span>(<span style=color:#000>pets</span>) <span style=color:#000>/</span> <span style=color:#000>n</span>)
 </code></pre></div><pre tabindex=0><code>Pet size (numpy array) = 14 bytes
 x0.09 to baseline
-</code></pre><p>Но и с <code>numpy</code> есть нюансы. Если строки юникодные (тип <code>U</code> вместо <code>S</code>), выигрыш будет не таким впечатляющим:</p>
+</code></pre><p>Но это не чистая победа. Если строки юникодные (тип <code>U</code> вместо <code>S</code>), выигрыш будет не таким впечатляющим:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>PetNumpy</span> <span style=color:#000>=</span> <span style=color:#000>np</span><span style=color:#000>.</span><span style=color:#000>dtype</span>([(<span style=color:#c41a16>&#34;name&#34;</span>, <span style=color:#c41a16>&#34;U10&#34;</span>), (<span style=color:#c41a16>&#34;price&#34;</span>, <span style=color:#c41a16>&#34;i4&#34;</span>)])
 </code></pre></div><pre tabindex=0><code>Pet size (numpy U10) = 44 bytes
 x0.27 to baseline
@@ -171,21 +171,27 @@ Pet size (numpy U50) = 204 bytes
 x1.14 to baseline
 </code></pre><h2 id=другие-варианты>Другие варианты</h2>
 <p>Для объективности рассмотрим и альтернативы.</p>
-<p>Обычный класс по размеру не отличается от датакласса:</p>
+<p><strong>Обычный класс</strong> по размеру не отличается от датакласса:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetClass</span>:
     <span style=color:#a90d91>def</span> <span style=color:#000>__init__</span>(<span style=color:#5b269a>self</span>, <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>, <span style=color:#000>price</span>: <span style=color:#a90d91>int</span>):
         <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>name</span> <span style=color:#000>=</span> <span style=color:#000>name</span>
         <span style=color:#5b269a>self</span><span style=color:#000>.</span><span style=color:#000>price</span> <span style=color:#000>=</span> <span style=color:#000>price</span>
 </code></pre></div><pre tabindex=0><code>Pet size (class) = 257 bytes
 x1.60 to baseline
-</code></pre><p>И «замороженный» (неизменяемый) датакласс тоже:</p>
+</code></pre><p>И «<strong>замороженный</strong>» (неизменяемый) датакласс тоже:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>@dataclass</span>(<span style=color:#000>frozen</span><span style=color:#000>=</span><span style=color:#a90d91>True</span>)
 <span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetDataFrozen</span>:
     <span style=color:#000>name</span>: <span style=color:#a90d91>str</span>
     <span style=color:#000>price</span>: <span style=color:#a90d91>int</span>
 </code></pre></div><pre tabindex=0><code>Pet size (frozen dataclass) = 257 bytes
 x1.60 to baseline
-</code></pre><p>Pydantic-модель ставит антирекорд (неудивительно, она ведь использует наследование):</p>
+</code></pre><p><strong>Словарь</strong> еще хуже:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>names</span> <span style=color:#000>=</span> (<span style=color:#c41a16>&#34;name&#34;</span>, <span style=color:#c41a16>&#34;price&#34;</span>)
+<span style=color:#000>fn</span> <span style=color:#000>=</span> <span style=color:#a90d91>lambda</span>: <span style=color:#a90d91>dict</span>(<span style=color:#a90d91>zip</span>(<span style=color:#000>names</span>, <span style=color:#000>fields</span>()))
+<span style=color:#000>measure</span>(<span style=color:#c41a16>&#34;dict&#34;</span>, <span style=color:#000>fn</span>)
+</code></pre></div><pre tabindex=0><code>Pet size (dict) = 355 bytes
+x1.98 to baseline
+</code></pre><p><strong>Pydantic-модель</strong> ставит антирекорд (неудивительно, она ведь использует наследование):</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>from</span> <span style=color:#000>pydantic</span> <span style=color:#a90d91>import</span> <span style=color:#000>BaseModel</span>
 
 <span style=color:#a90d91>class</span> <span style=color:#3f6e75>PetModel</span>(<span style=color:#000>BaseModel</span>):
