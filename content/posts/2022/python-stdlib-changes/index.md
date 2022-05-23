@@ -4,7 +4,7 @@ title = "Новости стандартной библиотеки Python"
 description = "17 модулей с новыми фичами и доработками."
 image = "/python-stdlib-changes/cover.png"
 slug = "python-stdlib-changes"
-tags = ["python"]
+tags = ["ohmypy"]
 featured = true
 subscribe = "ohmypy"
 +++
