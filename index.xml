@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Tue, 31 May 2022 12:30:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Летающая свинья, или протоколы в Python</title><link>https://antonz.ru/protocol/</link><pubDate>Tue, 31 May 2022 12:30:00 +0000</pubDate><guid>https://antonz.ru/protocol/</guid><description>Структурная типизация с помощью протоколов.</description><content:encoded><![CDATA[<p>Допустим, вы написали утилиту, которая отправляет что угодно в полет:</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Антон Жиянов</title><description>Разработка софта, продуктоводство и здравый смысл</description><link>https://antonz.ru/</link><image><url>https://antonz.ru/assets/favicon/favicon.png</url><title>Антон Жиянов</title><link>https://antonz.ru/</link></image><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Fri, 03 Jun 2022 10:50:00 +0000</lastBuildDate><atom:link href="https://antonz.ru/index.xml" rel="self" type="application/rss+xml"/><item><title>Многозначительное многоточие в Python</title><link>https://antonz.ru/ellipsis/</link><pubDate>Fri, 03 Jun 2022 10:50:00 +0000</pubDate><guid>https://antonz.ru/ellipsis/</guid><description>Что такое Ellipsis и как его используют.</description><content:encoded><![CDATA[<p>Не самая известная штука в Python — многоточие:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">class</span> <span style="color:#3f6e75">Flyer</span>:
+    <span style="color:#a90d91">def</span> <span style="color:#000">fly</span>(<span style="color:#5b269a">self</span>):
+        <span style="color:#000">...</span>
+</code></pre></div><p>Это рабочий код. В питоне <code>...</code> (он же <code>Ellipsis</code>) — реальный объект, который можно использовать в коде.</p>
+<p><code>Ellipsis</code> — единственный экземпляр типа <code>EllipsisType</code> (аналогично тому, как <code>None</code> — единственный экземпляр типа <code>NoneType</code>):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#000">...</span> <span style="color:#000">is</span> <span style="color:#5b269a">Ellipsis</span>
+<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#a90d91">True</span>
+<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#5b269a">Ellipsis</span> <span style="color:#000">is</span> <span style="color:#000">...</span>
+<span style="color:#000">&gt;&gt;&gt;</span> <span style="color:#a90d91">True</span>
+</code></pre></div><p>Авторы Python в основном используют <code>...</code>, чтобы показать, что у типа, метода или функции отсутствует реализация — как в примере с <code>fly()</code>.</p>
+<p>И в <a href="https://docs.python.org/3/library/typing.html">тайп-хинтах</a>:</p>
+<blockquote>
+<p>It is possible to declare the return type of a callable without specifying the call signature by substituting a literal ellipsis for the list of arguments in the type hint: <code>Callable[..., ReturnType]</code></p>
+</blockquote>
+<blockquote>
+<p>To specify a variable-length tuple of homogeneous type, use literal ellipsis, e.g. <code>Tuple[int, ...]</code>. A plain <code>Tuple</code> is equivalent to <code>Tuple[Any, ...]</code>, and in turn to tuple.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#177500"># numbers  - кортеж целых чисел произвольной длины</span>
+<span style="color:#177500"># summator - функция, которая принимает любые аргументы,</span>
+<span style="color:#177500">#            а возвращает целое число</span>
+<span style="color:#a90d91">def</span> <span style="color:#000">print_sum</span>(<span style="color:#000">numbers</span>: <span style="color:#a90d91">tuple</span>[<span style="color:#a90d91">int</span>, <span style="color:#000">...</span>], <span style="color:#000">summator</span>: <span style="color:#000">Callable</span>[<span style="color:#000">...</span>, <span style="color:#a90d91">int</span>]):
+    <span style="color:#000">total</span> <span style="color:#000">=</span> <span style="color:#000">summator</span>(<span style="color:#000">numbers</span>)
+    <span style="color:#a90d91">print</span>(<span style="color:#000">total</span>)
+
+<span style="color:#000">print_sum</span>((<span style="color:#1c01ce">1</span>, <span style="color:#1c01ce">2</span>, <span style="color:#1c01ce">3</span>), <span style="color:#a90d91">sum</span>)
+<span style="color:#177500"># 6</span>
+</code></pre></div><p>Ну, а обычные разработчики&hellip; Кто во что горазд ツ</p>
+]]></content:encoded></item><item><title>Летающая свинья, или протоколы в Python</title><link>https://antonz.ru/protocol/</link><pubDate>Tue, 31 May 2022 12:30:00 +0000</pubDate><guid>https://antonz.ru/protocol/</guid><description>Структурная типизация с помощью протоколов.</description><content:encoded><![CDATA[<p>Допустим, вы написали утилиту, которая отправляет что угодно в полет:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">launch</span>(<span style="color:#000">thing</span>):
     <span style="color:#000">thing</span><span style="color:#000">.</span><span style="color:#000">fly</span>()
 </code></pre></div><p>Ну, то есть не прям <em>все что угодно</em>. Любую штуку с методом <code>fly()</code>. Очень удобно — одной функцией запускаем и голубя Френка, и самолет, и даже Супермена:</p>
@@ -565,43 +593,4 @@ Use islice:               93 ms
 <li>Запуск из файла (<code>.read &lt;file&gt;</code>)</li>
 <li>DBeaver, DataGrip или аналоги</li>
 </ul>
-]]></content:encoded></item><item><title>Закешировать результат вычислений в Python</title><link>https://antonz.ru/functools-cache/</link><pubDate>Wed, 20 Apr 2022 21:40:00 +0000</pubDate><guid>https://antonz.ru/functools-cache/</guid><description>С помощью декоратора @functools.lru_cache</description><content:encoded><![CDATA[<p>Предположим, написали вы функцию, которая возвращает емейл пользователя:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">get_user_email</span>(<span style="color:#000">user_id</span>):
-    <span style="color:#000">user</span> <span style="color:#000">=</span> <span style="color:#000">find_by_id</span>(<span style="color:#000">user_id</span>)
-    <span style="color:#a90d91">return</span> <span style="color:#000">user</span>[<span style="color:#c41a16">&#34;email&#34;</span>]
-</code></pre></div><p>Одна беда: функция <code>find_by_id()</code> лезет в уж-ж-жасно медленную легаси-систему:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a90d91">def</span> <span style="color:#000">find_by_id</span>(<span style="color:#000">user_id</span>):
-    <span style="color:#177500"># представьте здесь медленный запрос по сети,</span>
-    <span style="color:#177500"># который возвращает пользователя</span>
-    <span style="color:#000">time</span><span style="color:#000">.</span><span style="color:#000">sleep</span>(<span style="color:#1c01ce">1</span>)
-    <span style="color:#a90d91">return</span> { <span style="color:#c41a16">&#34;email&#34;</span>: <span style="color:#c41a16">&#34;...&#34;</span> }
-</code></pre></div><p>Если 100 раз вызвать <code>get_user_email(42)</code> — будет 100 медленных запросов. Хотя по уму хватило бы и одного. Что ж, давайте приделаем простенький кеш:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">cache</span> <span style="color:#000">=</span> {}
-
-<span style="color:#a90d91">def</span> <span style="color:#000">get_user_email</span>(<span style="color:#000">user_id</span>):
-    <span style="color:#a90d91">if</span> <span style="color:#000">user_id</span> <span style="color:#000">not</span> <span style="color:#000">in</span> <span style="color:#000">cache</span>:
-        <span style="color:#000">user</span> <span style="color:#000">=</span> <span style="color:#000">find_by_id</span>(<span style="color:#000">user_id</span>)
-        <span style="color:#000">cache</span>[<span style="color:#000">user_id</span>] <span style="color:#000">=</span> <span style="color:#000">user</span>[<span style="color:#c41a16">&#34;email&#34;</span>]
-    <span style="color:#a90d91">return</span> <span style="color:#000">cache</span>[<span style="color:#000">user_id</span>]
-</code></pre></div><p>Вроде ничего сложного (не считая вопроса устаревания кеша, но об этом в другой раз). Но представьте, что медленных функций много, и в каждую придется приделывать такую штуку. Не слишком вдохновляет.</p>
-<p>К счастью, в модуле <code>functools</code> есть декоратор <code>@lru_cache</code>. Он-то нам и пригодится. Добавляем одну строчку к исходной функции, и готово:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000">@functools</span><span style="color:#000">.</span><span style="color:#000">lru_cache</span>(<span style="color:#000">maxsize</span><span style="color:#000">=</span><span style="color:#1c01ce">256</span>)
-<span style="color:#a90d91">def</span> <span style="color:#000">get_user_email</span>(<span style="color:#000">user_id</span>):
-    <span style="color:#000">user</span> <span style="color:#000">=</span> <span style="color:#000">find_by_id</span>(<span style="color:#000">user_id</span>)
-    <span style="color:#a90d91">return</span> <span style="color:#000">user</span>[<span style="color:#c41a16">&#34;email&#34;</span>]
-</code></pre></div><p>Теперь повторные вызовы <code>get_user_email()</code> с одним и тем же <code>user_id</code> вернут результат из кеша, не запрашивая <code>find_by_id()</code>.</p>
-<p><code>@lru_cache</code> прекрасен еще тем, что автоматически вытесняет старые записи из кеша, когда их становится больше <code>maxsize</code>. Так что всю память не съест.</p>
-<p>В Python 3.9 добавили еще один декоратор — <code>@functools.cache</code>. Он такой же как <code>@lru_cache</code>, только безразмерный (благодаря чему работает чуть быстрее).</p>
-<p>Кешем можно управлять — посмотреть статистику хитов и промахов или почистить.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#177500"># управляем кешем</span>
-
-<span style="color:#000">stats</span> <span style="color:#000">=</span> <span style="color:#000">get_user_email</span><span style="color:#000">.</span><span style="color:#000">cache_info</span>()
-<span style="color:#a90d91">print</span>(<span style="color:#000">stats</span>)
-<span style="color:#177500"># CacheInfo(hits=2, misses=3, maxsize=256, currsize=3)</span>
-
-<span style="color:#000">get_user_email</span><span style="color:#000">.</span><span style="color:#000">cache_clear</span>()
-<span style="color:#177500"># CacheInfo(hits=0, misses=0, maxsize=256, currsize=0)</span>
-</code></pre></div><p>Работает кеш внутри процесса, и погибнет вместе с ним. Так что если нужно что-то более масштабируемое — посмотрите на Redis или аналоги.</p>
-<p><a href="https://devdocs.io/python/library/functools#functools.lru_cache">документация</a> •
-<a href="https://replit.com/@antonz/functools-cache#main.py">песочница</a></p>
 ]]></content:encoded></item></channel></rss>

@@ -1,0 +1,153 @@
+<!doctype html><html lang=en>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name=yandex-verification content="166c4872c92b3261">
+<meta name=google-site-verification content="RDIpvK7QdMQQUb3kxVN3FAjfDdKdfHQSyGVfLb-GaPU">
+<title>Многозначительное многоточие в Python</title>
+<meta name=description content="Что такое Ellipsis и как его используют.">
+<meta name=robots content="index, follow">
+<link rel=stylesheet type=text/css href=/assets/css/style.0d9f30dc28fabc54027ac283886896bc9f23a0b4706c760f2e3d3297d5dc8ae8.css>
+<link rel=icon href=/assets/favicon/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=/assets/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=/assets/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=/assets/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=/assets/favicon/safari-pinned-tab.svg>
+<meta name=theme-color content="#fff">
+<meta name=msapplication-TileColor content="#fff">
+<link rel=canonical href=https://antonz.ru/ellipsis/>
+<meta name=author content="Антон Жиянов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Многозначительное многоточие в Python">
+<meta property="og:description" content="Что такое Ellipsis и как его используют.">
+<meta property="og:url" content="https://antonz.ru/ellipsis/">
+<meta property="og:image" content="https://antonz.ru/ellipsis/cover.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:title content="Многозначительное многоточие в Python">
+<meta name=twitter:description content="Что такое Ellipsis и как его используют.">
+<meta name=twitter:url content="https://antonz.ru/ellipsis/">
+<meta name=twitter:site content="@nalgeon">
+<meta name=twitter:image content="https://antonz.ru/ellipsis/cover.png"></head>
+<body>
+<div class=header>
+<div class=container>
+<div class=row>
+<div class="col-xs-6 col-sm-3">
+<a class=img-link href=/>
+<img src=/assets/stopwar.svg class=header-icon>
+</a> 
+<a href=/>
+<strong>Антон Жиянов</strong>
+</a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 hidden-mobile">
+<a class=menu__link href=/projects/>
+<span>проекты</span>
+</a>
+<a class=menu__link href=/all/>
+<span>блог</span>
+</a>
+<a class=menu__link href=/#about>
+<span>контакты</span>
+</a>
+<a class=menu__link href=https://antonz.org>
+<span>en</span>
+</a>
+</div>
+<div class="col-xs-6 col-sm-3"><div class=search-module>
+<form action=https://antonz.ru/search/ method=get target=_self accept-charset=utf-8>
+<input type=hidden name=searchid value=2403959>
+<input type=hidden name=l10n value=ru>
+<input type=hidden name=reqenc>
+<input type=search name=text placeholder="поиск по сайту">
+</form>
+</div></div>
+</div>
+</div>
+</div>
+<div class=storey>
+<div class=container>
+<article class=post>
+<div class=row>
+<div class="col-xs-12 col-sm-10 article">
+<header>
+<h1>Многозначительное многоточие в Python</h1>
+</header>
+<p>Не самая известная штука в Python — многоточие:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a90d91>class</span> <span style=color:#3f6e75>Flyer</span>:
+    <span style=color:#a90d91>def</span> <span style=color:#000>fly</span>(<span style=color:#5b269a>self</span>):
+        <span style=color:#000>...</span>
+</code></pre></div><p>Это рабочий код. В питоне <code>...</code> (он же <code>Ellipsis</code>) — реальный объект, который можно использовать в коде.</p>
+<p><code>Ellipsis</code> — единственный экземпляр типа <code>EllipsisType</code> (аналогично тому, как <code>None</code> — единственный экземпляр типа <code>NoneType</code>):</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#000>...</span> <span style=color:#000>is</span> <span style=color:#5b269a>Ellipsis</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>True</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#5b269a>Ellipsis</span> <span style=color:#000>is</span> <span style=color:#000>...</span>
+<span style=color:#000>&gt;&gt;&gt;</span> <span style=color:#a90d91>True</span>
+</code></pre></div><p>Авторы Python в основном используют <code>...</code>, чтобы показать, что у типа, метода или функции отсутствует реализация — как в примере с <code>fly()</code>.</p>
+<p>И в <a href=https://docs.python.org/3/library/typing.html>тайп-хинтах</a>:</p>
+<blockquote>
+<p>It is possible to declare the return type of a callable without specifying the call signature by substituting a literal ellipsis for the list of arguments in the type hint: <code>Callable[..., ReturnType]</code></p>
+</blockquote>
+<blockquote>
+<p>To specify a variable-length tuple of homogeneous type, use literal ellipsis, e.g. <code>Tuple[int, ...]</code>. A plain <code>Tuple</code> is equivalent to <code>Tuple[Any, ...]</code>, and in turn to tuple.</p>
+</blockquote>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#177500># numbers  - кортеж целых чисел произвольной длины</span>
+<span style=color:#177500># summator - функция, которая принимает любые аргументы,</span>
+<span style=color:#177500>#            а возвращает целое число</span>
+<span style=color:#a90d91>def</span> <span style=color:#000>print_sum</span>(<span style=color:#000>numbers</span>: <span style=color:#a90d91>tuple</span>[<span style=color:#a90d91>int</span>, <span style=color:#000>...</span>], <span style=color:#000>summator</span>: <span style=color:#000>Callable</span>[<span style=color:#000>...</span>, <span style=color:#a90d91>int</span>]):
+    <span style=color:#000>total</span> <span style=color:#000>=</span> <span style=color:#000>summator</span>(<span style=color:#000>numbers</span>)
+    <span style=color:#a90d91>print</span>(<span style=color:#000>total</span>)
+
+<span style=color:#000>print_sum</span>((<span style=color:#1c01ce>1</span>, <span style=color:#1c01ce>2</span>, <span style=color:#1c01ce>3</span>), <span style=color:#a90d91>sum</span>)
+<span style=color:#177500># 6</span>
+</code></pre></div><p>Ну, а обычные разработчики&mldr; Кто во что горазд ツ</p>
+<div class=row>
+<div class="col-xs-12 col-sm-10 col-md-8">
+<p><em>Подписывайтесь на <a href=https://t.me/ohmypy><strong>канал</strong></a> и <a href=http://digest.antonz.ru/><strong>рассылку</strong></a>, чтобы не пропустить новые заметки</em> 🚀</p>
+</div>
+</div>
+</div>
+</div><footer class=post__footer>
+<div class=row>
+<div class=col-xs-12>
+<div class=post__date>
+<time datetime="2022-06-03 10:50:00 +0000 UTC">03.06.2022</time>
+</div>
+<div class=post__tags>
+<a href=https://antonz.ru/tags/ohmypy/>ohmypy</a>&nbsp;
+</div>
+</div>
+</div>
+</footer></article>
+<aside class=post__related>
+<div class="post__nav article">
+<div class=row>
+<div class="col-xs-12 col-sm-6">
+<p>&larr;&nbsp;<a href=https://antonz.ru/protocol/>Летающая свинья, или протоколы в Python</a></p>
+</div>
+</div>
+</div>
+<div class=article>
+<div class=row>
+<div class="col-xs-12 col-sm-8 col-md-6">
+<h3>Ещё по теме</h3>
+<p><a href=/protocol/>Летающая свинья, или протоколы в Python</a></p>
+<p><a href=/random/>Случайные числа и последовательности в Python</a></p>
+<p><a href=/compact-objects/>Компактные объекты в Python</a></p>
+</div>
+</div>
+</div>
+</aside>
+<script src=https://utteranc.es/client.js repo=nalgeon/comments.antonz.ru issue-term=pathname theme=github-light crossorigin=anonymous async></script></div>
+</div>
+<footer class="container footer">
+<ul class=naked-list>
+<li class=footer__item>Подписаться:
+<a href=https://twitter.com/nalgeon class=footer__social-link><i class="fab fa-twitter"></i><span>Твиттер</span></a>
+<a href=http://digest.antonz.ru/ class=footer__social-link><i class="fas fa-envelope"></i><span>Email</span></a>
+<a href=/index.xml class=footer__social-link><i class="fas fa-rss"></i><span>RSS</span></a>
+</li>
+<li class=footer__item>Почта: <a href=mailto:m@antonz.ru>m@antonz.ru</a></li>
+</ul>
+</footer>
+<script async src=//gc.zgo.at/count.js data-goatcounter=https://antonzru.goatcounter.com/count></script></body>
+</html>
